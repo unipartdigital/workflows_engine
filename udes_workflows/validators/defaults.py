@@ -18,19 +18,4 @@ greater_than_zero = dict(
     msg_template="Error: Value less than zero",
 )
 
-
-is_true = dict(
-    identifier="is_true",
-    validator="equals",
-    validator_value="true",
-    msg_template="Error: is not true",
-)
-
-is_false = dict(
-    identifier="is_false",
-    validator="equals",
-    validator_value="false",
-    msg_template="Error: is not false",
-)
-
 is_equal = dict(identifier="is_equal", validator="equals", msg_template="Error: equals to values",)
