@@ -12,11 +12,10 @@ __all__ = (
     "is_equal",
 )
 
-_make_identifier = partial(make_identifier, suffixes=[])
 
-_is_int = func_factory(defaults.is_int, Validator, _make_identifier)
-_greater_than_zero = func_factory(defaults.greater_than_zero, Validator, _make_identifier)
-_is_equal = func_factory(defaults.is_equal, Validator, _make_identifier)
+_is_int = func_factory(defaults.is_int, Validator, make_identifier)
+_greater_than_zero = func_factory(defaults.greater_than_zero, Validator, make_identifier)
+_is_equal = func_factory(defaults.is_equal, Validator, make_identifier)
 
 
 def is_int(value_key=None, **kwargs):

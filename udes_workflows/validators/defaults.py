@@ -1,8 +1,6 @@
 __all__ = (
     "is_int",
     "greater_than_zero",
-    "is_true",
-    "is_false",
     "is_equal",
 )
 
