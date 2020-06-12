@@ -5,8 +5,12 @@ from . import defaults
 
 __all__ = (
     "info",
+    "warning",
+    "error",
     "complete",
 )
 
-info = func_factory(defaults.info, components.InfoComponent, make_identifier)
-complete = func_factory(defaults.complete, components.CompleteComponent, make_identifier)
+info = func_factory(defaults.info, components.MessageBoxComponent, make_identifier)
+warning = func_factory(defaults.warning, components.MessageBoxComponent, make_identifier)
+error = func_factory(defaults.error, components.MessageBoxComponent, make_identifier)
+complete = func_factory(defaults.complete, components.MessageBoxComponent, make_identifier)

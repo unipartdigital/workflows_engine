@@ -305,16 +305,16 @@ class CheckboxComponent(Component):
         }
 
 
-class InfoComponent(Component):
+class MessageBoxComponent(Component):
     __slots__ = [
-        "msg_template",
+        "template",
         "type",
     ]
 
-    def __init__(self, msg_template, component_type="info", **kwargs):
+    def __init__(self, template, msg_type, **kwargs):
         super().__init__(**kwargs)
-        self.msg_template = msg_template
-        self.type = component_type
+        self.template = template
+        self.type = msg_type
 
     def get_msg(self):
         return {
@@ -323,11 +323,7 @@ class InfoComponent(Component):
 
     def _get_base_component_dict(self):
         return {
-            "type": self.type,
-            "msg": self.get_msg(),
+            "type": "message_box",
+            "msg_template": self.template,
+            "msg_type": self.type,
         }
-
-
-class CompleteComponent(InfoComponent):
-    def __init__(self, msg_template, **kwargs):
-        super().__init__(msg_template, component_type="complete", **kwargs)
