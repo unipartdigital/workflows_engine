@@ -52,10 +52,7 @@ class Component:
         return self.update_context
 
     def get_preconditions(self):
-        if self.preconditions:
-            return [p.identifier for p in self.preconditions]
-        else:
-            return None
+        return [p.identifier for p in self.preconditions]
 
     def get_flow_component_dict(self):
         flow = {"name": self.identifier}
@@ -84,10 +81,7 @@ class Component:
         return {self.identifier: self._get_base_component_dict()}
 
     def get_validators(self):
-        if self.preconditions:
-            return {key: value for p in self.preconditions for key, value in p.to_dict().items()}
-        else:
-            return {}
+        return {key: value for p in self.preconditions for key, value in p.to_dict().items()}
 
 
 class Message(Component):
@@ -168,7 +162,11 @@ class Input(Component):
         return component
 
     def get_validators(self):
-        return {key: value for v in self.validators for key, value in v.to_dict().items()}
+        validators = super().get_validators()
+        validators.update(
+            {key: value for v in self.validators for key, value in v.to_dict().items()}
+        )
+        return validators
 
 
 class Button(Component):
