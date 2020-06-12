@@ -90,7 +90,7 @@ class Message(Component):
         "message_type",
     ]
 
-    def __init__(self, template="", message_type="", **kwargs):
+    def __init__(self, template, message_type, **kwargs):
         super().__init__(**kwargs)
         self.template = template
         self.message_type = message_type
@@ -126,9 +126,9 @@ class Input(Component):
         **kwargs
     ):
         super().__init__(**kwargs)
-        self.component_type = component_type or self.__class__.__name__
+        self.component_type = component_type or self.__class__.__name__.lower()
         self.target = target or ""
-        self.label = label
+        self.label = label or ""
         self.input_key = input_key
         self.input_ref = input_ref
         self.output_ref = output_ref
@@ -142,13 +142,13 @@ class Input(Component):
     def _get_base_component_dict(self):
         component = {
             "type": self.component_type,
+            "label": self.label,
             "target": self.target,
             "validator": [v.identifier for v in self.validators],
         }
         if self.name:
             component["name"] = self.name
         if self.label:
-            component["label"] = self.label
         if self.obscure:
             component["obscure"] = self.obscure
         if self.input_key:
