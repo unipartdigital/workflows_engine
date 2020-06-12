@@ -3,7 +3,7 @@ from itertools import chain
 __all__ = (
     "Component",
     "Message",
-    "Scan",
+    "Input",
     "Button",
     "NavList",
     "DisplayData",
@@ -106,7 +106,7 @@ class Message(Component):
         return {"template": self.template, "type": self.message_type}
 
 
-class Scan(Component):
+class Input(Component):
     __slots__ = [
         "component_type",
         "target",
