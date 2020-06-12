@@ -10,7 +10,7 @@ __all__ = (
     "complete",
 )
 
-info = func_factory(defaults.info, components.MessageBoxComponent, make_identifier)
-warning = func_factory(defaults.warning, components.MessageBoxComponent, make_identifier)
-error = func_factory(defaults.error, components.MessageBoxComponent, make_identifier)
-complete = func_factory(defaults.complete, components.MessageBoxComponent, make_identifier)
+info = func_factory(defaults.info, components.MessageBox, make_identifier)
+warning = func_factory(defaults.warning, components.MessageBox, make_identifier)
+error = func_factory(defaults.error, components.MessageBox, make_identifier)
+complete = func_factory(defaults.complete, components.MessageBox, make_identifier)

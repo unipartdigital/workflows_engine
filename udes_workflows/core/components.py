@@ -3,13 +3,13 @@ from itertools import chain
 __all__ = (
     "Component",
     "Message",
-    "ScanComponent",
-    "ButtonComponent",
-    "NavListComponent",
-    "DisplayDataComponent",
-    "CheckboxComponent",
-    "InfoComponent",
-    "CompleteComponent",
+    "Scan",
+    "Button",
+    "NavList",
+    "DisplayData",
+    "Checkbox",
+    "Info",
+    "Complete",
 )
 
 
@@ -106,7 +106,7 @@ class Message(Component):
         return {"template": self.template, "type": self.message_type}
 
 
-class ScanComponent(Component):
+class Scan(Component):
     __slots__ = [
         "component_type",
         "target",
@@ -172,7 +172,7 @@ class ScanComponent(Component):
         return {key: value for v in self.validators for key, value in v.to_dict().items()}
 
 
-class ButtonComponent(Component):
+class Button(Component):
     __slots__ = [
         "action",
         "style",
@@ -220,7 +220,7 @@ class ButtonComponent(Component):
         return button
 
 
-class NavListComponent(Component):
+class NavList(Component):
     __slots__ = [
         "action",
         "style",
@@ -245,7 +245,7 @@ class NavListComponent(Component):
         }
 
 
-class DisplayDataComponent(Component):
+class DisplayData(Component):
     """
     Allowed "display_type" are currently "list" and "details"
     - "list": will list all the values so "data" will have to produces a list of strings
@@ -276,7 +276,7 @@ class DisplayDataComponent(Component):
         }
 
 
-class CheckboxComponent(Component):
+class Checkbox(Component):
     """
     - "data": requires a list of "{'id': 1, 'label': '...', 'value': '...'}"
     """
@@ -305,7 +305,7 @@ class CheckboxComponent(Component):
         }
 
 
-class MessageBoxComponent(Component):
+class MessageBox(Component):
     __slots__ = [
         "template",
         "type",

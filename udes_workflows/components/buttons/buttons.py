@@ -14,7 +14,7 @@ __all__ = (
 
 _make_identifier = partial(make_identifier, suffixes=["buttons"])
 
-submit = func_factory(defaults.submit, components.ButtonComponent, _make_identifier)
-next = func_factory(defaults.next, components.ButtonComponent, _make_identifier)
-back = func_factory(defaults.back, components.ButtonComponent, _make_identifier)
-reset = func_factory(defaults.reset, components.ButtonComponent, _make_identifier)
+submit = func_factory(defaults.submit, components.Button, _make_identifier)
+next = func_factory(defaults.next, components.Button, _make_identifier)
+back = func_factory(defaults.back, components.Button, _make_identifier)
+reset = func_factory(defaults.reset, components.Button, _make_identifier)
