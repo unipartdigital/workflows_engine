@@ -8,8 +8,7 @@ __all__ = (
     "NavList",
     "DisplayData",
     "Checkbox",
-    "Info",
-    "Complete",
+    "MessageBox",
 )
 
 
