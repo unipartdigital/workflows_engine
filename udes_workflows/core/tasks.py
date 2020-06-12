@@ -394,6 +394,18 @@ class WhileLoop(Flow):
         return flow
 
 
+class Event(Task):
+    __slots__ = [
+        "action",
+        "payload",
+    ]
+
+    def __init__(self, action, payload=None, **kwargs):
+        super().__init__(task_type="event", **kwargs)
+        self.action = action
+        self.payload = payload or {}
+
+
 TASK_TYPE_MAPPING = {
     "screen": Screen,
     "jsonrpc": JsonRpc,
