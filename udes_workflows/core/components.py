@@ -148,7 +148,6 @@ class Input(Component):
         }
         if self.name:
             component["name"] = self.name
-        if self.label:
         if self.obscure:
             component["obscure"] = self.obscure
         if self.input_key:
