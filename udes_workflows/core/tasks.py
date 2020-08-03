@@ -1,6 +1,6 @@
 from itertools import chain
 from threading import RLock
-
+from functools import partial
 
 __all__ = (
     "Task",
@@ -308,6 +308,10 @@ class Flow(Task):
         "result",
         "result_keys",
         "destination_path",
+        "conditions",
+        "iterable_path",
+        "sub_type",
+        "config",
         "_lock",
     ]
 
@@ -319,14 +323,51 @@ class Flow(Task):
         result_keys=None,
         result=None,
         destination_path=None,
-        task_type="flow",
+        sub_type="flow",
+        conditions=None,
     ):
-        super().__init__(name=name, preconditions=preconditions, task_type=task_type)
+        super().__init__(name=name, preconditions=preconditions, task_type="flow")
         self.tasks = tasks or []
         self.result = result
         self.destination_path = destination_path
         self.result_keys = result_keys
+        self.conditions = conditions or []
+        self.sub_type = sub_type
         self._lock = RLock()
+
+    def get_validators(self):
+        validators = super().get_validators()
+        validators.update(
+            {key: value for c in self.conditions for key, value in c.to_dict().items()}
+        )
+        return validators
+
+    def get_config(self):
+        builders = {
+            "flow": lambda inst: (
+                {
+                    "result": inst.result,
+                    "result_keys": inst.result_keys,
+                    "destination_path": inst.destination_path,
+                }
+                if inst.result and inst.result_keys and inst.destination_path is not None
+                else {}
+            ),
+            "while_loop": lambda inst: {
+                "conditions": [c.identifier for c in inst.conditions],
+                "result": inst.result,
+                "result_keys": inst.result_keys,
+                "destination_path": inst.destination_path,
+            },
+            "for_loop": lambda inst: {
+                "iterable_path": inst.iterable_path,
+                "destination_path": inst.destination_path,
+                "result": inst.result,
+                "result_keys": inst.result_keys,
+            },
+        }
+
+        return builders[self.sub_type](self)
 
     @staticmethod
     def add_task_type(name, task_class):
@@ -352,13 +393,7 @@ class Flow(Task):
         # Note: destination_path could be false as this means that the result object should be merged
         # directly into the context
         if self.result_keys and self.result and self.destination_path is not None:
-            flow.update(
-                {
-                    "result": self.result,
-                    "result_keys": self.result_keys,
-                    "destination_path": self.destination_path,
-                }
-            )
+            flow.update(config=self.get_config())
         return flow
 
     def add_task(self, task_type, name, **kwargs):
@@ -370,28 +405,6 @@ class Flow(Task):
     def clear_tasks(self):
         with self._lock:
             self.tasks = []
-
-
-class WhileLoop(Flow):
-    __slots__ = [
-        "conditions",
-    ]
-
-    def __init__(self, conditions, **kwargs):
-        super().__init__(task_type="while_loop", **kwargs)
-        self.conditions = conditions
-
-    def get_validators(self):
-        validators = super().get_validators()
-        validators.update(
-            {key: value for c in self.conditions for key, value in c.to_dict().items()}
-        )
-        return validators
-
-    def to_dict(self):
-        flow = super().to_dict()
-        flow.update({"conditions": [c.identifier for c in self.conditions]})
-        return flow
 
 
 class Event(Task):
@@ -415,6 +428,7 @@ TASK_TYPE_MAPPING = {
     "condition": Condition,
     "domain_param": DomainParam,
     "flow": Flow,
-    "while_loop": WhileLoop,
+    "while_loop": partial(Flow.__init__, sub_type="while_loop"),
+    "for_loop": partial(Flow.__init__, sub_type="for_loop"),
     "clear_domain_params": ClearDomainParams,
 }
