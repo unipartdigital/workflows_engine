@@ -9,6 +9,8 @@ __all__ = (
     "DisplayData",
     "Checkbox",
     "MessageBox",
+    "Toggle",
+    "Image",
 )
 
 
@@ -253,23 +255,29 @@ class DisplayData(Component):
         "display_type",
         "title",
         "data",
+        "subtitle",
     ]
 
-    def __init__(self, display_type, title, data, **kwargs):
+    def __init__(self, display_type, title, data, subtitle=None, **kwargs):
         super().__init__(**kwargs)
         self.display_type = display_type
         self.title = title
         self.data = data
+        self.subtitle = subtitle
 
     def _get_default_identifier(self):
         return "_".join([self.display_type, self.title.lower().replace(" ", "_")])
 
     def _get_base_component_dict(self):
-        return {
+        component = {
             "type": self.display_type,
             "title": self.title,
             "data": self.data,
         }
+        if self.subtitle:
+            component.update(subtitle=self.subtitle)
+
+        return component
 
 
 class Checkbox(Component):
@@ -322,4 +330,48 @@ class MessageBox(Component):
             "type": "message_box",
             "msg_template": self.template,
             "msg_type": self.type,
+        }
+
+
+class Toggle(Component):
+    __slots__ = [
+        "style",
+        "label",
+        "preconditions",
+        "value",
+        "destination_path",
+    ]
+
+    def __init__(self, style, label, value=None, destination_path=None, **kwargs):
+        super().__init__(**kwargs)
+        self.style = style
+        self.label = label
+        self.result = result
+        self.result_key = result_key
+
+    def _get_base_component_dict(self):
+        toggle = {
+            "type": "toggle",
+            "style": self.style,
+            "label": self.label,
+        }
+
+        if self.result is not None and self.result_key:
+            toggle.update({"result": self.result, "result_key": self.result_key})
+        return toggle
+
+
+class Image(Component):
+    __slots__ = [
+        "url",
+    ]
+
+    def __init__(self, url, **kwargs):
+        super().__init__(**kwargs)
+        self.url = url
+
+    def _get_base_component_dict(self):
+        return {
+            "type": "image",
+            "url": self.url,
         }
