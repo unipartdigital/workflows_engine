@@ -16,10 +16,12 @@
 
 
 # -- Project information -----------------------------------------------------
+from datetime import date
 
-project = "udes_workflows"
-copyright = "2020, UDES Team"
+
+project = "workflows"
 author = "UDES Team"
+copyright = "2020-{year}, {author}".format(year=date.today().year, author=author)
 
 # The full version, including alpha/beta/rc tags
 release = "0.1"
@@ -30,7 +32,7 @@ release = "0.1"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["recommonmark"]
+extensions = ["recommonmark", "sphinx.ext.doctest"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
