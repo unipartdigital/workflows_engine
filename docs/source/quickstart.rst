@@ -10,7 +10,7 @@ Quick start
 .. testcode::
 
     import json
-    from workflows_engine import Workflow
+    from workflows_engine import Workflow, components
 
     class QuickWorkflow(Workflow):
 
