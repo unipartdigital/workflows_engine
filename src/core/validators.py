@@ -4,6 +4,34 @@ __all__ = ("Validator",)
 
 
 class Validator:
+    """Used to define a validator to be used in workflows
+
+    args:
+        identifer: str
+            The name of validator workflows object is should be unique for a given set of input
+            parameters. This value is used to lookup the validator config from the ``validator``
+
+        validator: str
+            The type of validator function to be used
+
+        value_key: str (default=None)
+            A jsonpath which points to the ``value`` to be compared with. This is ignored when the
+            validator is attached to a field as the ``value`` used is the field's value. If None
+            then "value_key" is not added to the dict represention
+
+        validator_value: Any (default=None)
+            The ``comparison value``. If None then "validator_value" is not added to the
+            dict represention
+
+        validator_key: str (default=None)
+            A jsonpath which points to the ``comparison value``. If None then "validator_key" is
+            not added to the dict represention
+
+        valid_when: bool (default=True)
+            Is used defined which return value means the check is valid. If False this essinatally
+            can act as a negation of the return value of the ``validator`` function.
+    """
+
     __slots__ = [
         "identifier",
         "validator",
@@ -41,6 +69,7 @@ class Validator:
         return {"type": "error", "template": self.message_template}
 
     def as_dict(self):
+        """Get dict represention of the validator"""
         validator = {
             "type": self.validator,
             "message": self.get_message(),

@@ -6,7 +6,6 @@
   "type": "object",
   "oneOf": [
     { "$ref": "components/button.json#" },
-    { "$ref": "components/component_lookup.json#" },
     { "$ref": "components/data_display.json#" },
     { "$ref": "components/input.json#" },
     { "$ref": "components/message_box.json#" },

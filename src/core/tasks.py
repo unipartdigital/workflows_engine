@@ -8,7 +8,6 @@ __all__ = (
     "JsonRpc",
     "Update",
     "Redirect",
-    "LocalStore",
     "DomainParam",
     "ClearDomainParams",
     "Condition",
@@ -190,25 +189,6 @@ class Redirect(Task):
         return update
 
 
-class LocalStore(Task):
-    __slots__ = [
-        "context_path",  # JSON path to context variable to copy to local storage
-        "storage_key",  # key in local storage to store value
-    ]
-
-    def __init__(self, name, preconditions=None, context_path="", storage_key=""):
-        super().__init__(name=name, preconditions=preconditions, task_type="set_local_storage")
-        self.context_path = context_path
-        self.storage_key = storage_key
-
-    def as_dict(self):
-        update = super().as_dict()
-        update.update(
-            {"context_path": self.context_path, "storage_key": self.storage_key,}
-        )
-        return update
-
-
 class DomainParam(Task):
     # Todo: explain the purpose of this
     __slots__ = [
@@ -224,7 +204,10 @@ class DomainParam(Task):
     def as_dict(self):
         domain = super().as_dict()
         domain.update(
-            {"context_path": self.context_path, "param": self.param,}
+            {
+                "context_path": self.context_path,
+                "param": self.param,
+            }
         )
         return domain
 
@@ -403,7 +386,10 @@ class Event(Task):
     def as_dict(self):
         event = super().as_dict()
         event.update(
-            {"action": self.action, "payload": self.payload,}
+            {
+                "action": self.action,
+                "payload": self.payload,
+            }
         )
         return event
 
@@ -420,7 +406,6 @@ def partial_setup(cls, **default_kwargs):
 TASK_TYPE_MAPPING = {
     "screen": Screen,
     "jsonrpc": JsonRpc,
-    "local_store": LocalStore,
     "update": Update,
     "redirect": Redirect,
     "condition": Condition,
