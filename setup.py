@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 from os import path
-from workflow import __version__ as version
+from udes_workflows import __version__ as version
 
 here = path.abspath(path.dirname(__file__))
 

@@ -322,7 +322,7 @@ class MessageBox(Component):
 
     def get_msg(self):
         return {
-            "template": self.msg_template,
+            "template": self.template,
         }
 
     def _get_base_component_dict(self):
