@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 from os import path
-from udes_workflows import __version__ as version
+from src import __version__ as version
 
 here = path.abspath(path.dirname(__file__))
 
@@ -15,7 +15,7 @@ if path.exists("README.md"):
 
 
 setup(
-    name="udes_workflows",
+    name="workflows_engine",
     version=version,
     author="UDES",
     # author_email="",
@@ -31,8 +31,8 @@ setup(
         "Programming Language :: Python :: 3 :: Only",
     ],
     keywords="udes",
-    # package_dir={"": ""},
-    packages=find_packages(where="."),
+    package_dir={"workflows_engine": "src"},
+    packages=["workflows_engine"],
     python_requires=">=3.5, <4",
     # install_requires=["json"],
     # List additional groups of dependencies here (e.g. development
