@@ -36,7 +36,7 @@ class Validator:
     def get_message(self):
         return {"type": "error", "template": self.msg_template}
 
-    def to_dict(self):
+    def as_dict(self):
         validator = {
             "type": self.validator,
             "msg": self.get_message(),

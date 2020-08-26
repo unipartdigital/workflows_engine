@@ -26,7 +26,7 @@ class Workflow:
             self.flow_cache = {
                 "validators": self.base_flow_task.get_validators(),
                 "components": self.base_flow_task.get_base_components(),
-                "flow": self.base_flow_task.to_dict(),
+                "flow": self.base_flow_task.as_dict(),
             }
         return self.flow_cache
 
@@ -39,18 +39,23 @@ class Workflow:
         self.clear_cache()
 
     def get_hash(self):
+        """Get hash of workflow json object not including the hash and context values"""
+
         if self.hash is None:
             if self.flow_cache is None:
                 self._get_flow_no_context()
             self.hash = str(sha512(json.dumps(self.flow_cache).encode()).hexdigest())
         return self.hash
 
-    def to_dict(self):
+    def as_dict(self):
+        """Build workflow dictionary to transform into JSON"""
+
         workflow = self._get_flow_no_context()
         workflow.update({"hash": self.get_hash(), "context": self.context})
         return workflow
 
     def add_task(self, *args, **kwargs):
+        """Add task to main flow of the workflow"""
         return self.base_flow_task.add_task(*args, **kwargs)
 
     def build_flow(self, *args, **kwargs):
@@ -58,5 +63,8 @@ class Workflow:
         self.flow(*args, **kwargs)
 
     def flow(self, *args, **kwargs):
-        """ Method to override to build the flow"""
+        """ Returns base flow task.
+
+        Method to override to make the flow.
+        """
         return NotImplementedError()

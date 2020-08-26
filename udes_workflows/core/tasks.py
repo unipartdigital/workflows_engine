@@ -29,7 +29,7 @@ class Task:
         self.preconditions = preconditions
         self.task_type = task_type
 
-    def to_dict(self):
+    def as_dict(self):
         base = {
             "type": self.task_type,
             "name": self.name,
@@ -49,7 +49,7 @@ class Task:
 
     def get_validators(self):
         if self.preconditions:
-            return {key: value for p in self.preconditions for key, value in p.to_dict().items()}
+            return {key: value for p in self.preconditions for key, value in p.as_dict().items()}
         else:
             return {}
 
@@ -110,8 +110,8 @@ class Screen(Task):
         }
         return msg
 
-    def to_dict(self):
-        screen = super().to_dict()
+    def as_dict(self):
+        screen = super().as_dict()
         screen["components"] = self.get_flow_components()
 
         if self.show_status_msg:
@@ -152,8 +152,8 @@ class JsonRpc(Task):
     def get_payload_paths(self):
         return self.payload_paths
 
-    def to_dict(self):
-        endpoint = super().to_dict()
+    def as_dict(self):
+        endpoint = super().as_dict()
         endpoint.update(
             {
                 "url": self.url,
@@ -179,8 +179,8 @@ class Update(Task):
     def get_tasks(self):
         return self.tasks
 
-    def to_dict(self):
-        update = super().to_dict()
+    def as_dict(self):
+        update = super().as_dict()
         update["tasks"] = self.get_tasks()
         return update
 
@@ -194,8 +194,8 @@ class Redirect(Task):
         super().__init__(name=name, preconditions=preconditions, task_type="redirect")
         self.url = url
 
-    def to_dict(self):
-        update = super().to_dict()
+    def as_dict(self):
+        update = super().as_dict()
         update["url"] = self.url
         return update
 
@@ -211,8 +211,8 @@ class LocalStore(Task):
         self.context_path = context_path
         self.storage_key = storage_key
 
-    def to_dict(self):
-        update = super().to_dict()
+    def as_dict(self):
+        update = super().as_dict()
         update.update(
             {"context_path": self.context_path, "storage_key": self.storage_key,}
         )
@@ -231,8 +231,8 @@ class DomainParam(Task):
         self.context_path = context_path
         self.param = param
 
-    def to_dict(self):
-        domain = super().to_dict()
+    def as_dict(self):
+        domain = super().as_dict()
         domain.update(
             {"context_path": self.context_path, "param": self.param,}
         )
@@ -284,12 +284,12 @@ class Condition(Task):
     def get_validators(self):
         validators = super().get_validators()
         validators.update(
-            {key: value for c in self.conditions for key, value in c.to_dict().items()}
+            {key: value for c in self.conditions for key, value in c.as_dict().items()}
         )
         return validators
 
-    def to_dict(self):
-        condition = super().to_dict()
+    def as_dict(self):
+        condition = super().as_dict()
         condition.update(
             {
                 "conditions": self.get_conditions(),
@@ -338,7 +338,7 @@ class Flow(Task):
     def get_validators(self):
         validators = super().get_validators()
         validators.update(
-            {key: value for c in self.conditions for key, value in c.to_dict().items()}
+            {key: value for c in self.conditions for key, value in c.as_dict().items()}
         )
         return validators
 
@@ -374,7 +374,7 @@ class Flow(Task):
         TASK_TYPE_MAPPING[name] = task_class
 
     def get_tasks(self):
-        return [t.to_dict() for t in self.tasks]
+        return [t.as_dict() for t in self.tasks]
 
     def get_base_components(self):
         return {key: value for t in self.tasks for key, value in t.get_base_components().items()}
@@ -386,8 +386,8 @@ class Flow(Task):
         )
         return validators
 
-    def to_dict(self):
-        flow = super().to_dict()
+    def as_dict(self):
+        flow = super().as_dict()
         flow["tasks"] = self.get_tasks()
 
         # Note: destination_path could be false as this means that the result object should be merged
