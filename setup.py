@@ -32,9 +32,9 @@ setup(
     ],
     keywords="udes",
     package_dir={"workflows_engine": "src"},
-    packages=["workflows_engine"],
+    packages=["workflows_engine"] + ["workflows_engine.%s" % sub for sub in find_packages("src")],
     python_requires=">=3.5, <4",
-    install_requires=["json"],
+    install_requires=["simplejson", "pytest"],
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
     # syntax, for example:
