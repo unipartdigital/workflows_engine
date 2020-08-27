@@ -315,12 +315,14 @@ class MessageBox(Component):
     __slots__ = [
         "template",
         "type",
+        "size",
     ]
 
-    def __init__(self, template, msg_type, **kwargs):
+    def __init__(self, template, msg_type, size=None, **kwargs):
         super().__init__(**kwargs)
         self.template = template
         self.type = msg_type
+        self.size = size
 
     def get_msg(self):
         return {
@@ -328,11 +330,16 @@ class MessageBox(Component):
         }
 
     def _get_base_component_dict(self):
-        return {
+        box = {
             "type": "message_box",
             "msg_template": self.template,
             "msg_type": self.type,
         }
+
+        if self.size:
+            box["size"] = self.size
+
+        return box
 
 
 class Toggle(Component):
@@ -348,8 +355,8 @@ class Toggle(Component):
         super().__init__(**kwargs)
         self.style = style
         self.label = label
-        self.result = result
-        self.result_key = result_key
+        self.value = value
+        self.destination_path = destination_path
 
     def _get_base_component_dict(self):
         toggle = {
@@ -358,8 +365,8 @@ class Toggle(Component):
             "label": self.label,
         }
 
-        if self.result is not None and self.result_key:
-            toggle.update({"result": self.result, "result_key": self.result_key})
+        if self.value is not None and self.destination_path:
+            toggle.update({"value": self.value, "destination_path": self.destination_path})
         return toggle
 
 
