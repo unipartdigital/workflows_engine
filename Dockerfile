@@ -3,4 +3,4 @@ COPY . /workflows
 WORKDIR /workflows
 RUN pip install pytest
 ENTRYPOINT ["pytest"]
-CMD ["udes_workflows"]
+CMD ["src"]
