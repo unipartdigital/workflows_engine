@@ -1,6 +1,5 @@
 from itertools import chain
 from threading import RLock
-from functools import partial
 
 __all__ = (
     "Task",
@@ -13,7 +12,6 @@ __all__ = (
     "ClearDomainParams",
     "Condition",
     "Flow",
-    "WhileLoop",
 )
 
 
@@ -325,6 +323,7 @@ class Flow(Task):
         destination_path=None,
         sub_type="flow",
         conditions=None,
+        iterable_path=None,
     ):
         super().__init__(name=name, preconditions=preconditions, task_type="flow")
         self.tasks = tasks or []
@@ -334,6 +333,7 @@ class Flow(Task):
         self.conditions = conditions or []
         self.sub_type = sub_type
         self._lock = RLock()
+        self.iterable_path = None
 
     def get_validators(self):
         validators = super().get_validators()
@@ -419,6 +419,15 @@ class Event(Task):
         self.payload = payload or {}
 
 
+def partial_setup(cls, **default_kwargs):
+    def _wrapper(*args, **kwargs):
+        kws = default_kwargs.copy()
+        kws.update(kwargs)
+        return cls(*args, **kws)
+
+    return _wrapper
+
+
 TASK_TYPE_MAPPING = {
     "screen": Screen,
     "jsonrpc": JsonRpc,
@@ -428,7 +437,7 @@ TASK_TYPE_MAPPING = {
     "condition": Condition,
     "domain_param": DomainParam,
     "flow": Flow,
-    "while_loop": partial(Flow.__init__, sub_type="while_loop"),
-    "for_loop": partial(Flow.__init__, sub_type="for_loop"),
+    "while_loop": partial_setup(Flow, sub_type="while_loop"),
+    "for_loop": partial_setup(Flow, sub_type="for_loop"),
     "clear_domain_params": ClearDomainParams,
 }
