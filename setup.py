@@ -34,7 +34,7 @@ setup(
     package_dir={"workflows_engine": "src"},
     packages=["workflows_engine"],
     python_requires=">=3.5, <4",
-    # install_requires=["json"],
+    install_requires=["json"],
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
     # syntax, for example:
@@ -43,14 +43,10 @@ setup(
     #
     # Similar to `install_requires` above, these must be valid existing
     # projects.
-    # extras_require={"dev": ["check-manifest"], "test": ["coverage", "pytest"],},
-    # This field corresponds to the "Project-URL" metadata fields:
-    # https://packaging.python.org/specifications/core-metadata/#project-url-multiple-use
-    # project_urls={
-    #     "Bug Reports": "https://github.com/pypa/sampleproject/issues",
-    #     "Funding": "https://donate.pypi.org",
-    #     "Say Thanks!": "http://saythanks.io/to/example",
-    #     "Source": "https://github.com/pypa/sampleproject/",
-    # },
+    extras_require={
+        "dev": ["check-manifest"],
+        "test": ["coverage", "pytest"],
+        "doc": ["sphinx", "recommonmark", "pytest"],
+    },
     **extras
 )
