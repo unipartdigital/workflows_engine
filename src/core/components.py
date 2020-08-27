@@ -142,14 +142,16 @@ class Input(Component):
         return "_".join([self.component_type, self.target.lower().replace(" ", "_")])
 
     def _get_base_component_dict(self):
-        component = {
-            "type": self.component_type,
-            "label": self.label,
-            "target": self.target,
-            "validator": [v.identifier for v in self.validators],
-        }
-        if self.name:
-            component["name"] = self.name
+        component = super()._get_base_component_dict()
+        component.update(
+            {
+                "type": self.component_type,
+                "label": self.label,
+                "target": self.target,
+                "validator": [v.identifier for v in self.validators],
+            }
+        )
+
         if self.obscure:
             component["obscure"] = self.obscure
         if self.input_key:
