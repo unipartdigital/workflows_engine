@@ -440,4 +440,5 @@ TASK_TYPE_MAPPING = {
     "while_loop": partial_setup(Flow, sub_type="while_loop"),
     "for_loop": partial_setup(Flow, sub_type="for_loop"),
     "clear_domain_params": ClearDomainParams,
+    "event": Event,
 }
