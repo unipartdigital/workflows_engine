@@ -1,7 +1,3 @@
 from . import defaults
-from . import buttons
+from .buttons import *
 
-__all__ = (
-    "defaults",
-    "buttons",
-)
