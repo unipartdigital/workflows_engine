@@ -3,6 +3,7 @@
 ```bash
 git clone git@gitlab.unipart.digital:mcosta/workflows.git
 cd workflows
+pip install -r pip-requirements.txt --user
 pip install . --user
 ```
 

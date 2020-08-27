@@ -1,0 +1,2 @@
+-r pip-requirements.txt
+black>=19.3b0
