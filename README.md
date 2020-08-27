@@ -15,7 +15,7 @@ pip install . --user
 To build the documentation
 
 ```bash
-pip install sphinx recommonmark --user
+pip install .[doc] --user
 cd docs
 make html
 ```
