@@ -14,6 +14,10 @@ if path.exists("README.md"):
     extras["long_description_content_type"] = "text/markdown"
 
 
+def get_packages(base, dir):
+    return [base] + ["%s.%s" % (base, sub) for sub in find_packages(dir)]
+
+
 setup(
     name="workflows_engine",
     version=version,
@@ -32,7 +36,7 @@ setup(
     ],
     keywords="udes",
     package_dir={"workflows_engine": "src"},
-    packages=["workflows_engine"] + ["workflows_engine.%s" % sub for sub in find_packages("src")],
+    packages=get_packages("workflows_engine", "src"),
     python_requires=">=3.5, <4",
     install_requires=["simplejson", "pytest"],
     # List additional groups of dependencies here (e.g. development
