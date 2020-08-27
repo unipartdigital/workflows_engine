@@ -1,6 +1,6 @@
 import pytest
 
-from ..tasks import Flow
+from workflows_engine.core.tasks import Flow
 
 
 @pytest.fixture
