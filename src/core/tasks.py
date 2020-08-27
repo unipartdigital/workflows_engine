@@ -273,6 +273,9 @@ class Condition(Task):
 
     @staticmethod
     def get_message(message):
+        if message is None:
+            return None
+
         msg = {"type": message.message_type, "template": message.template}
         return msg
 
