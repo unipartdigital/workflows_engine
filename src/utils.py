@@ -4,7 +4,7 @@ __all__ = ("make_identifier", "func_factory")
 
 
 def make_identifier(attrs, suffixes=None, black_list=("flow_attrs",)):
-    parts = [v.lower().replace(" ", "_") for k, v in attrs.items() if k not in black_list]
+    parts = [k.lower().replace(" ", "_") for k, v in attrs.items() if k not in black_list]
     return "_".join(parts + (suffixes or []))
 
 
