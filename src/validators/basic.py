@@ -40,8 +40,12 @@ def is_equal(value_key=None, validator_key=None, validator_value=None, **kwargs)
 
 
 def is_true(value_key=None, **kwargs):
-    return is_equal(value_key=value_key, validator_value=True, identifier="is_true", **kwargs)
+    attrs = dict(value_key=value_key, validator_value=True, identifier="is_true")
+    attrs.update(kwargs)
+    return is_equal(**attrs)
 
 
 def is_false(value_key=None, **kwargs):
-    return is_equal(value_key=value_key, validator_value=False, identifier="is_false", **kwargs)
+    attrs = dict(value_key=value_key, validator_value=False, identifier="is_false")
+    attrs.update(kwargs)
+    return is_equal(**attrs)
