@@ -38,7 +38,7 @@ setup(
     package_dir={"workflows_engine": "src"},
     packages=get_packages("workflows_engine", "src"),
     python_requires=">=3.5, <4",
-    install_requires=["simplejson", "pytest"],
+    install_requires=["simplejson"],
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
     # syntax, for example:
