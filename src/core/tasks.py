@@ -212,7 +212,10 @@ class LocalStore(Task):
     def as_dict(self):
         update = super().as_dict()
         update.update(
-            {"context_path": self.context_path, "storage_key": self.storage_key,}
+            {
+                "context_path": self.context_path,
+                "storage_key": self.storage_key,
+            }
         )
         return update
 
@@ -232,7 +235,10 @@ class DomainParam(Task):
     def as_dict(self):
         domain = super().as_dict()
         domain.update(
-            {"context_path": self.context_path, "param": self.param,}
+            {
+                "context_path": self.context_path,
+                "param": self.param,
+            }
         )
         return domain
 
