@@ -1,12 +1,19 @@
+from itertools import groupby
+
 __all__ = ("ContextBuilder",)
 
 
 class ContextBuilder:
     def get_group_key(self):
-        raise NotImplementedError()
+        return lambda x: x
 
-    def group_objects(self, objects):
-        for key, group in objects.groupby(self.get_group_key()):
+    def group_objects(self, objects, sort=True):
+        grouping_key = self.get_group_key()
+
+        if sort:
+            objects = sorted(objects, key=grouping_key)
+
+        for key, group in groupby(objects, key=grouping_key):
             yield group
 
     def _build_context(self, group):
