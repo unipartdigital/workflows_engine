@@ -22,7 +22,12 @@ class Task:
         "preconditions",
     ]
 
-    def __init__(self, name=None, preconditions=None, task_type=""):
+    def __init__(
+        self,
+        name,
+        task_type,
+        preconditions=None,
+    ):
         self.name = name
         self.preconditions = preconditions
         self.task_type = task_type
