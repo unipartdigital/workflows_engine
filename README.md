@@ -7,6 +7,12 @@ pip install -r pip-requirements.txt --user
 pip install . --user
 ```
 
+## Pipenv
+
+```
+pipenv --three && pipenv run pip install -r pip-requirements.txt && pipenv shell
+```
+
 # Docs
 
 ## Building
