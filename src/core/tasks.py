@@ -52,9 +52,7 @@ class Task:
 
     def get_validators(self):
         if self.preconditions:
-            return {key: value for p in self.preconditions for key, value in p.as_dict().items()}
-        else:
-            return {}
+            yield from self.preconditions
 
     def get_preconditions(self):
         if self.preconditions:
@@ -87,24 +85,13 @@ class Screen(Task):
         return [[c.get_flow_component_dict() for c in row] for row in self.components]
 
     def get_base_components(self):
-        return {
-            key: value
-            for row in self.components
-            for c in row
-            for key, value in c.get_base_component_dict().items()
-        }
+        yield from self.components
 
     def get_validators(self):
-        validators = super().get_validators()
-        validators.update(
-            {
-                key: value
-                for row in self.components
-                for c in row
-                for key, value in c.get_validators().items()
-            }
-        )
-        return validators
+        yield from super().get_validators()
+        for row in self.components:
+            for component in row:
+                yield from component.get_validators()
 
     def get_status_msg(self):
         msg = {
@@ -294,11 +281,8 @@ class Condition(Task):
         return [c.identifier for c in self.conditions]
 
     def get_validators(self):
-        validators = super().get_validators()
-        validators.update(
-            {key: value for c in self.conditions for key, value in c.as_dict().items()}
-        )
-        return validators
+        yield from super().get_validators()
+        yield from self.conditions
 
     def as_dict(self):
         condition = super().as_dict()
@@ -350,11 +334,8 @@ class Flow(Task):
         self.iterable_path = None
 
     def get_validators(self):
-        validators = super().get_validators()
-        validators.update(
-            {key: value for c in self.conditions for key, value in c.as_dict().items()}
-        )
-        return validators
+        yield from super().get_validators()
+        yield from self.conditions
 
     def get_config(self):
         builders = {
@@ -391,14 +372,13 @@ class Flow(Task):
         return [t.as_dict() for t in self.tasks]
 
     def get_base_components(self):
-        return {key: value for t in self.tasks for key, value in t.get_base_components().items()}
+        for task in self.tasks:
+            yield from task.get_base_components()
 
     def get_validators(self):
-        validators = super().get_validators()
-        validators.update(
-            {key: value for t in self.tasks for key, value in t.get_validators().items()}
-        )
-        return validators
+        yield from super().get_validators()
+        for task in self.tasks:
+            yield from task.get_validators()
 
     def as_dict(self):
         flow = super().as_dict()

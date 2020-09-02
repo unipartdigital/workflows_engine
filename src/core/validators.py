@@ -14,8 +14,8 @@ class Validator:
 
     def __init__(
         self,
-        identifier=None,
-        validator=None,
+        identifier,
+        validator,
         value_key=None,
         validator_value=None,
         validator_key=None,

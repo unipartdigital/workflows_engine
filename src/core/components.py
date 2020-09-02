@@ -83,7 +83,8 @@ class Component:
         return {self.identifier: self._get_base_component_dict()}
 
     def get_validators(self):
-        return {key: value for p in self.preconditions for key, value in p.as_dict().items()}
+        yield from  super().get_validators()
+        yield from self.preconditions
 
 
 class Message(Component):
@@ -165,11 +166,8 @@ class Input(Component):
         return component
 
     def get_validators(self):
-        validators = super().get_validators()
-        validators.update(
-            {key: value for v in self.validators for key, value in v.as_dict().items()}
-        )
-        return validators
+        yield from  super().get_validators()
+        yield from self.validators
 
 
 class Button(Component):

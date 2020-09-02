@@ -1,9 +1,17 @@
 import json
 from hashlib import sha512
-
+from collections import defaultdict
 from .tasks import Flow
 
 __all__ = ("Workflow",)
+
+
+class SameIdentiferDifferentValues(Exception):
+    pass
+
+
+def dict_to_set(d):
+    return frozenset((k, dict_to_set(v)) if isinstance(v, dict) else (k, v) for k, v in d.items())
 
 
 class Workflow:
@@ -21,11 +29,37 @@ class Workflow:
     def has_been_built(self):
         return self.flow_cache is not None
 
+    @staticmethod
+    def _get_parts(part_type, iters):
+        result = {}
+        part_cache = defaultdict(set)
+        for part in iters:
+            name = part.identifier
+            part_dict = part.as_dict()
+            part_set = dict_to_set(part_dict)
+            if name in result:
+                if part_cache[name] != part_set:
+                    msg = "Two {part_type} with the same identifer({name}) but different values"
+                    raise SameIdentiferDifferentValues(msg.format(part_type=part_type, name=name))
+            else:
+                result[name] = part_dict
+                part_cache[name] = part_set
+
+        return result
+
+    def get_validators(self):
+        """Get validator dicts"""
+        return self._get_parts("validators", self.base_flow_task.get_validators())
+
+    def get_base_components(self):
+        """Get component dicts"""
+        return self._get_parts("components", self.base_flow_task.get_base_components())
+
     def _get_flow_no_context(self):
         if self.flow_cache is None:
             self.flow_cache = {
-                "validators": self.base_flow_task.get_validators(),
-                "components": self.base_flow_task.get_base_components(),
+                "validators": self.get_validators(),
+                "components": self.get_base_components(),
                 "flow": self.base_flow_task.as_dict(),
             }
         return self.flow_cache
@@ -49,7 +83,6 @@ class Workflow:
 
     def as_dict(self):
         """Build workflow dictionary to transform into JSON"""
-
         workflow = self._get_flow_no_context()
         workflow.update({"hash": self.get_hash(), "context": self.context})
         return workflow
@@ -63,7 +96,7 @@ class Workflow:
         self.flow(*args, **kwargs)
 
     def flow(self, *args, **kwargs):
-        """ Returns base flow task.
+        """Returns base flow task.
 
         Method to override to make the flow.
         """
