@@ -1,7 +1,7 @@
 from functools import partial
 
 from ..core.validators import Validator
-from ..utils import func_factory, make_identifier
+from ..utils import func_factory, make_identifier as _make_idenfifier
 from . import defaults
 
 __all__ = (
@@ -11,6 +11,10 @@ __all__ = (
     "is_false",
     "is_equal",
 )
+
+
+def make_identifier(attrs, suffixes=None, black_list=("msg_template", "identifier")):
+    return _make_idenfifier(attrs, suffixes, black_list)
 
 
 _is_int = func_factory(defaults.is_int, Validator, make_identifier)
