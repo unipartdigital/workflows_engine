@@ -373,7 +373,8 @@ class Flow(Task):
 
     def get_base_components(self):
         for task in self.tasks:
-            yield from task.get_base_components()
+            for row in task.get_base_components():
+                yield from row
 
     def get_validators(self):
         yield from super().get_validators()
