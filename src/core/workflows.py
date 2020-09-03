@@ -11,7 +11,14 @@ class SameIdentiferDifferentValues(Exception):
 
 
 def dict_to_set(d):
-    return frozenset((k, dict_to_set(v)) if isinstance(v, dict) else (k, v) for k, v in d.items())
+    return frozenset(
+        (k, dict_to_set(v))
+        if isinstance(v, dict)
+        else (k, frozenset(v))
+        if isinstance(v, list)
+        else (k, v)
+        for k, v in d.items()
+    )
 
 
 class Workflow:
