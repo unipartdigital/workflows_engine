@@ -76,11 +76,8 @@ class Component:
 
         return flow
 
-    def _get_base_component_dict(self):
-        return {}
-
     def get_base_component_dict(self):
-        return {self.identifier: self._get_base_component_dict()}
+        return {}
 
     def get_validators(self):
         yield from self.preconditions
@@ -97,7 +94,7 @@ class Message(Component):
         self.template = template
         self.message_type = message_type
 
-    def _get_base_component_dict(self):
+    def get_base_component_dict(self):
         return {"template": self.template, "type": self.message_type}
 
 
@@ -141,8 +138,8 @@ class Input(Component):
     def _get_default_identifier(self):
         return "_".join([self.component_type, self.target.lower().replace(" ", "_")])
 
-    def _get_base_component_dict(self):
-        component = super()._get_base_component_dict()
+    def get_base_component_dict(self):
+        component = super().get_base_component_dict()
         component.update(
             {
                 "type": self.component_type,
@@ -200,7 +197,7 @@ class Button(Component):
     def _get_default_identifier(self):
         return "_".join([self.action, "button"])
 
-    def _get_base_component_dict(self):
+    def get_base_component_dict(self):
         button = {
             "type": "button",
             "action": self.action,
@@ -232,7 +229,7 @@ class NavList(Component):
         self.text = text
         self.data = data
 
-    def _get_base_component_dict(self):
+    def get_base_component_dict(self):
         return {
             "type": "nav_list",
             "action": self.action,
@@ -267,7 +264,7 @@ class DisplayData(Component):
     def _get_default_identifier(self):
         return "_".join([self.display_type, self.title.lower().replace(" ", "_")])
 
-    def _get_base_component_dict(self):
+    def get_base_component_dict(self):
         component = {
             "type": self.display_type,
             "title": self.title,
@@ -299,7 +296,7 @@ class Checkbox(Component):
     def _get_default_identifier(self):
         return "_".join([self.title.lower().replace(" ", "_")])
 
-    def _get_base_component_dict(self):
+    def get_base_component_dict(self):
         return {
             "type": "checkbox",
             "title": self.title,
@@ -326,7 +323,7 @@ class MessageBox(Component):
             "template": self.template,
         }
 
-    def _get_base_component_dict(self):
+    def get_base_component_dict(self):
         box = {
             "type": "message_box",
             "msg_template": self.template,
@@ -355,7 +352,7 @@ class Toggle(Component):
         self.value = value
         self.destination_path = destination_path
 
-    def _get_base_component_dict(self):
+    def get_base_component_dict(self):
         toggle = {
             "type": "toggle",
             "style": self.style,
@@ -376,7 +373,7 @@ class Image(Component):
         super().__init__(**kwargs)
         self.url = url
 
-    def _get_base_component_dict(self):
+    def get_base_component_dict(self):
         return {
             "type": "image",
             "url": self.url,

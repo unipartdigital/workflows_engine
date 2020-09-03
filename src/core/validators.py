@@ -51,4 +51,4 @@ class Validator:
         elif self.validator_key is not None:
             validator["validator_key"] = self.validator_key
 
-        return {self.identifier: validator}
+        return validator
