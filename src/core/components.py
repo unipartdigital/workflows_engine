@@ -83,7 +83,6 @@ class Component:
         return {self.identifier: self._get_base_component_dict()}
 
     def get_validators(self):
-        yield from  super().get_validators()
         yield from self.preconditions
 
 
@@ -166,7 +165,7 @@ class Input(Component):
         return component
 
     def get_validators(self):
-        yield from  super().get_validators()
+        yield from super().get_validators()
         yield from self.validators
 
 
