@@ -30,12 +30,12 @@ class Workflow:
         return self.flow_cache is not None
 
     @staticmethod
-    def _get_parts(part_type, iters):
+    def _get_parts(part_type, iters, dict_getter):
         result = {}
         part_cache = defaultdict(set)
         for part in iters:
             name = part.identifier
-            part_dict = part.as_dict()
+            part_dict = dict_getter(part)
             part_set = dict_to_set(part_dict)
             if name in result:
                 if part_cache[name] != part_set:
@@ -49,11 +49,17 @@ class Workflow:
 
     def get_validators(self):
         """Get validator dicts"""
-        return self._get_parts("validators", self.base_flow_task.get_validators())
+        return self._get_parts(
+            "validators", self.base_flow_task.get_validators(), lambda x: x.as_dict()
+        )
 
     def get_base_components(self):
         """Get component dicts"""
-        return self._get_parts("components", self.base_flow_task.get_base_components())
+        return self._get_parts(
+            "components",
+            self.base_flow_task.get_base_components(),
+            lambda x: x.get_base_component_dict(),
+        )
 
     def _get_flow_no_context(self):
         if self.flow_cache is None:
