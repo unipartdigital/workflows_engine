@@ -356,9 +356,9 @@ class Flow(Task):
             },
             "for_loop": lambda inst: {
                 "iterable_path": inst.iterable_path,
-                "destination_path": inst.destination_path,
                 "result": inst.result,
                 "result_keys": inst.result_keys,
+                "destination_path": inst.destination_path,
             },
         }
 
