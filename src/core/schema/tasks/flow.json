@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/tasks/flow.json",
+  "title": "flow",
+  "description": "Workflows flow task",
+  "definitions": {
+    "flow_config": {
+      "type": "object"
+    },
+    "while_config": {
+      "type": "object"
+    },
+    "for_config": {
+      "type": "object"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "type": { "type": "string", "enum": ["flow"] },
+    "preconditions": { "type": "array", "items": [{ "type": "string" }] },
+    "tasks": { "type": "array", "items": [{ "$ref": "task.json#" }] },
+    "config": {
+      "oneOf": [
+        { "$ref": "#/definitions/flow_config" },
+        { "$ref": "#/definitions/while_config" },
+        { "$ref": "#/definitions/for_config" }
+      ]
+    }
+  },
+  "required": ["name", "type", "tasks"]
+}

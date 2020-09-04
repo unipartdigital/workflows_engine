@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/tasks/set_domain_param.json",
+  "title": "set_domain_param",
+  "description": "Workflows set_domain_param task",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "type": { "type": "string", "enum": ["set_domain_param"] },
+
+    "preconditions": { "type": "array", "items": [{ "type": "string" }] },
+    "context_path": { "type": "string" },
+    "param": { "type": "string" }
+  },
+  "required": ["name", "type", "context_path", "param"]
+}

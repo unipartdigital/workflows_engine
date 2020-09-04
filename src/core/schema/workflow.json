@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/workflow.json",
+  "title": "Workflow",
+  "description": "Workflow",
+  "type": "object",
+  "properties": {
+    "validators": {
+      "description": "contains the details of validators",
+      "type": "object",
+      "patternProperties": {
+        "[A-Za-z0-9_]*": { "$ref": "validator.json#" }
+      }
+    },
+    "components": {
+      "description": "contains the details of components",
+      "type": "object",
+      "patternProperties": {
+        "[A-Za-z0-9_]*": { "$ref": "components/component.json#" }
+      }
+    },
+    "context": {
+      "description": "contains the initial values of the context",
+      "type": "object"
+    },
+    "flow": {
+      "description": "contains the base flow of the workflow",
+      "$ref": "tasks/task.json#"
+    },
+    "hash": {
+      "description": "the hash of the workflow without the context",
+      "type": "string"
+    }
+  },
+  "required": ["validators", "context", "components", "flow"]
+}
