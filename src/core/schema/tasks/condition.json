@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/tasks/condition.json",
+  "title": "condition",
+  "description": "Workflows update task",
+  "type": "object",
+  "definitions": {
+    "message": {
+      "oneOf": [
+        { "$ref": "common.json#/definitions/message" },
+        { "type": "boolean", "enum": [false] }
+      ]
+    }
+  },
+  "properties": {
+    "name": { "type": "string" },
+    "type": { "type": "string", "enum": ["condition"] },
+    "preconditions": { "type": "array", "items": [{ "type": "string" }] },
+    "on_success": { "type": "string" },
+    "on_failure": { "type": "string" },
+    "success_message": { "$ref": "#/definitions/message" },
+    "failure_message": { "$ref": "#/definitions/message" }
+  },
+  "required": ["name", "type", "on_success", "on_failure"]
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/tasks/update.json",
+  "title": "update",
+  "description": "Workflows update task",
+  "type": "object",
+  "definitions": {
+    "update_subtask": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "key": { "$ref": "#/definitions/jsonpath" },
+            "result_key": { "$ref": "#/definitions/jsonpath" },
+            "append": { "type": "boolean" },
+            "extend": { "type": "boolean" }
+          },
+          "required": ["key", "result_key"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "result": {},
+            "result_key": { "$ref": "#/definitions/jsonpath" },
+            "append": { "type": "boolean" },
+            "extend": { "type": "boolean" }
+          },
+          "required": ["result", "result_key"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "template": { "type": "string" },
+            "result_key": { "$ref": "#/definitions/jsonpath" },
+            "append": { "type": "boolean" },
+            "extend": { "type": "boolean" }
+          },
+          "required": ["template", "result_key"]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "name": { "type": "string" },
+    "type": { "type": "string", "enum": ["update"] },
+
+    "preconditions": { "type": "array", "items": [{ "type": "string" }] },
+    "tasks": {
+      "type": "array",
+      "items": [{ "$ref": "#/definitions/payload_keys" }]
+    }
+  }
+}

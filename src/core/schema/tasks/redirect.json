@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/tasks/redirect.json",
+  "title": "redirect",
+  "description": "Workflows redirect task",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "type": { "type": "string", "enum": ["redirect"] },
+    "url": { "type": "string" },
+    "preconditions": { "type": "array", "items": [{ "type": "string" }] }
+  },
+  "required": ["name", "type", "url"]
+}
