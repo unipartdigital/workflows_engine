@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/components/component.json",
+  "title": "component",
+  "description": "Workflows update task",
+  "type": "object",
+  "oneOf": [
+    { "$ref": "components/button.json#" },
+    { "$ref": "components/component_lookup.json#" },
+    { "$ref": "components/data_display.json#" },
+    { "$ref": "components/input.json#" },
+    { "$ref": "components/message_box.json#" },
+    { "$ref": "components/toggle.json#" }
+  ]
+}

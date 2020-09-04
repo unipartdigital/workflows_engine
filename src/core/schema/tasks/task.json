@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/tasks/task.json",
+  "title": "task",
+  "description": "Workflows task",
+  "oneOf": [
+    { "$ref": "screen.json#" },
+    { "$ref": "jsonrpc.json#" },
+    { "$ref": "condition.json#" },
+    { "$ref": "set_domain_param.json#" },
+    { "$ref": "clear_domain_params.json#" },
+    { "$ref": "redirect.json#" },
+    { "$ref": "flow.json#" }
+  ]
+}

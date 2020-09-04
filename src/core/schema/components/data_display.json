@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/components/display_data.json",
+  "title": "display_data",
+  "description": "Workflows display_data component",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["list", "details"] },
+    "title": { "type": "string" },
+    "data": { "$ref": "common.json#/definitions/jsonpath" }
+  },
+  "required": ["type", "title", "data"]
+}
