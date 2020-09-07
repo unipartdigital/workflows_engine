@@ -245,7 +245,6 @@ class ClearDomainParams(Task):
 class Condition(Task):
     __slots__ = [
         "conditions",
-        "tasks",
         "on_success",  # Flow step name on success
         "success_message",
         "on_failure",  # Flow step name on failure
