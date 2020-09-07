@@ -11,10 +11,19 @@ Tasks
 
 Tasks are actions!
 
+.. jsonschema:: ../../src/core/schema/tasks/task.json
+
+
 .. _flow_task:
 
 Flow
 ****
+
+schema
+======
+
+.. jsonschema:: ../../src/core/schema/tasks/flow.json
+
 
 .. _while_loop_task:
 
@@ -66,7 +75,7 @@ Redirect
 .. Clear domain params
 .. *******************
 
-.. .. _validator_objects:
+.. _validator_objects:
 
 Validators
 ##########
