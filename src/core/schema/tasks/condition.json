@@ -7,7 +7,7 @@
   "definitions": {
     "message": {
       "oneOf": [
-        { "$ref": "common.json#/definitions/message" },
+        { "$ref": "../common.json#/definitions/message" },
         { "type": "boolean", "enum": [false] }
       ]
     }

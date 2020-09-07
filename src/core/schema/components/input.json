@@ -8,9 +8,9 @@
     "type": { "type": "string", "enum": ["input"] },
     "name": { "type": "string" },
     "label": { "type": "string" },
-    "input_key": { "$ref": "common.json#/definitions/jsonpath" },
-    "input_ref": { "$ref": "common.json#/definitions/jsonpath" },
-    "output_ref": { "$ref": "common.json#/definitions/jsonpath" },
+    "input_key": { "$ref": "../common.json#/definitions/jsonpath" },
+    "input_ref": { "$ref": "../common.json#/definitions/jsonpath" },
+    "output_ref": { "$ref": "../common.json#/definitions/jsonpath" },
     "output": { "type": "object" },
     "obscure": { "type": "boolean" },
     "validators": { "type": "array", "items": [{ "type": "string" }] }
