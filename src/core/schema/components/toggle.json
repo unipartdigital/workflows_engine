@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "type": { "type": "string", "enum": ["toggle"] },
-    "style": { "$ref": "common.json#/definitions/styles" },
+    "style": { "$ref": "../common.json#/definitions/styles" },
     "label": { "type": "string" }
   }
 }

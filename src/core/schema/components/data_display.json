@@ -7,7 +7,7 @@
   "properties": {
     "type": { "type": "string", "enum": ["list", "details"] },
     "title": { "type": "string" },
-    "data": { "$ref": "common.json#/definitions/jsonpath" }
+    "data": { "$ref": "../common.json#/definitions/jsonpath" }
   },
   "required": ["type", "title", "data"]
 }
