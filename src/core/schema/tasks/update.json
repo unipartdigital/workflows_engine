@@ -10,8 +10,8 @@
         {
           "type": "object",
           "properties": {
-            "key": { "$ref": "../common.py#/definitions/jsonpath" },
-            "result_key": { "$ref": "../common.py#/definitions/jsonpath" },
+            "key": { "$ref": "../common.json#/definitions/jsonpath" },
+            "result_key": { "$ref": "../common.json#/definitions/jsonpath" },
             "append": { "type": "boolean" },
             "extend": { "type": "boolean" }
           },
@@ -21,7 +21,7 @@
           "type": "object",
           "properties": {
             "result": {},
-            "result_key": { "$ref": "../common.py#/definitions/jsonpath" },
+            "result_key": { "$ref": "../common.json#/definitions/jsonpath" },
             "append": { "type": "boolean" },
             "extend": { "type": "boolean" }
           },
@@ -31,7 +31,7 @@
           "type": "object",
           "properties": {
             "template": { "type": "string" },
-            "result_key": { "$ref": "../common.py#/definitions/jsonpath" },
+            "result_key": { "$ref": "../common.json#/definitions/jsonpath" },
             "append": { "type": "boolean" },
             "extend": { "type": "boolean" }
           },
@@ -47,7 +47,7 @@
     "preconditions": { "type": "array", "items": [{ "type": "string" }] },
     "tasks": {
       "type": "array",
-      "items": [{ "$ref": "#/definitions/payload_keys" }]
+      "items": [{ "$ref": "#/definitions/update_subtask" }]
     }
   }
 }
