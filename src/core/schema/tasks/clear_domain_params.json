@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "name": { "type": "string" },
-    "type": { "type": "string", "enum": ["set_domain_params"] },
+    "type": { "type": "string", "enum": ["clear_domain_params"] },
     "preconditions": { "type": "array", "items": [{ "type": "string" }] }
   },
   "required": ["name", "type"]
