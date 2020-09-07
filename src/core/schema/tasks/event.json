@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/tasks/event.json",
+  "title": "event",
+  "description": "Workflows event task",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "type": { "type": "string", "enum": ["event"] },
+    "preconditions": { "type": "array", "items": [{ "type": "string" }] },
+    "action": { "type": "string" },
+    "payload": {}
+  },
+  "required": ["name", "type", "action", "payload"]
+}

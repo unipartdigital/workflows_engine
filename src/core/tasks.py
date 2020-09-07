@@ -412,6 +412,16 @@ class Event(Task):
         self.action = action
         self.payload = payload or {}
 
+    def as_dict(self):
+        event = super().as_dict()
+        event.update(
+            {
+                "action": self.action,
+                "payload": self.payload,
+            }
+        )
+        return event
+
 
 def partial_setup(cls, **default_kwargs):
     def _wrapper(*args, **kwargs):

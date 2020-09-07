@@ -10,6 +10,8 @@
     { "$ref": "set_domain_param.json#" },
     { "$ref": "clear_domain_params.json#" },
     { "$ref": "redirect.json#" },
-    { "$ref": "flow.json#" }
+    { "$ref": "flow.json#" },
+    { "$ref": "event.json#" },
+    { "$ref": "set_local_storage.json#" }
   ]
 }
