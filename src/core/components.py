@@ -175,6 +175,7 @@ class Button(Component):
         "style",
         "text",
         "value",
+        "load_values",
         "destination_path",
         "show_confirmation",
     ]
@@ -185,6 +186,7 @@ class Button(Component):
         style,
         text,
         value=True,
+        load_values=None,
         destination_path=None,
         show_confirmation=False,
         **kwargs
@@ -196,6 +198,7 @@ class Button(Component):
         self.value = value
         self.destination_path = destination_path
         self.show_confirmation = show_confirmation
+        self.load_values = load_values
 
     def _get_default_identifier(self):
         return "_".join([self.action, "button"])
@@ -213,6 +216,8 @@ class Button(Component):
 
         if self.destination_path:
             button.update({"value": self.value, "destination_path": self.destination_path})
+        if self.load_values is not None:
+            button["load_values"] = self.load_values
 
         return button
 
