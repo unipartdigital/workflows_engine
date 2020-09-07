@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/tasks/set_local_storage.json",
+  "title": "set_local_storage",
+  "description": "Workflows set_local_storage task",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "type": { "type": "string", "enum": ["set_local_storage"] },
+    "preconditions": { "type": "array", "items": [{ "type": "string" }] },
+    "context_path": { "$ref": "../common.json#/definitions/jsonpath" },
+    "storage_key": { "type": "string" }
+  },
+  "required": ["name", "type", "context_path", "storage_key"]
+}
