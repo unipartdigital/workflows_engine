@@ -10,6 +10,7 @@
     { "$ref": "components/data_display.json#" },
     { "$ref": "components/input.json#" },
     { "$ref": "components/message_box.json#" },
-    { "$ref": "components/toggle.json#" }
+    { "$ref": "components/toggle.json#" },
+    { "$ref": "components/checkbox.json#" }
   ]
 }
