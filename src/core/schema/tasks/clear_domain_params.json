@@ -9,5 +9,6 @@
     "type": { "type": "string", "enum": ["clear_domain_params"] },
     "preconditions": { "type": "array", "items": [{ "type": "string" }] }
   },
-  "required": ["name", "type"]
+  "required": ["name", "type"],
+  "additionalProperties": false
 }

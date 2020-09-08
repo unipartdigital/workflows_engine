@@ -16,5 +16,6 @@
     "load_values": { "type": "boolean" },
     "value": {}
   },
-  "required": ["type", "action", "style", "text"]
+  "required": ["type", "action", "style", "text"],
+  "additionalProperties": false
 }

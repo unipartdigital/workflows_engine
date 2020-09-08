@@ -32,5 +32,6 @@
       "type": "string"
     }
   },
-  "required": ["validators", "context", "components", "flow"]
+  "required": ["validators", "context", "components", "flow"],
+  "additionalProperties": false
 }
