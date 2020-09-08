@@ -5,7 +5,7 @@ from workflows_engine import validators
 
 def test_screen():
     task = tasks.Screen(
-        name="condition",
+        name="screen",
         components=[
             components.Button(text="Submit", action="submit", style="primary"),
             components.Button(text="Next", action="next", style="secondary"),
