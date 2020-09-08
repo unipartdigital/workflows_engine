@@ -49,5 +49,7 @@
       "type": "array",
       "items": [{ "$ref": "#/definitions/update_subtask" }]
     }
-  }
+  },
+  "required": ["name", "type", "tasks"],
+  "additionalProperties": false
 }

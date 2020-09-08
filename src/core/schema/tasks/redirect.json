@@ -10,5 +10,6 @@
     "url": { "type": "string" },
     "preconditions": { "type": "array", "items": [{ "type": "string" }] }
   },
-  "required": ["name", "type", "url"]
+  "required": ["name", "type", "url"],
+  "additionalProperties": false
 }

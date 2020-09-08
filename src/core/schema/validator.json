@@ -12,5 +12,6 @@
     "msg": { "$ref": "common.json#/definitions/message" },
     "valid_when": { "type": "boolean" }
   },
-  "required": ["type", "msg"]
+  "required": ["type", "msg"],
+  "additionalProperties": false
 }

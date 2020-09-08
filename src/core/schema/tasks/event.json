@@ -11,5 +11,6 @@
     "action": { "type": "string" },
     "payload": {}
   },
-  "required": ["name", "type", "action", "payload"]
+  "required": ["name", "type", "action", "payload"],
+  "additionalProperties": false
 }

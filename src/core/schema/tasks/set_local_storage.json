@@ -11,5 +11,6 @@
     "context_path": { "$ref": "../common.json#/definitions/jsonpath" },
     "storage_key": { "type": "string" }
   },
-  "required": ["name", "type", "context_path", "storage_key"]
+  "required": ["name", "type", "context_path", "storage_key"],
+  "additionalProperties": false
 }

@@ -12,5 +12,6 @@
     "context_path": { "type": "string" },
     "param": { "type": "string" }
   },
-  "required": ["name", "type", "context_path", "param"]
+  "required": ["name", "type", "context_path", "param"],
+  "additionalProperties": false
 }
