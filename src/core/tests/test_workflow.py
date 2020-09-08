@@ -1,7 +1,7 @@
 import pytest
 from workflows_engine import Workflow
 from workflows_engine import validators
-from .validator import get_validator_for
+from .schema_validator import get_validator_for
 
 
 @pytest.fixture

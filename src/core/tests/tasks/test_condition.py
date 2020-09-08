@@ -1,4 +1,4 @@
-from ..validator import get_validator_for
+from ..schema_validator import get_validator_for
 from workflows_engine.core import tasks, components
 from workflows_engine import validators
 
