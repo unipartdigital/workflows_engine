@@ -9,5 +9,7 @@
     "title": { "type": "string" },
     "data": { "$ref": "../common.json#/definitions/jsonpath" },
     "target": { "$ref": "../common.json#/definitions/jsonpath" }
-  }
+  },
+  "required": ["type", "data", "target"],
+  "additionalProperties": false
 }

@@ -28,5 +28,6 @@
       ]
     }
   },
-  "required": ["name", "type", "tasks"]
+  "required": ["name", "type", "tasks"],
+  "additionalProperties": false
 }

@@ -16,10 +16,12 @@
     "name": { "type": "string" },
     "type": { "type": "string", "enum": ["condition"] },
     "preconditions": { "type": "array", "items": [{ "type": "string" }] },
+    "conditions": { "type": "array", "items": [{ "type": "string" }] },
     "on_success": { "type": "string" },
     "on_failure": { "type": "string" },
     "success_message": { "$ref": "#/definitions/message" },
     "failure_message": { "$ref": "#/definitions/message" }
   },
-  "required": ["name", "type", "on_success", "on_failure"]
+  "required": ["name", "type", "conditions", "on_success", "on_failure"],
+  "additionalProperties": false
 }

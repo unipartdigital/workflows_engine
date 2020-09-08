@@ -39,5 +39,6 @@
     "payload": { "type": "object" },
     "response_path": { "$ref": "../common.json#/definitions/jsonpath" }
   },
-  "required": ["name", "type", "url", "method"]
+  "required": ["name", "type", "url", "method"],
+  "additionalProperties": false
 }
