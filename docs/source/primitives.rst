@@ -41,6 +41,7 @@ For loop
 --------
 
 
+
 .. _screen_task:
 
 Screen
@@ -50,6 +51,7 @@ Schema
 ------
 
 .. jsonschema:: ../../src/core/schema/tasks/screen.json
+
 
 
 .. _jsonrpc_task:
@@ -63,6 +65,7 @@ Schema
 .. jsonschema:: ../../src/core/schema/tasks/jsonrpc.json
 
 
+
 .. _update_task:
 
 Update
@@ -74,13 +77,16 @@ Schema
 .. jsonschema:: ../../src/core/schema/tasks/update.json
 
 
-.. .. _local_store_task:
 
-.. Local store
-.. ***********
+.. _local_store_task:
 
-.. schema
-.. ------
+Local store
+***********
+
+schema
+------
+
+.. jsonschema:: ../../src/core/schema/tasks/set_local_storage.json
 
 
 
@@ -97,32 +103,39 @@ Schema
 
 
 
+.. _condition_task:
 
-.. .. _condition_task:
+Condition
+*********
 
-.. Condition
-.. *********
+schema
+------
 
-.. schema
-.. ------
-
-
-.. .. _set_domain_task:
-
-.. Domain param
-.. ************
-
-.. schema
-.. ------
+.. jsonschema:: ../../src/core/schema/tasks/condition.json
 
 
-.. .. _clear_domain_task:
 
-.. Clear domain params
-.. *******************
+.. _set_domain_task:
 
-.. schema
-.. ------
+Domain param
+************
+
+schema
+------
+
+.. jsonschema:: ../../src/core/schema/tasks/set_domain_param.json
+
+
+
+.. _clear_domain_task:
+
+Clear domain params
+*******************
+
+schema
+------
+
+.. jsonschema:: ../../src/core/schema/tasks/clear_domain_params.json
 
 
 .. _validator_objects:
@@ -147,3 +160,5 @@ this is validators
 
 Schema
 ------
+
+.. jsonschema:: ../../src/core/schema/components/component.json
