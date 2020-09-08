@@ -11,10 +11,10 @@ Tasks
 
 Tasks are actions!
 
-schema
-------
+Schema
+******
 
-.. .. jsonschema:: ../../src/core/schema/tasks/task.json
+.. jsonschema:: ../../src/core/schema/tasks/task.json
 
 
 .. _flow_task:
@@ -23,10 +23,10 @@ Flow
 ****
 
 
-schema
+Schema
 ------
 
-.. .. jsonschema:: ../../src/core/schema/tasks/flow.json
+.. jsonschema:: ../../src/core/schema/tasks/flow.json
 
 
 .. _while_loop_task:
@@ -46,8 +46,10 @@ For loop
 Screen
 ******
 
-schema
+Schema
 ------
+
+.. jsonschema:: ../../src/core/schema/tasks/screen.json
 
 
 .. _jsonrpc_task:
@@ -55,8 +57,10 @@ schema
 JSON RPC
 ********
 
-schema
+Schema
 ------
+
+.. jsonschema:: ../../src/core/schema/tasks/jsonrpc.json
 
 
 .. _update_task:
@@ -64,8 +68,10 @@ schema
 Update
 ******
 
-schema
+Schema
 ------
+
+.. jsonschema:: ../../src/core/schema/tasks/update.json
 
 
 .. .. _local_store_task:
@@ -77,13 +83,19 @@ schema
 .. ------
 
 
+
 .. _redirect_task:
 
 Redirect
 ********
 
-schema
+Schema
 ------
+
+.. jsonschema:: ../../src/core/schema/tasks/redirect.json
+
+
+
 
 
 .. .. _condition_task:
@@ -120,8 +132,10 @@ Validators
 
 this is validators
 
-schema
+Schema
 ------
+
+.. jsonschema:: ../../src/core/schema/validator.json
 
 
 .. _component_objects:
@@ -131,5 +145,5 @@ Components
 
 this is validators
 
-schema
+Schema
 ------
