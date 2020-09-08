@@ -19,7 +19,7 @@
 from datetime import date
 
 
-project = "workflows"
+project = "Workflows Engine"
 author = "UDES Team"
 copyright = "2020-{year}, {author}".format(year=date.today().year, author=author)
 
