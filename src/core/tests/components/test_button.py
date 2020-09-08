@@ -1,6 +1,6 @@
 from workflows_engine.core.components import Button
 
-from ..validator import get_validator_for
+from ..schema_validator import get_validator_for
 
 
 def test_button():
