@@ -2,7 +2,7 @@
 
 ```bash
 git clone git@github.com:unipartdigital/workflows_engine.git
-cd workflows
+cd workflows_engine
 pip install -r pip-requirements.txt --user
 pip install . --user
 ```
