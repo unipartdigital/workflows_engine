@@ -1,7 +1,7 @@
 # Installation
 
 ```bash
-git clone git@gitlab.unipart.digital:mcosta/workflows.git
+git clone git@github.com:unipartdigital/workflows_engine.git
 cd workflows
 pip install -r pip-requirements.txt --user
 pip install . --user
