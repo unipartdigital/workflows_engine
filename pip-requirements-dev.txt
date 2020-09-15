@@ -1,3 +1,2 @@
--r pip-requirements.txt
+-r pip-requirements_test.txt
 black>=19.3b0
-jsonschema>=3.2.0
