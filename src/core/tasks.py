@@ -24,9 +24,7 @@ class Task:
         "__weakref__",
     ]
 
-    def __init__(
-        self, name, task_type, preconditions=None,
-    ):
+    def __init__(self, name, task_type, preconditions=None):
         self.name = name
         self.preconditions = preconditions
         self.task_type = task_type

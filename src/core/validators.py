@@ -11,6 +11,7 @@ class Validator:
         "validator_value",
         "validator_key",
         "valid_when",
+        "__weakref__",
     ]
 
     message_template = Translatable()
