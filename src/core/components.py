@@ -1,11 +1,11 @@
 from itertools import chain
+from .translate import Translatable
 
 __all__ = (
     "Component",
     "Message",
     "Input",
     "Button",
-    "NavList",
     "DisplayData",
     "Checkbox",
     "MessageBox",
@@ -219,31 +219,6 @@ class Button(Component):
         return button
 
 
-class NavList(Component):
-    __slots__ = [
-        "action",
-        "style",
-        "text",
-        "data",
-    ]
-
-    def __init__(self, action=None, style=None, text=None, data=None, **kwargs):
-        super().__init__(**kwargs)
-        self.action = action
-        self.style = style
-        self.text = text
-        self.data = data
-
-    def get_base_component_dict(self):
-        return {
-            "type": "nav_list",
-            "action": self.action,
-            "style": self.style,
-            "text": self.text,
-            "data": self.data,
-        }
-
-
 class DisplayData(Component):
     """
     Allowed "display_type" are currently "list" and "details"
@@ -358,15 +333,13 @@ class Toggle(Component):
         self.destination_path = destination_path
 
     def get_base_component_dict(self):
-        toggle = {
+        return {
             "type": "toggle",
             "style": self.style,
             "label": self.label,
+            "value": self.value,
+            "destination_path": self.destination_path,
         }
-
-        if self.value is not None and self.destination_path:
-            toggle.update({"value": self.value, "destination_path": self.destination_path})
-        return toggle
 
 
 class Image(Component):
