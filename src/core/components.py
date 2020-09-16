@@ -21,6 +21,7 @@ class Component:
         "flow_attrs",
         "update_context",
         "preconditions",
+        "__weakref__",
     ]
 
     def __init__(
@@ -85,9 +86,10 @@ class Component:
 
 class Message(Component):
     __slots__ = [
-        "template",
         "message_type",
     ]
+
+    template = Translatable()
 
     def __init__(self, template, message_type, **kwargs):
         super().__init__(**kwargs)
@@ -102,7 +104,6 @@ class Input(Component):
     __slots__ = [
         "component_type",
         "target",
-        "label",
         "input_key",
         "input_ref",
         "output_ref",
@@ -110,6 +111,8 @@ class Input(Component):
         "obscure",
         "validators",
     ]
+
+    label = Translatable()
 
     def __init__(
         self,
@@ -170,12 +173,13 @@ class Button(Component):
     __slots__ = [
         "action",
         "style",
-        "text",
         "value",
         "load_values",
         "destination_path",
         "show_confirmation",
     ]
+
+    text = Translatable()
 
     def __init__(
         self,
@@ -229,10 +233,11 @@ class DisplayData(Component):
 
     __slots__ = [
         "display_type",
-        "title",
         "data",
-        "subtitle",
     ]
+
+    title = Translatable()
+    subtitle = Translatable()
 
     def __init__(self, display_type, title, data, subtitle=None, **kwargs):
         super().__init__(**kwargs)
@@ -262,10 +267,11 @@ class Checkbox(Component):
     """
 
     __slots__ = [
-        "title",
         "data",
         "target",
     ]
+
+    title = Translatable()
 
     def __init__(self, title, data, target, **kwargs):
         super().__init__(**kwargs)
@@ -287,10 +293,11 @@ class Checkbox(Component):
 
 class MessageBox(Component):
     __slots__ = [
-        "template",
         "type",
         "size",
     ]
+
+    template = Translatable()
 
     def __init__(self, template, msg_type, size=None, **kwargs):
         super().__init__(**kwargs)
@@ -301,29 +308,26 @@ class MessageBox(Component):
     def get_msg(self):
         return {
             "template": self.template,
+            "type": self.type,
         }
 
     def get_base_component_dict(self):
-        box = {
+        return {
             "type": "message_box",
-            "msg_template": self.template,
-            "msg_type": self.type,
+            "msg": self.get_msg(),
+            "size": self.size,
         }
-
-        if self.size:
-            box["size"] = self.size
-
-        return box
 
 
 class Toggle(Component):
     __slots__ = [
         "style",
-        "label",
         "preconditions",
         "value",
         "destination_path",
     ]
+
+    label = Translatable()
 
     def __init__(self, style, label, value=None, destination_path=None, **kwargs):
         super().__init__(**kwargs)
