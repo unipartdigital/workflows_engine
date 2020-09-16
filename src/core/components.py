@@ -299,13 +299,13 @@ class MessageBox(Component):
 
     template = Translatable()
 
-    def __init__(self, template, msg_type, size=None, **kwargs):
+    def __init__(self, template, message_type, size=None, **kwargs):
         super().__init__(**kwargs)
         self.template = template
-        self.type = msg_type
+        self.type = message_type
         self.size = size
 
-    def get_msg(self):
+    def get_message(self):
         return {
             "template": self.template,
             "type": self.type,
@@ -314,7 +314,7 @@ class MessageBox(Component):
     def get_base_component_dict(self):
         return {
             "type": "message_box",
-            "msg": self.get_msg(),
+            "message": self.get_message(),
             "size": self.size,
         }
 

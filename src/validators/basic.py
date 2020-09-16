@@ -13,7 +13,7 @@ __all__ = (
 )
 
 
-def make_identifier(attrs, suffixes=None, black_list=("msg_template", "identifier")):
+def make_identifier(attrs, suffixes=None, black_list=("message_template", "identifier")):
     return _make_idenfifier(attrs, suffixes, black_list)
 
 

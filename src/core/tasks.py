@@ -63,23 +63,23 @@ class Task:
 class Screen(Task):
     __slots__ = [
         "components",
-        "show_status_msg",
+        "show_status_message",
     ]
 
-    status_msg_template = Translatable()
+    status_message_template = Translatable()
 
     def __init__(
         self,
         name,
         preconditions=None,
         components=None,
-        status_msg_template=None,
-        show_status_msg=True,
+        status_message_template=None,
+        show_status_message=True,
     ):
         super().__init__(name=name, preconditions=preconditions, task_type="screen")
         self.components = components
-        self.status_msg_template = status_msg_template
-        self.show_status_msg = show_status_msg
+        self.status_message_template = status_message_template
+        self.show_status_message = show_status_message
 
     def get_flow_components(self):
         return [[c.get_flow_component_dict() for c in row] for row in self.components]
@@ -93,19 +93,19 @@ class Screen(Task):
             for component in row:
                 yield from component.get_validators()
 
-    def get_status_msg(self):
-        msg = {
+    def get_status_message(self):
+        message = {
             "type": "success",
-            "template": self.status_msg_template,
+            "template": self.status_message_template,
         }
-        return msg
+        return message
 
     def as_dict(self):
         screen = super().as_dict()
         screen["components"] = self.get_flow_components()
 
-        if self.show_status_msg:
-            screen["status_msg"] = self.get_status_msg()
+        if self.show_status_message:
+            screen["status_message"] = self.get_status_message()
 
         return screen
 
@@ -268,8 +268,8 @@ class Condition(Task):
         if message is None:
             return None
 
-        msg = {"type": message.message_type, "template": message.template}
-        return msg
+        message = {"type": message.message_type, "template": message.template}
+        return message
 
     def get_conditions(self):
         return [c.identifier for c in self.conditions]

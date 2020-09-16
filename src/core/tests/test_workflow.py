@@ -30,7 +30,7 @@ def test_flow_to_dict(workflow):
             "equals_value_a": {
                 "equals_value_a": {
                     "type": "equals",
-                    "msg": {"type": "error", "template": "Error: equals to values"},
+                    "message": {"type": "error", "template": "Error: equals to values"},
                     "valid_when": True,
                     "value_key": "$.value",
                     "validator_value": "a",
