@@ -46,8 +46,10 @@ class Workflow:
             part_set = dict_to_set(part_dict)
             if name in result:
                 if part_cache[name] != part_set:
-                    msg = "Two {part_type} with the same identifer({name}) but different values"
-                    raise SameIdentiferDifferentValues(msg.format(part_type=part_type, name=name))
+                    message = "Two {part_type} with the same identifer({name}) but different values"
+                    raise SameIdentiferDifferentValues(
+                        message.format(part_type=part_type, name=name)
+                    )
             else:
                 result[name] = part_dict
                 part_cache[name] = part_set
