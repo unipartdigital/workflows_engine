@@ -1,3 +1,5 @@
+from .translate import Translatable
+
 __all__ = ("Validator",)
 
 
@@ -8,9 +10,10 @@ class Validator:
         "value_key",
         "validator_value",
         "validator_key",
-        "msg_template",
         "valid_when",
     ]
+
+    msg_template = Translatable()
 
     def __init__(
         self,

@@ -1,5 +1,6 @@
 from itertools import chain
 from threading import RLock
+from .translate import Translatable
 
 __all__ = (
     "Task",
@@ -20,6 +21,7 @@ class Task:
         "name",
         "task_type",
         "preconditions",
+        "__weakref__",
     ]
 
     def __init__(
@@ -61,9 +63,10 @@ class Task:
 class Screen(Task):
     __slots__ = [
         "components",
-        "status_msg_template",
         "show_status_msg",
     ]
+
+    status_msg_template = Translatable()
 
     def __init__(
         self,
