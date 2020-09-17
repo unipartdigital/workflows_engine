@@ -324,10 +324,6 @@ class Flow(Task):
         self._lock = RLock()
         self.iterable_path = None
 
-    def get_validators(self):
-        yield from super().get_validators()
-        yield from self.conditions
-
     def get_config(self):
         builders = {
             "flow": lambda inst: (
@@ -369,6 +365,7 @@ class Flow(Task):
 
     def get_validators(self):
         yield from super().get_validators()
+        yield from self.conditions
         for task in self.tasks:
             yield from task.get_validators()
 
@@ -376,8 +373,8 @@ class Flow(Task):
         flow = super().as_dict()
         flow["tasks"] = self.get_tasks()
 
-        # Note: destination_path could be false as this means that the result object should be merged
-        # directly into the context
+        # Note: destination_path could be false as this means that the result object should be
+        # merged directly into the context
         if self.result_keys and self.result and self.destination_path is not None:
             flow.update(config=self.get_config())
         return flow
@@ -407,10 +404,7 @@ class Event(Task):
     def as_dict(self):
         event = super().as_dict()
         event.update(
-            {
-                "action": self.action,
-                "payload": self.payload,
-            }
+            {"action": self.action, "payload": self.payload,}
         )
         return event
 
