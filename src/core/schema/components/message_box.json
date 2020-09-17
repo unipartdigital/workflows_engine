@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "type": { "type": "string", "enum": ["message_box"] },
-    "msg": { "$ref": "../common.json#/definitions/message" },
+    "message": { "$ref": "../common.json#/definitions/message" },
     "style": { "$ref": "../common.json#/definitions/styles" },
     "size": { "$ref": "../common.json#/definitions/styles" }
   }

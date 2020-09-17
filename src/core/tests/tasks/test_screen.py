@@ -10,8 +10,8 @@ def test_screen():
             components.Button(text="Submit", action="submit", style="primary"),
             components.Button(text="Next", action="next", style="secondary"),
         ],
-        status_msg_template="The screen completed",
-        show_status_msg=True,
+        status_message_template="The screen completed",
+        show_status_message=True,
     )
     validator = get_validator_for("tasks/screen")
     validator.validate(task.as_dict())

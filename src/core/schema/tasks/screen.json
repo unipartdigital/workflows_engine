@@ -13,7 +13,7 @@
       },
       "required": ["name"]
     },
-    "status_msg": {
+    "status_message": {
       "oneOf": [
         { "$ref": "../common.json#/definitions/message" },
         { "type": "boolean", "enum": [false] }
@@ -33,7 +33,7 @@
         }
       ]
     },
-    "status_msg": { "$ref": "#/definitions/status_msg" }
+    "status_message": { "$ref": "#/definitions/status_message" }
   },
   "required": ["name", "type"],
   "additionalProperties": false

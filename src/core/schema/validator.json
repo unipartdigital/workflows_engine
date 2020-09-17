@@ -9,9 +9,9 @@
     "value_key": { "$ref": "common.json#/definitions/jsonpath" },
     "validator_key": { "$ref": "common.json#/definitions/jsonpath" },
     "validator_value": {},
-    "msg": { "$ref": "common.json#/definitions/message" },
+    "message": { "$ref": "common.json#/definitions/message" },
     "valid_when": { "type": "boolean" }
   },
-  "required": ["type", "msg"],
+  "required": ["type", "message"],
   "additionalProperties": false
 }
