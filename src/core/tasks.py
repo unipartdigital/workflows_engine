@@ -327,6 +327,8 @@ class Flow(Task):
     def get_validators(self):
         yield from super().get_validators()
         yield from self.conditions
+        for task in self.tasks:
+            yield from task.get_validators()
 
     def get_config(self):
         builders = {
@@ -367,17 +369,12 @@ class Flow(Task):
             for row in task.get_base_components():
                 yield from row
 
-    def get_validators(self):
-        yield from super().get_validators()
-        for task in self.tasks:
-            yield from task.get_validators()
-
     def as_dict(self):
         flow = super().as_dict()
         flow["tasks"] = self.get_tasks()
 
-        # Note: destination_path could be false as this means that the result object should be merged
-        # directly into the context
+        # Note: destination_path could be false as this means that the result object should be
+        # merged directly into the context
         if self.result_keys and self.result and self.destination_path is not None:
             flow.update(config=self.get_config())
         return flow
@@ -407,10 +404,7 @@ class Event(Task):
     def as_dict(self):
         event = super().as_dict()
         event.update(
-            {
-                "action": self.action,
-                "payload": self.payload,
-            }
+            {"action": self.action, "payload": self.payload,}
         )
         return event
 
