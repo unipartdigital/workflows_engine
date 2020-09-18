@@ -1,5 +1,5 @@
 from itertools import chain
-from threading import RLock
+
 from .translate import Translatable
 
 __all__ = (
@@ -299,7 +299,6 @@ class Flow(Task):
         "iterable_path",
         "sub_type",
         "config",
-        "_lock",
     ]
 
     def __init__(
@@ -321,7 +320,6 @@ class Flow(Task):
         self.result_keys = result_keys
         self.conditions = conditions or []
         self.sub_type = sub_type
-        self._lock = RLock()
         self.iterable_path = None
 
     def get_validators(self):
@@ -381,13 +379,11 @@ class Flow(Task):
 
     def add_task(self, task_type, name, **kwargs):
         task = TASK_TYPE_MAPPING[task_type](name=name, **kwargs)
-        with self._lock:
-            self.tasks.append(task)
+        self.tasks.append(task)
         return task
 
     def clear_tasks(self):
-        with self._lock:
-            self.tasks = []
+        self.tasks = []
 
 
 class Event(Task):
