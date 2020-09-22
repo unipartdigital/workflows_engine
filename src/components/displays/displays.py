@@ -7,10 +7,10 @@ __all__ = (
     "info",
     "warning",
     "error",
-    "complete",
+    "success",
 )
 
 info = func_factory(defaults.info, components.MessageBox, make_identifier)
 warning = func_factory(defaults.warning, components.MessageBox, make_identifier)
 error = func_factory(defaults.error, components.MessageBox, make_identifier)
-complete = func_factory(defaults.complete, components.MessageBox, make_identifier)
+success = func_factory(defaults.success, components.MessageBox, make_identifier)
