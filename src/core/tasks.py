@@ -322,6 +322,12 @@ class Flow(Task):
         self.sub_type = sub_type
         self.iterable_path = None
 
+    def get_validators(self):
+        yield from super().get_validators()
+        yield from self.conditions
+        for task in self.tasks:
+            yield from task.get_validators()
+
     def get_config(self):
         builders = {
             "flow": lambda inst: (
@@ -360,12 +366,6 @@ class Flow(Task):
         for task in self.tasks:
             for row in task.get_base_components():
                 yield from row
-
-    def get_validators(self):
-        yield from super().get_validators()
-        yield from self.conditions
-        for task in self.tasks:
-            yield from task.get_validators()
 
     def as_dict(self):
         flow = super().as_dict()
