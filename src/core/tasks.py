@@ -320,7 +320,7 @@ class Flow(Task):
         self.result_keys = result_keys
         self.conditions = conditions or []
         self.sub_type = sub_type
-        self.iterable_path = None
+        self.iterable_path = iterable_path
 
     def get_config(self):
         builders = {
