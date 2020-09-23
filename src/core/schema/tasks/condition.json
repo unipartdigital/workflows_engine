@@ -10,6 +10,12 @@
         { "$ref": "../common.json#/definitions/message" },
         { "type": "boolean", "enum": [false] }
       ]
+    },
+    "task_target": {
+      "oneOf": [
+        { "$ref": "../common.json#/definitions/task_target" },
+        { "type": "null" }
+      ]
     }
   },
   "properties": {
@@ -17,8 +23,8 @@
     "type": { "type": "string", "enum": ["condition"] },
     "preconditions": { "type": "array", "items": [{ "type": "string" }] },
     "conditions": { "type": "array", "items": [{ "type": "string" }] },
-    "on_success": { "type": "string" },
-    "on_failure": { "type": "string" },
+    "on_success": { "$ref": "#/definitions/task_target" },
+    "on_failure": { "$ref": "#/definitions/task_target" },
     "success_message": { "$ref": "#/definitions/message" },
     "failure_message": { "$ref": "#/definitions/message" }
   },

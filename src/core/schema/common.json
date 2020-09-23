@@ -23,6 +23,14 @@
         "template": { "type": ["string", "null"] }
       },
       "required": ["type", "template"]
+    },
+    "task_target": {
+      "type": "object",
+      "properties": {
+        "flow": { "type": "string" },
+        "task": { "type": "string" }
+      },
+      "required": ["flow", "task"]
     }
   }
 }

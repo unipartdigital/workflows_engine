@@ -264,9 +264,13 @@ class Condition(Task):
     def get_message(message):
         if message is None:
             return None
+        return message.as_dict()
 
-        message = {"type": message.message_type, "template": message.template}
-        return message
+    @staticmethod
+    def get_task_target(target):
+        if target is None or target is False:
+            return target
+        return target.as_dict()
 
     def get_conditions(self):
         return [c.identifier for c in self.conditions]
@@ -280,8 +284,8 @@ class Condition(Task):
         condition.update(
             {
                 "conditions": self.get_conditions(),
-                "on_success": self.on_success,
-                "on_failure": self.on_failure,
+                "on_success": self.get_task_target(self.on_success),
+                "on_failure": self.get_task_target(self.on_failure),
                 "success_message": self.get_message(self.success_message),
                 "failure_message": self.get_message(self.failure_message),
             }

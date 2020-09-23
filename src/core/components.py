@@ -3,7 +3,6 @@ from .translate import Translatable
 
 __all__ = (
     "Component",
-    "Message",
     "Input",
     "Button",
     "DisplayData",
@@ -82,22 +81,6 @@ class Component:
 
     def get_validators(self):
         yield from self.preconditions
-
-
-class Message(Component):
-    __slots__ = [
-        "message_type",
-    ]
-
-    template = Translatable()
-
-    def __init__(self, template, message_type, **kwargs):
-        super().__init__(**kwargs)
-        self.template = template
-        self.message_type = message_type
-
-    def get_base_component_dict(self):
-        return {"template": self.template, "type": self.message_type}
 
 
 class Input(Component):
