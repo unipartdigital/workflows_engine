@@ -322,7 +322,7 @@ class Flow(Task):
         self.conditions = conditions or []
         self.sub_type = sub_type
         self._lock = RLock()
-        self.iterable_path = None
+        self.iterable_path = iterable_path
 
     def get_validators(self):
         yield from super().get_validators()
