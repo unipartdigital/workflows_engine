@@ -315,9 +315,9 @@ class Flow(Task):
     ):
         super().__init__(name=name, preconditions=preconditions, task_type="flow")
         self.tasks = tasks or []
-        self.result = result
+        self.result = result or {}
         self.destination_path = destination_path
-        self.result_keys = result_keys
+        self.result_keys = result_keys or []
         self.conditions = conditions or []
         self.sub_type = sub_type
         self.iterable_path = iterable_path
@@ -352,7 +352,6 @@ class Flow(Task):
                 "destination_path": inst.destination_path,
             },
         }
-
         return builders[self.sub_type](self)
 
     @staticmethod
@@ -373,8 +372,13 @@ class Flow(Task):
 
         # Note: destination_path could be false as this means that the result object should be
         # merged directly into the context
-        if self.result_keys and self.result and self.destination_path is not None:
+        if (
+            (self.result_keys and self.result and self.destination_path is not None)
+            or self.conditions
+            or self.iterable_path
+        ):
             flow.update(config=self.get_config())
+
         return flow
 
     def add_task(self, task_type, name, **kwargs):
