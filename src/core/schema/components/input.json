@@ -13,7 +13,12 @@
     "output_ref": { "$ref": "../common.json#/definitions/jsonpath" },
     "output": { "type": "object" },
     "obscure": { "type": "boolean" },
-    "validators": { "type": "array", "items": [{ "type": "string" }] }
+    "validators": { "type": "array", "items": [{ "type": "string" }] },
+    "populate": { "$ref": "./populate.json#/definitions/populate" }
   },
-  "required": ["type", "name", "label"]
+  "required": [
+    "type",
+    "name",
+    "label"
+  ]
 }

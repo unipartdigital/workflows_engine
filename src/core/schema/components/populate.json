@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://udes.io./jsonschema/workflows/components/populate.json",
+    "title": "populate",
+    "description": "Workflows populate attribute for component",
+    "type": "object",
+    "properties": {
+      "validators": { "type": "array", "items": [{ "type": "string" }] },
+      "path": { "type": "string" },
+      "value": { "type": "integer" }
+    },
+    "required": ["validators"],
+    "oneOf": [{ "required": ["path"] }, { "required": ["value"] }],
+    "additionalProperties": false
+}
