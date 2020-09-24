@@ -93,6 +93,7 @@ class Input(Component):
         "output",
         "obscure",
         "validators",
+        "populate",
     ]
 
     label = Translatable()
@@ -108,6 +109,7 @@ class Input(Component):
         output=None,
         obscure=False,
         validators=None,
+        populate=None,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -120,6 +122,7 @@ class Input(Component):
         self.output = output
         self.obscure = obscure
         self.validators = validators or []
+        self.populate = populate
 
     def _get_default_identifier(self):
         return "_".join([self.component_type, self.target.lower().replace(" ", "_")])
@@ -145,6 +148,8 @@ class Input(Component):
             component["output_ref"] = self.output_ref
         if self.output:
             component["output"] = self.output
+        if self.populate:
+            component["populate"] = self.populate.as_dict()
         return component
 
     def get_validators(self):
