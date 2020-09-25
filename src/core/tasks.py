@@ -333,6 +333,9 @@ class Flow(Task):
             yield from task.get_validators()
 
     def get_config(self):
+        # Note: destination_path could be false as this means that the result object should be
+        # merged directly into the context
+
         builders = {
             "flow": lambda inst: (
                 {
@@ -372,17 +375,7 @@ class Flow(Task):
 
     def as_dict(self):
         flow = super().as_dict()
-        flow["tasks"] = self.get_tasks()
-
-        # Note: destination_path could be false as this means that the result object should be
-        # merged directly into the context
-        if (
-            (self.result_keys and self.result and self.destination_path is not None)
-            or self.conditions
-            or self.iterable_path
-        ):
-            flow.update(config=self.get_config())
-
+        flow.update({"tasks": self.get_tasks(), "config": self.get_config()})
         return flow
 
     def add_task(self, task_type, name, **kwargs):
