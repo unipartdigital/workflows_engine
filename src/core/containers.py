@@ -1,4 +1,5 @@
 from .translate import Translatable
+from ..exceptions import InvalidArguments
 
 
 class Container:
@@ -39,20 +40,20 @@ class TaskTarget(Container):
 class Populate(Container):
     __slots__ = ["path", "validators", "value"]
 
-    def __init__(self, path="", validators="", value="", **kwargs):
+    def __init__(self, validators, path=None, value=None, **kwargs):
         super().__init__(**kwargs)
         self.path = path
         self.validators = validators
         self.value = value
+        if value and path:
+            raise InvalidArguments("'value' and 'path' attribute cannot be used together")
+        if not (value or path):
+            raise InvalidArguments("Either 'value' or 'path' attribute must be used")
 
     def as_dict(self):
-        retval = {}
+        retval = {"validators": [v.validator for v in self.validators]}
         if self.path:
             retval.update(path=self.path)
-            if self.value:
-                raise Exception("'value' and 'path' attribute cannot be used together")
         if self.value:
             retval.update(value=self.value)
-        if self.validators:
-            retval["validators"] = [v.validator for v in self.validators]
         return retval
