@@ -4,16 +4,85 @@
   "title": "input",
   "description": "Workflows input component",
   "type": "object",
-  "properties": {
-    "type": { "type": "string", "enum": ["input"] },
-    "name": { "type": "string" },
-    "label": { "type": "string" },
-    "input_key": { "$ref": "../common.json#/definitions/jsonpath" },
-    "input_ref": { "$ref": "../common.json#/definitions/jsonpath" },
-    "output_ref": { "$ref": "../common.json#/definitions/jsonpath" },
-    "output": { "type": "object" },
-    "obscure": { "type": "boolean" },
-    "validators": { "type": "array", "items": [{ "type": "string" }] }
+  "definitions": {
+    "populate": {
+      "type": "object",
+      "properties": {
+        "validators": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "path": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "validators"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "path"
+          ]
+        },
+        {
+          "required": [
+            "value"
+          ]
+        }
+      ]
+    }
   },
-  "required": ["type", "name", "label"]
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "input"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "input_key": {
+      "$ref": "../common.json#/definitions/jsonpath"
+    },
+    "input_ref": {
+      "$ref": "../common.json#/definitions/jsonpath"
+    },
+    "output_ref": {
+      "$ref": "../common.json#/definitions/jsonpath"
+    },
+    "output": {
+      "type": "object"
+    },
+    "obscure": {
+      "type": "boolean"
+    },
+    "validators": {
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "populate": {
+      "$ref": "#/definitions/populate"
+    }
+  },
+  "required": [
+    "type",
+    "name",
+    "label"
+  ]
 }
