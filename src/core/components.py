@@ -156,7 +156,7 @@ class Input(Component):
         yield from super().get_validators()
         yield from self.validators
         if self.populate:
-            yield from self.populate.validators
+            self.populate.get_validators()
 
 
 class Button(Component):

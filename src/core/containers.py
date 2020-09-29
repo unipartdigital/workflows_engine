@@ -50,6 +50,9 @@ class Populate(Container):
         if not (value or path):
             raise InvalidArguments("Either 'value' or 'path' attribute must be used")
 
+    def get_validators(self):
+        yield from self.validators
+
     def as_dict(self):
         retval = {"validators": [v.validator for v in self.validators]}
         if self.path:
