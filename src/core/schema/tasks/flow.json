@@ -5,13 +5,32 @@
   "description": "Workflows flow task",
   "definitions": {
     "flow_config": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "result": { "type": "object" },
+        "result_keys": { "type": "array", "items": [{ "type": "object" }] },
+        "destination_path": { "$ref": "../common.json#/definitions/jsonpath" }
+      }
     },
     "while_config": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "result": { "type": "object" },
+        "result_keys": { "type": "array", "items": [{ "type": "object" }] },
+        "destination_path": { "$ref": "../common.json#/definitions/jsonpath" },
+        "conditions": { "type": "array", "items": [{ "type": "string" }] }
+      },
+      "required": ["conditions"]
     },
     "for_config": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "result": { "type": "object" },
+        "result_keys": { "type": "array", "items": [{ "type": "object" }] },
+        "destination_path": { "$ref": "../common.json#/definitions/jsonpath" },
+        "iterable_path": { "$ref": "../common.json#/definitions/jsonpath" }
+      },
+      "required": ["iterable_path"]
     }
   },
   "type": "object",
@@ -28,6 +47,6 @@
       ]
     }
   },
-  "required": ["name", "type", "tasks"],
+  "required": ["name", "type", "tasks", "config"],
   "additionalProperties": false
 }
