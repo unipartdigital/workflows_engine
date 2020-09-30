@@ -4,7 +4,6 @@ from . import test_domain_param
 from . import test_event
 from . import test_flow
 from . import test_jsonrpc
-from . import test_local_store
 from . import test_redirect
 from . import test_screen
 from . import test_update

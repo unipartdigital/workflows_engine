@@ -65,7 +65,6 @@ Schema
 .. jsonschema:: ../../src/core/schema/tasks/jsonrpc.json
 
 
-
 .. _update_task:
 
 Update
@@ -76,21 +75,8 @@ Schema
 
 .. jsonschema:: ../../src/core/schema/tasks/update.json
 
-
-
-.. _local_store_task:
-
-Local store
-***********
-
-schema
-------
-
-.. jsonschema:: ../../src/core/schema/tasks/set_local_storage.json
-
-
-
 .. _redirect_task:
+
 
 Redirect
 ********
@@ -99,8 +85,6 @@ Schema
 ------
 
 .. jsonschema:: ../../src/core/schema/tasks/redirect.json
-
-
 
 
 .. _condition_task:
