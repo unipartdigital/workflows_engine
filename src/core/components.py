@@ -82,6 +82,9 @@ class Component:
     def get_validators(self):
         yield from self.preconditions
 
+    def get_components(self):
+        yield self
+
 
 class Input(Component):
     __slots__ = [
