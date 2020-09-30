@@ -5,14 +5,6 @@
   "description": "Workflows screen task",
   "type": "object",
   "definitions": {
-    "component_lookup": {
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "destination_path": { "type": "string" }
-      },
-      "required": ["name"]
-    },
     "status_message": {
       "oneOf": [
         { "$ref": "../common.json#/definitions/message" },
@@ -29,7 +21,7 @@
       "items": [
         {
           "type": "array",
-          "items": [{ "$ref": "#/definitions/component_lookup" }]
+          "items": [{ "$ref": "../common.json#/definitions/component_lookup" }]
         }
       ]
     },
