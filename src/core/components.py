@@ -1,5 +1,7 @@
 from itertools import chain
 from .translate import Translatable
+from ..exceptions import InvalidArguments
+
 
 __all__ = (
     "Component",
@@ -10,6 +12,7 @@ __all__ = (
     "MessageBox",
     "Toggle",
     "Image",
+    "Repeat",
 )
 
 
@@ -353,3 +356,62 @@ class Image(Component):
             "type": "image",
             "url": self.url,
         }
+
+
+class Repeat(Component):
+    """
+    A meta component which can be used to repeat the same field.
+
+    Args:
+        quantity: Int
+            number of times the field should be repeated
+        quantity_path: Str:
+            a jsonpath to look up how many times the field should be repeated
+        validators: List[Validators]
+            the list of names of the validators to act on the result of the all the repeat fields
+        components: List[Component]
+            a list of components in the group
+    """
+
+    __slots__ = [
+        "quantity",
+        "quantity_path",
+        "components",
+        "validators",
+    ]
+
+    def __init__(self, components, quantity=None, quantity_path=None, validators=None, **kwargs):
+        self._validate_args(quantity, quantity_path)
+        super().__init__(**kwargs)
+        self.components = components
+        self.quantity = quantity
+        self.quantity_path = quantity_path
+        self.validators = validators or []
+
+    @staticmethod
+    def _validate_args(quantity, quantity_path):
+        if quantity is not None and quantity_path is not None:
+            raise InvalidArguments(
+                "'quantity' and 'quantity_path' attribute cannot be used together"
+            )
+
+        if quantity is None and quantity_path is None:
+            raise InvalidArguments("Either 'quantity' or 'quantity_path' attribute must be used")
+
+    def get_base_component_dict(self):
+        component = {
+            "type": "repeated_field",
+            "components": [c.get_flow_component_dict() for c in self.components],
+            "validators": [v.identifier for v in self.validators],
+        }
+
+        if self.quantity is not None:
+            component["quantity"] = self.quantity
+        else:
+            component["quantity_path"] = self.quantity_path
+
+        return component
+
+    def get_components(self):
+        yield from super().get_components()
+        yield from self.components
