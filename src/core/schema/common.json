@@ -31,6 +31,14 @@
         "task": { "type": "string" }
       },
       "required": ["flow", "task"]
+    },
+    "component_lookup": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "destination_path": { "type": "string" }
+      },
+      "required": ["name"]
     }
   }
 }
