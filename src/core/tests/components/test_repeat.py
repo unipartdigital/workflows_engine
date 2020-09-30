@@ -3,7 +3,7 @@ from workflows_engine.core.components import Input, Repeat
 from workflows_engine.exceptions import InvalidArguments
 from workflows_engine import validators
 
-from ..schema_validator import get_validator_for
+from ..schema_validator import get_validator_for as schema_validator
 
 
 @pytest.fixture
@@ -19,17 +19,19 @@ def component_validator():
 
 
 def test_repeat(field, component_validator):
+    """Test repeat component creates json matching json schema"""
     repeat = Repeat(
         components=field,
         validators=component_validator,
         quantity=3,
         destination_path="$.result",
     )
-    validator = get_validator_for("components/repeat")
+    validator = schema_validator("components/repeat")
     validator.validate(repeat.get_base_component_dict())
 
 
-def test_repeat_no_missing_required_arg(field):
+def test_repeat_missing_required_arg(field):
+    """Test missing required argument correctly raises issue"""
     with pytest.raises(InvalidArguments):
         Repeat(
             components=field,
@@ -39,6 +41,7 @@ def test_repeat_no_missing_required_arg(field):
 
 
 def test_repeat_no_missing_mutually_exclusive_args(field):
+    """Test including mutually exclusive args correctly raises issue"""
     with pytest.raises(InvalidArguments):
         Repeat(
             components=field,
