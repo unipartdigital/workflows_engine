@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io./jsonschema/workflows/components/repeat.json",
+  "title": "repeat",
+  "description": "Workflows repeat component",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["repeated_field"] },
+    "components": {
+      "type": "array",
+      "items": [{ "$ref": "../common.json#/definitions/component_lookup" }]
+    },
+    "validators": { "type": "array", "items": [{ "type": "string" }] },
+    "quantity": { "type": "integer" },
+    "quantity_path": { "$ref": "../common.json#/definitions/jsonpath" }
+  },
+  "additionalProperties": false
+}
