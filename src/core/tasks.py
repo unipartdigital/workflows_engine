@@ -42,7 +42,7 @@ class Task:
         return base
 
     def get_base_components(self):
-        return {}
+        return []
 
     def get_result(self):
         return {}
@@ -83,7 +83,9 @@ class Screen(Task):
         return [[c.get_flow_component_dict() for c in row] for row in self.components]
 
     def get_base_components(self):
-        yield from self.components
+        for row in self.components:
+            for component in row:
+                yield from component.get_components()
 
     def get_validators(self):
         yield from super().get_validators()
