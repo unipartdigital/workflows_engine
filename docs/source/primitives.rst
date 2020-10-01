@@ -152,7 +152,27 @@ Schema
 Update
 ******
 
-Update tasks are used to change values in the context.
+Update tasks are used to change values in the context. The subtasks have three major forms:
+
+1. updating the context with a raw value:
+
+.. code-block::
+
+    {"result": "x", "result_key": "$.destination"}
+
+2. renaming a context value
+
+.. code-block::
+
+    {"key": "x", "result_key": "$.destination"}
+
+3. creating a new value using a string template
+
+.. code-block::
+
+    {"template": "{$.value}{$.another}", "result_key": "$.destination"}
+
+There are also extra flags ``append`` and ``extend`` which are mutually exclusive which act by updating the destination which is assumed to be a list.
 
 Schema
 ------
