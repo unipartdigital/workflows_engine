@@ -3,6 +3,7 @@ Primitives
 **********
 
 .. contents::
+    :depth: 3
 
 jsonpath
 ########
@@ -14,6 +15,7 @@ A quick rundown for the sake to expediency is that a jsonpath is a way of repres
     {"outer": {"inner": {"value": "Hello"}}}
 
 the look up of ``$.outer.inner.value`` would return ``"Hello"``. Json path allows for filtering which will be useful for defining many things within workflows so we suggest that you the `full docs <https://goessner.net/articles/JsonPath/>`_.
+
 
 .. _task_objects:
 
@@ -27,9 +29,10 @@ Tasks are actions, to be preformed by the client and take the form of specific o
     * All task names should be unique within a flow.
     * Flow task names should be unique within a workflow.
 
-.. Schema
-.. ******
-.. .. jsonschema:: ../../src/core/schema/tasks/task.json
+Schema
+******
+
+.. jsonschema:: ../../src/core/schema/tasks/task.json
 
 
 .. _flow_task:
@@ -39,7 +42,7 @@ Flow
 
 Flow task are the base task for a workflow and act as context scopes which contain tasks to be executed within that scope.
 
-Returning values from the context scope to the flow above is done by setting the ``result`` which is built from the `result_keys`. `result_keys` should be a list of objects which have the form of  ``{"key": "$.source", "result_key": "$.destination" }`` or ``{"result": "x", "result_key": "$.destination" }``, this form allows for renaming values and even the restructuring of data to build the ``result`` object.
+Returning values from the context scope to the flow above is done by setting the ``result`` which is built from the `result_keys`. `result_keys` should be a list of objects which have the form of  ``{"key": "$.source", "result_key": "$.destination"}`` or ``{"result": "x", "result_key": "$.destination"}``, this form allows for renaming values and even the restructuring of data to build the ``result`` object.
 
 .. note:: The ``result`` object should copied then updated by parsing the ``result_keys`` this allows meta-data/debug-info to be set by the provider of the workflow.
 
@@ -63,24 +66,13 @@ While loop
 
 Repeat the flow tasks until a condition fails, the condition is a set of validators once one of these validators fails the loop is broken and the result is inserted into the context above.
 
+
 .. _for_loop_task:
 
 For loop
 --------
 
-Repeat the flow tasks for a given list of objects. Each iteration the object at that index of the list is merged into the context and then the tasks are evaluated. Once the list of objects has been exhausted the loop will break and the result will be inserted into the context above.
-
-
-.. code-block::
-
-    context = {
-        "not_effected": "MC Hammer",
-        "value": "a",
-        "for_loop_list": [{"value": 1}, {"value": 2},]
-    }
-
-
-For example assuming the ``iterable_path="$.for_loop_list"`` and the context is before:
+Repeat the flow tasks for a given list of objects. Each iteration the object at that index of the list is merged into the context and then the tasks are evaluated. Once the list of objects has been exhausted the loop will break and the result will be inserted into the context above. For example assuming the ``iterable_path="$.for_loop_list"`` and the context is before:
 
 .. code-block::
 
@@ -96,7 +88,7 @@ then in the 1st Iteration the context will look like:
 
     {
         "not_effected": "MC Hammer",
-        "value": 1
+        "value": 1,
         "for_loop_list": [{"value": 1}, {"value": 2}]
     }
 
@@ -123,8 +115,6 @@ then after if no ``result`` was set then the context returns to as it was before
 
 There is no requirement for each iteration object to have the same type(structure). Although you have to deal with the consequences if you choose for them not to be.
 
-
-
 Schema
 ------
 
@@ -138,8 +128,8 @@ Screen
 
 Screens are the only task type which display components to the screen (excluding status messages which can be presented by other tasks although they will be shown on the next screen task presented to the user).
 
-.. Schema
-.. ------
+Schema
+------
 
 .. jsonschema:: ../../src/core/schema/tasks/screen.json
 
@@ -149,12 +139,12 @@ Screens are the only task type which display components to the screen (excluding
 JSON RPC
 ********
 
-Are remote procedure calls.
+Are remote procedure calls. ``payload_paths`` and ``payload`` are analogous to ``result_keys`` and ``result`` in the :ref:`flow task <flow_task>` in that the payload sent to endpoint defined by ``url`` is constructed by copying the ``payload`` object and ``payload_paths`` are used to update the payload sent. The expectation is that the endpoint will respond with json which is stored in the ``response_path``.
 
-.. Schema
-.. ------
+Schema
+------
 
-.. .. jsonschema:: ../../src/core/schema/tasks/jsonrpc.json
+.. jsonschema:: ../../src/core/schema/tasks/jsonrpc.json
 
 
 .. _update_task:
@@ -162,12 +152,13 @@ Are remote procedure calls.
 Update
 ******
 
-Change values in the context.
+Update tasks are used to change values in the context.
 
-.. Schema
-.. ------
+Schema
+------
 
-.. .. jsonschema:: ../../src/core/schema/tasks/update.json
+.. jsonschema:: ../../src/core/schema/tasks/update.json
+
 
 .. _redirect_task:
 
@@ -175,12 +166,12 @@ Change values in the context.
 Redirect
 ********
 
-Change workflow to the one specified by the url.
+Redirect tasks change workflow to the one specified by the url.
 
-.. Schema
-.. ------
+Schema
+------
 
-.. .. jsonschema:: ../../src/core/schema/tasks/redirect.json
+.. jsonschema:: ../../src/core/schema/tasks/redirect.json
 
 
 .. _condition_task:
@@ -190,10 +181,10 @@ Condition
 
 Selects (jumps to) a task to switch to based on if a condition is true or false.
 
-.. Schema
-.. ------
+Schema
+------
 
-.. .. jsonschema:: ../../src/core/schema/tasks/condition.json
+.. jsonschema:: ../../src/core/schema/tasks/condition.json
 
 
 .. _set_domain_task:
@@ -201,12 +192,12 @@ Selects (jumps to) a task to switch to based on if a condition is true or false.
 Domain param
 ************
 
-Set a value which is added to url of :ref:`JSONRPC <jsonrpc_task>` calls.
+Set a value in the local store which is added to url of :ref:`JSONRPC <jsonrpc_task>` calls.
 
-.. Schema
-.. ------
+Schema
+------
 
-.. .. jsonschema:: ../../src/core/schema/tasks/set_domain_param.json
+.. jsonschema:: ../../src/core/schema/tasks/set_domain_param.json
 
 
 .. _clear_domain_task:
@@ -216,10 +207,25 @@ Clear domain params
 
 Clear values set using :ref:`Domain Param <set_domain_task>`.
 
-.. Schema
-.. ------
+Schema
+------
 
-.. .. jsonschema:: ../../src/core/schema/tasks/clear_domain_params.json
+.. jsonschema:: ../../src/core/schema/tasks/clear_domain_params.json
+
+
+.. _event_task:
+
+Event
+*****
+
+An event task can be used to break loops ...
+
+.. todo:: Add payload_paths
+
+Schema
+------
+
+.. jsonschema:: ../../src/core/schema/tasks/event.json
 
 
 .. _validator_objects:
@@ -233,10 +239,12 @@ Check the truth-y-ness of a condition, this is used in a verity of ways through 
 * conditions in a :ref:`condition task <condition_task>` or :ref:`while loop <while_loop_task>`
 * all :ref:`tasks <task_objects>` and :ref:`components <component_objects>` have optional preconditions which decide if a task is run or a component is displayed
 
-.. Schema
-.. ------
+When defining a validator there must be a function to be evaluated in the client this represented by the string in the ``type`` attribute. For field validation ``value_key`` is ignored. For other ``validator_value`` is a raw comparison value passed to the validator whereas ``validator_key`` is a jsonpath to look up the comparison value in the context. The ``valid_when`` flag allows you to switch the truth-y-ness of the comparison (think a not operator).
 
-.. .. jsonschema:: ../../src/core/schema/validator.json
+Schema
+******
+
+.. jsonschema:: ../../src/core/schema/validator.json
 
 
 .. _component_objects:
@@ -244,10 +252,9 @@ Check the truth-y-ness of a condition, this is used in a verity of ways through 
 Components
 ##########
 
-Components are screen elements to be displayed to and interacted by the user. Components are split into two parts.
-The base component and the component look up. The base component is extracted into :ref:`components key <basic_structure>` in the workflow which is then used by the component look up, because of this components with the same name are required to have the same values, otherwise an error is thrown.
+Components are screen elements to be displayed to and interacted by the user. Components are split into two parts. The base component and the component look up. The base component is extracted into :ref:`components key <basic_structure>` in the workflow which is then used by the component look up, because of this components with the same name are required to have the same values, otherwise an error is thrown. As with tasks components have preconditions which dictate if they are shown.
 
-.. Schema
-.. ------
+Schema
+******
 
-.. .. jsonschema:: ../../src/core/schema/components/component.json
+.. jsonschema:: ../../src/core/schema/components/component.json

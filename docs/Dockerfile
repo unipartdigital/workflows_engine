@@ -15,4 +15,3 @@ RUN make doctest && \
     make html && \
     ls ./build/html/* && \
     cp -r ./build/html/* /usr/local/apache2/htdocs/
-
