@@ -31,6 +31,7 @@ Quick start
 Produces the output:
 
 .. testoutput::
+
     {
         "validators": {},
         "components": {

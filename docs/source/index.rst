@@ -56,6 +56,7 @@ Table of Contents
    structure
    primitives
    library_api
+   extending
 
 
 .. Indices and tables

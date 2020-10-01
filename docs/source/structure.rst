@@ -2,6 +2,8 @@
 Basic Structure
 ***************
 
+.. _basic_structure:
+
 The basic structure of workflows is an JSON object with five keys (``validators``, ``components``, ``flow``, ``hash`` and ``context``).
 
 
