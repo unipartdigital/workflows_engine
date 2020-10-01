@@ -31,14 +31,16 @@ Quick start
 Produces the output:
 
 .. testoutput::
-
     {
         "validators": {},
         "components": {
             "HelloWorldMessage": {
                 "type": "message_box",
-                "msg_template": "HelloWorld",
-                "msg_type": "info"
+                "message": {
+                    "template": "HelloWorld",
+                    "type": "info"
+                },
+                "size": null
             }
         },
         "flow": {
@@ -55,13 +57,14 @@ Produces the output:
                             }
                         ]
                     ],
-                    "status_msg": {
+                    "status_message": {
                         "type": "success",
                         "template": null
                     }
                 }
-            ]
+            ],
+            "config": {}
         },
-        "hash": "e3e43453336b67ff57d8e06508c45871f7066b33ebf18c91a954212348fa5bbb4cd8f68e5375c657b565c99ac276439d6e522b040610b659547c6029e73437e4",
+        "hash": "8320f02fe112dcf63e8f7b6f5d90f0959c100646eab295c2a45dd82b1d09fe20af976bcd20e74e22caf6b5750debaacb31e212777e505b31cdce540d1fd998d4",
         "context": {}
     }
