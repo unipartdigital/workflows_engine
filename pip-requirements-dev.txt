@@ -1,2 +1,2 @@
--r pip-requirements_test.txt
+-r pip-requirements-test.txt
 black>=19.3b0

@@ -1,0 +1,4 @@
+-r pip-requirements-test.txt
+commonmark>=0.9.1
+Sphinx>=3.2.1
+sphinx-jsonschema>=1.16
