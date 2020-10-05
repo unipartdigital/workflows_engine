@@ -201,6 +201,8 @@ Condition
 
 Selects (jumps to) a task to switch to based on if a condition is true or false.
 
+.. warning:: Jumps are only allowed to the same flow or the flows parents.
+
 Schema
 ------
 
