@@ -14,12 +14,4 @@ The ``validator`` key contains a list of :ref:`validator <validator_objects>` wh
 The ``flow`` key contains the base task for the workflow (think the ``main`` function in a Java program).
 
 
-.. code-block:: json
-
-    {
-        "validators": [ { "#": "validators objects" } ],
-        "components": [ { "#": "components objects" } ],
-        "flow": { "#": "Base flow" },
-        "hash": "... hash of stringified workflow excluding hash and context keys ...",
-        "context": { "#": "Initial values of the context" }
-    }
+.. jsonschema:: ../../src/core/schema/workflow.json
