@@ -6,7 +6,8 @@ Quick start
     import json
     from workflows_engine import Workflow
 
-Here is a simple example of a workflow. It shows a screen with an input and a submit button. The input field has a validation which is shown if the length of the value in the input is zero. When the button  is clicked either the validators error message will be shown below the input or another screen will be shown with a message info box containing the string input into the field.
+Below can be found a simple example of a workflow implementation and the resultant workflow json. It is simply a screen with an input and a submit button. The input field itself is subject to a validator, this checks that the length of an input given is greater than 0. When the button is clicked either the validator error message will be shown below the input (should the length be 0 i.e. an empty input) or the user will progress to another screen, which will present an info box containing the string input into the field.
+This acts to demonstrate several concepts described elsewhere, such as the validation of an input and transition between screen components, as well as more technical curiosities such as implementing a new validator. This is not intended to serve as an exhaustive representation of workflows, but simply a gentle introduction into how it can be put together.
 
 .. testcode::
 
@@ -70,8 +71,6 @@ Here is a simple example of a workflow. It shows a screen with an input and a su
                 payload_paths=[{"key": "$.message", "result_key": "$.message"}],
                 payload={"message_to_save": None, "token": "RequestToken!"}
             )
-
-
 
             self.add_task(
                 task_type="redirect",
