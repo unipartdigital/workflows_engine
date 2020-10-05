@@ -1,21 +1,21 @@
 Extending workflows
 ###################
 
-Workflows is meant to be extensible this is mainly done defining new class either by subclassing. Things which may require you to extend workflows are things like a new type of action you wish to preform like some form which is not currently supported like evaluating a piece of JS.
+Workflows is meant to be extensible, this is typically achieved by defining a new class from scratch or from an existing class via inheritance, through use of a subclass. The need for workflows extension arises from requiring a new type of action you wish to perform, one which is not currently supported, such as evaluating a novel piece of JS.
 
 .. note:: This methodology of having the extension code written separately as an "addon" is likely the way we take on contributions from outside the core team.
 
-.. warning:: If choose to defined something which is not supported by the default case you are breaking client compatibility.
+.. warning:: If you choose to define something which is not supported by default you are breaking client compatibility. In this instance do not expect other implementations to be fully compatible with your workflows.
 
-.. important:: Of course the examples here will only define the json it is up to the client to interpret it.
+.. important:: Of course the examples given here are for illustrative purposes and will only define the json, it is up to the client to interpret it.
 
 
 
 Adding new tasks types
 **********************
 
-Adding tasks to the workflows_engine is simple the complicated bit will always be the parsing and execution of the task.
-The only thing to wary of is that you must extend ``TASK_TYPE_MAPPING`` within ``workflows_engine.core.tasks`` otherwise ``Flow.add_task`` will not pick up you new task. This is also how you could overwrite behavior of a predefined task.
+Adding tasks to the workflows_engine is simple, the complicating aspect will always be the parsing and execution of the task.
+The primary concern, of which to be wary, is that you must extend ``TASK_TYPE_MAPPING`` within ``workflows_engine.core.tasks`` otherwise ``Flow.add_task`` will not pick up the new task. This is the approach to use in order to overwrite behavior of a predefined task, but should be used with caution.
 
 
 Definition
@@ -46,7 +46,7 @@ Definition
             evil["code"] = self.js_code
             return evil
 
-    # Update the task type mapping so add_task can process the task
+    # Update the task type mapping such that add_task can process the task
     TASK_TYPE_MAPPING["evil_eval"] = EvilEval
 
 
@@ -63,13 +63,13 @@ Usage
             self.add_task(
                 task_type="evil_eval",
                 name="IEvil",
-                js_code="alert('evil things are happening');"
+                js_code="alert('evil is afoot');"
             )
 
 Adding new components
 *********************
 
-Adding new components is very similar to adding a new task in that we simply define a new class.
+The approach for adding new components is practically identical to that of adding a new task, we simply define a new class.
 
 
 Definition
@@ -86,7 +86,7 @@ Definition
             headers: str
                 A jsonpath pointing to a list of strings
             rows: str
-                A jsonpath point to a list of dicts, where
+                A jsonpath pointing to a list of dicts, where
                 the keys of each dict is one of the headers
 
         """
@@ -149,7 +149,7 @@ Usage
 Adding new validators
 *********************
 
-Defining new validators types (not the normal functional type which just require different string in the validator ``type`` keywords - requiring new keywords) would be similar to adding a new component except there is not currently as base class for ``Validators``.
+Defining new validator types (not a vanilla functional type, requiring only a different string in the validator ``type`` keywords, but one requiring new keywords) would be similar to adding a new component, the main difference being that there is not currently a base class for ``Validators``.
 
 
 Definition
@@ -161,8 +161,8 @@ Definition
 
     class JSONRPCValidator:
         """
-        A validator which calls an endpoint see jsonrpc
-        task for more details
+        A validator which calls an endpoint (see jsonrpc
+        task for more details)
         """
 
         __slots__ = [
