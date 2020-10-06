@@ -57,7 +57,7 @@ Usage
 
     from workflows_engine import Workflow
 
-    class QuickWorkflow(Workflow):
+    class EvilThings(Workflow):
 
         def flow(self):
             self.add_task(
@@ -86,7 +86,8 @@ Definition
             headers: str
                 A jsonpath pointing to a list of strings
             rows: str
-                A jsonpath point to a list of dicts, where the keys of each dict is one of the headers
+                A jsonpath point to a list of dicts, where
+                the keys of each dict is one of the headers
 
         """
 
@@ -121,10 +122,27 @@ Usage
             self.add_task(
                 task_type="screen",
                 name="HelloWorld",
-                components=[Table(headers="$.headers")],
+                components=[
+                    Table(
+                        headers="$.table.headers",
+                        rows="$.table.rows"
+                    )
+                ],
             )
 
-    print(json.dumps(QuickWorkflow().as_dict(), indent=4))
+
+    context = {
+        "table": {
+            "headers":["c1", "c2"],
+            "rows": [
+                {"c1": "c1r1", "c2": "c2r1"},
+                {"c1": "c1r2", "c2": "c2r2"},
+                {"c1": "c1r3", "c2": "c2r3"},
+            ]
+        }
+    }
+    workflow = ShouldIShowATable(context=context).as_dict()
+    print(json.dumps(workflow, indent=4))
 
 
 
@@ -141,8 +159,11 @@ Definition
 
     from workflows_engine.core.translate import Translatable
 
-    class Validator:
-        """A validator which calls an endpoint see jsonrpc task for more details"""
+    class JSONRPCValidator:
+        """
+        A validator which calls an endpoint see jsonrpc
+        task for more details
+        """
 
         __slots__ = [
             "identifier",
@@ -191,4 +212,47 @@ Definition
             return validator
 
 
+Usage
+-----
 
+.. code-block:: python
+
+    from myaddon.validator import JSONRPCValidator
+    from workflows_engine import Workflow, components
+
+    class ShouldIShowATable(Workflow):
+
+        def flow(self):
+            self.add_task(
+                task_type="screen",
+                name="HelloWorld",
+                preconditions=JSONRPCValidator(
+                    url="/api/should/I/show/myself",
+                    payload_paths=[
+                        {
+                            "value": "HelloTable",
+                            "result_key": "$.workflow.name"
+                        }
+                    ],
+                    payload={"workflow": {"name": None}}
+                ),
+                components=[
+                    Table(
+                        headers="$.table.headers",
+                        rows="$.table.rows"
+                    )
+                ],
+            )
+
+    context = {
+        "table": {
+            "headers":["c1", "c2"],
+            "rows": [
+                {"c1": "r1c1", "c2": "r1c2"},
+                {"c1": "r2c1", "c2": "r2c2"},
+                {"c1": "r3c1", "c2": "r3c2"},
+            ]
+        }
+    }
+    workflow = ShouldIShowATable(context=context).as_dict()
+    print(json.dumps(, indent=4))
