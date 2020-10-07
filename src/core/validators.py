@@ -14,15 +14,18 @@ class Validator:
         validator: str
             The type of validator function to be used
 
-        value_key: str
+        value_key: str (default=None)
             A jsonpath which points to the ``value`` to be compared with. This is ignored when the
-            validator is attached to a field as the ``value`` used is the field's value.
+            validator is attached to a field as the ``value`` used is the field's value. If None
+            then "value_key" is not added to the dict represention
 
-        validator_value: Any
-            The ``comparison value``
+        validator_value: Any (default=None)
+            The ``comparison value``. If None then "validator_value" is not added to the
+            dict represention
 
-        validator_key: str
-            A jsonpath which points to the ``comparison value``.
+        validator_key: str (default=None)
+            A jsonpath which points to the ``comparison value``. If None then "validator_key" is
+            not added to the dict represention
 
         valid_when: bool (default=True)
             Is used defined which return value means the check is valid. If False this essinatally
