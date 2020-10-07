@@ -10,3 +10,13 @@ Base workfow
 .. autoclass:: Workflow
    :members:
 
+
+
+Validator
+############
+
+.. currentmodule:: workflows_engine.core.validators
+
+.. autoclass:: Validator
+   :members:
+
