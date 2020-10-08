@@ -235,6 +235,8 @@ Schema
 .. jsonschema:: ../../src/core/schema/tasks/clear_domain_params.json
 
 
+
+
 .. _event_task:
 
 Event
@@ -280,3 +282,33 @@ Schema
 ******
 
 .. jsonschema:: ../../src/core/schema/components/component.json
+
+
+.. _container_objects:
+
+Containers
+##########
+
+Containers are used to specific the format and enforce the validity of commonly used structures. The current types are `Message`, `TaskTarget` and `Populate`.
+
+.. _target_task_container:
+
+TaskTarget
+**********
+
+Used to specify a task via the name of the flow and the name of the task within the flow.
+
+.. _populate_container:
+
+Populate
+********
+
+Specifies if/how a field should be populated based on a condition occurring.
+
+
+.. _message_container:
+
+Message
+*******
+
+Defines a message in terms of a template and type (e.g. "success" or "error"). It is not currently used where the type of the message is predefined.
