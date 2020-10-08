@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://udes.io./jsonschema/workflows/workflow.json",
+  "$id": "http://udes.io/jsonschema/workflows/workflow.json",
   "title": "Workflow",
   "description": "Workflow",
   "type": "object",

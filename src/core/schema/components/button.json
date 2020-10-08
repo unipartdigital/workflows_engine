@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://udes.io./jsonschema/workflows/components/button.json",
+  "$id": "http://udes.io/jsonschema/workflows/components/button.json",
   "title": "buttons",
   "description": "Workflows buttons component",
   "type": "object",

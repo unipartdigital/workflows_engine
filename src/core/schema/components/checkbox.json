@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://udes.io./jsonschema/workflows/components/checkbox.json",
+  "$id": "http://udes.io/jsonschema/workflows/components/checkbox.json",
   "title": "checkbox",
   "description": "Workflows checkbox component",
   "type": "object",

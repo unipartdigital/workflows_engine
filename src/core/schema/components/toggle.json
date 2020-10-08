@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://udes.io./jsonschema/workflows/components/toggle.json",
+  "$id": "http://udes.io/jsonschema/workflows/components/toggle.json",
   "title": "toggle",
   "description": "Workflows toggle component",
   "type": "object",

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://udes.io./jsonschema/workflows/components/message_box.json",
+  "$id": "http://udes.io/jsonschema/workflows/components/message_box.json",
   "title": "message_box",
   "description": "Workflows message_box component",
   "type": "object",
