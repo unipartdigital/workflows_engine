@@ -3,7 +3,7 @@ FROM httpd:2.4
 RUN apt update; \
     apt install -y python3-dev build-essential python3-pip
 
-RUN pip3 install sphinx recommonmark pytest sphinx-jsonschema
+RUN pip3 install sphinx recommonmark pytest sphinx-jsonschema sphinx-material
 
 COPY . /workflows
 

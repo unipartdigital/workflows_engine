@@ -3,3 +3,4 @@ commonmark>=0.9.1
 recommonmark>=0.6.0
 Sphinx>=3.2.1
 sphinx-jsonschema>=1.16
+sphinx-material>=0.0.32

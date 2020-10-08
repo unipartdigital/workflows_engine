@@ -2,9 +2,6 @@
 Primitives
 **********
 
-.. contents::
-    :depth: 3
-
 jsonpath
 ########
 

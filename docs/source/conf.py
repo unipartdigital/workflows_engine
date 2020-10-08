@@ -54,7 +54,28 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "alabaster"
+html_theme = "sphinx_material"
+
+html_theme_options = {
+    "color_primary": "dark-blue",
+    "color_accent": "blue",
+    "repo_url": "https://github.com/unipartdigital/workflows_engine",
+    "repo_name": "Workflows Engine",
+    "repo_type": "github",
+    "html_prettify": True,
+    "html_minify": False,
+    "css_minify": True,
+    "nav_title": "Workflows",
+    "nav_links": [
+        {"href": "quickstart", "internal": True, "title": "Quickstart"},
+        {"href": "structure", "internal": True, "title": "Basic structure"},
+        {"href": "primitives", "internal": True, "title": "Primitives"},
+        {"href": "library_api", "internal": True, "title": "Library API"},
+        {"href": "extending", "internal": True, "title": "Extending workflows"},
+    ],
+    "logo_icon": "&#xe0b3",
+}
+
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -63,3 +84,6 @@ html_static_path = ["_static"]
 
 # Include todos
 todo_include_todos = True
+html_use_index = True
+html_show_sourcelink = False
+html_sidebars = {"**": ["localtoc.html"]}

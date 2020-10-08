@@ -1,8 +1,21 @@
+
 ****************
 Tao of workflows
 ****************
 
-.. contents::
+Table of Contents
+#################
+
+.. toctree::
+   :name: mastertoc
+   :maxdepth: 1
+
+   quickstart
+   structure
+   primitives
+   library_api
+   extending
+
 
 This section is to explain the principle ideas of workflows.
 **Workflows is a JSON object encoding actions to be taken by the client.**
@@ -41,28 +54,3 @@ This is a glossary of terms used throughout this documentation.
 
 * **Context** is the datastore.
 * **Subflow** is a flow/loop task which is a subtask of another flow.
-
-
-
-*****************
-Table of Contents
-*****************
-
-.. toctree::
-   :name: mastertoc
-   :maxdepth: 1
-
-   quickstart
-   structure
-   primitives
-   library_api
-   extending
-
-
-.. Indices and tables
-.. ==================
-
-.. * :ref:`genindex`
-.. * :ref:`modindex`
-.. * :ref:`search`
-
