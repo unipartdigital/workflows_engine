@@ -15,7 +15,7 @@ def generate_store(base_path):
 
 
 SUFFIX = ".json"
-TEMPLATE = "http://udes.io./jsonschema/workflows/{name}.{suffix}"
+TEMPLATE = "http://udes.io/jsonschema/workflows/{name}.{suffix}"
 SCHEMA_NAME_GLOB = "*.{}".format(SUFFIX.lstrip("."))
 SCHEMA_INDEX = generate_store(pathlib.Path(__file__).parent.joinpath("../schema").absolute())
 
