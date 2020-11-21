@@ -50,9 +50,89 @@ class Populate(Container):
         yield from self.validators
 
     def as_dict(self):
-        retval = {"validators": [v.identifier for v in self.validators]}
+        res = {"validators": [v.identifier for v in self.validators]}
         if self.path:
-            retval.update(path=self.path)
+            res["path"] = self.path
         if self.value:
-            retval.update(value=self.value)
-        return retval
+            res["value"] = self.value
+        return res
+
+
+class PayloadPath(Container):
+    __slots__ = ["value", "source_path", "destination_path"]
+
+    def __init__(self, value=None, source_path=None, destination_path=None):
+        if value is not None and source_path is not None:
+            raise InvalidArguments("'value' and 'source_path' attribute cannot be used together")
+        if value is None and source_path is None:
+            raise InvalidArguments("Either 'value' or 'source_path' attribute must be used")
+
+        self.value = value
+        self.source_path = source_path
+        self.destination_path = destination_path
+
+    def as_dict(self):
+        res = {"result_key": self.destination_path}
+        if self.value:
+            res["value"] = self.value
+        else:
+            res["key"] = self.source_path
+
+        return res
+
+
+class ContextUpdateInstruction(Container):
+    __slots__ = [
+        "value",
+        "template",
+        "source_path",
+        "destination_path",
+        "append",
+        "extend",
+    ]
+
+    def __init__(
+        self,
+        value=None,
+        template=None,
+        source_path=None,
+        destination_path=None,
+        append=False,
+        extend=False,
+    ):
+        src_keys = ["value", "template", "source_path"]
+        src_vars_with_val = [x for x in src_keys if getattr(self, x) is not None]
+
+        if len(src_vars_with_val) > 1:
+            var_names = "' and '".join(src_vars_with_val)
+            raise InvalidArguments(f"'{var_names}' attribute cannot be used together")
+        elif len(src_vars_with_val) == 0:
+            raise InvalidArguments(
+                f"One of 'value', 'template' or 'source_path' attribute must be used"
+            )
+
+        if append is not False and extend is not False:
+            raise InvalidArguments("'append' and 'extend' attribute cannot be used together")
+
+        self.value = value
+        self.template = template
+        self.source_path = source_path
+        self.destination_path = destination_path
+        self.append = append
+        self.extend = extend
+
+    def as_dict(self):
+        res = {"result_key": self.destination_path}
+        if self.value:
+            res["value"] = self.value
+        elif self.template:
+            res["template"] = self.template
+        else:
+            res["key"] = self.source_path
+
+        if self.append:
+            res["append"] = self.append
+        elif self.extend:
+            res["extend"] = self.extend
+
+        return res
