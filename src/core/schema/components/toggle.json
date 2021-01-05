@@ -8,5 +8,6 @@
     "type": { "type": "string", "enum": ["toggle"] },
     "style": { "$ref": "../common.json#/definitions/styles" },
     "label": { "type": "string" }
-  }
+  },
+  "additionalProperties": false
 }

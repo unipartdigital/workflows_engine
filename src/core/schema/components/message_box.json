@@ -8,6 +8,7 @@
     "type": { "type": "string", "enum": ["message_box"] },
     "message": { "$ref": "../common.json#/definitions/message" },
     "style": { "$ref": "../common.json#/definitions/styles" },
-    "size": { "$ref": "../common.json#/definitions/styles" }
-  }
+    "size": { "$ref": "../common.json#/definitions/sizes" }
+  },
+  "additionalProperties": false
 }

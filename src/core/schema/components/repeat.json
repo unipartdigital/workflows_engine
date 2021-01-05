@@ -8,11 +8,16 @@
     "type": { "type": "string", "enum": ["repeated_field"] },
     "components": {
       "type": "array",
-      "items": [{ "$ref": "../common.json#/definitions/component_lookup" }]
+      "items": [
+        {
+          "$ref": "../common/component_lookup.json#/definitions/component_lookup"
+        }
+      ]
     },
     "validators": { "type": "array", "items": [{ "type": "string" }] },
     "quantity": { "type": "integer" },
     "quantity_path": { "$ref": "../common.json#/definitions/jsonpath" }
   },
+  "oneOf": [{ "required": ["quantity"] }, { "required": ["quantity_path"] }],
   "additionalProperties": false
 }

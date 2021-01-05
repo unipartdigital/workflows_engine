@@ -21,7 +21,11 @@
       "items": [
         {
           "type": "array",
-          "items": [{ "$ref": "../common.json#/definitions/component_lookup" }]
+          "items": [
+            {
+              "$ref": "../common/component_lookup.json#/definitions/component_lookup"
+            }
+          ]
         }
       ]
     },
