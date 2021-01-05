@@ -286,6 +286,99 @@ Schema
 
 .. jsonschema:: ../../src/core/schema/components/component.json
 
+.. jsonschema:: ../../src/core/schema/common/component_lookup.json
+
+Button
+------
+
+.. jsonschema:: ../../src/core/schema/components/button.json
+
+Triggers action on click. The default buttons are `submit`, `next`, `back`. A next button can set a value in the context allow for branching of flows based on button presses.
+
+Actions
+^^^^^^^
+
+* `submit` moves to the next task saving the contents of the form
+* `next` moves to the next task while ignoring form values
+* `back` moves to the prev screen
+
+.. .. code-block::
+..     {
+..         "type": "button",
+..         "action": "next",
+..         "style": "primary",
+..         "text": "Reset",
+..         "value": false,
+..         "destination_path": "$.save"
+..     }
+
+
+
+Data display
+------------
+
+Display data in using a list of strings or objects containing label and value keys.
+
+.. jsonschema:: ../../src/core/schema/components/data_display.json
+
+
+Input
+-----
+
+Used to collect text/number information from the user. The input component can also create or select
+an object based on its `value`. To build an output json object use `output_ref` and `output` where
+`output` is the structure of the output object with any default values and `output_ref` is the a
+`jsonpath` to insert the `value` from the input field. If you wish to select a known object use
+`input_key` and `input_ref` where `input_key` is a `jsonpath` which points to a list of objects and
+`input_ref` is the attribute on the object to match the `value` against. There is nothing stopping
+from using both input and output pairs in this case field will first try to select using `input_key`
+and `input_ref` then if nothing is found, fallback to building an object using `output` and `output_ref`.
+
+.. jsonschema:: ../../src/core/schema/components/input.json
+
+
+Message box
+-----------
+
+A styled text box for presenting information to the user such as warning, errors, or instructions.
+
+.. jsonschema:: ../../src/core/schema/components/message_box.json
+
+
+Toggle
+------
+
+A switch element.
+
+.. jsonschema:: ../../src/core/schema/components/toggle.json
+
+Checkbox
+--------
+
+A selectable list.
+
+.. note:: If two check boxes have the same value selecting on will select the other.
+
+.. jsonschema:: ../../src/core/schema/components/checkbox.json
+
+
+Image
+-----
+
+Image to display using the URL.
+
+.. jsonschema:: ../../src/core/schema/components/image.json
+
+
+Repeat
+------
+
+Allow for a set of repeated fields for dynamic construction of forms.
+
+.. note:: Validators on a repeat component are applied a list(?) of all repeats field's values .
+
+.. jsonschema:: ../../src/core/schema/components/repeat.json
+
 
 .. _container_objects:
 

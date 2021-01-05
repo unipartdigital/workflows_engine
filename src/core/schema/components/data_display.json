@@ -9,5 +9,6 @@
     "title": { "type": "string" },
     "data": { "$ref": "../common.json#/definitions/jsonpath" }
   },
-  "required": ["type", "title", "data"]
+  "required": ["type", "title", "data"],
+  "additionalProperties": false
 }

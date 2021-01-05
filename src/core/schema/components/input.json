@@ -16,5 +16,6 @@
     "validators": { "type": "array", "items": [{ "type": "string" }] },
     "populate": { "$ref": "./populate.json#/definitions/populate" }
   },
-  "required": ["type", "name", "label"]
+  "required": ["type", "name", "label"],
+  "additionalProperties": false
 }
