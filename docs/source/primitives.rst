@@ -10,7 +10,7 @@ jsonpath
 
 jsonpaths are used extensively throughout workflows for object lookups. Full documentation can be found `here <https://goessner.net/articles/JsonPath/>`_.
 
-A quick primer for the sake of expediency: a jsonpath is a represention for a lookup in a structured object. For instance, given the object::
+A quick primer for the sake of expediency: a jsonpath is a representation for a lookup in a structured object. For instance, given the object::
 
     {"outer": {"inner": {"value": "Hello"}}}
 
@@ -315,8 +315,19 @@ Actions
 Data display
 ------------
 
-Display data, this can take in a list of strings or objects containing label and value keys. If a list of
+Display data, this can take in a list (`type = list`) of strings or objects containing label and value keys (`type = display`). If a list of
 objects provided then the label and values will be displayed together (#TODO: Insert Image of both).
+
+If the component is of type list then will look like this:
+
+.. image:: static/images/data_display_strings.png
+
+If the component is of type display then will look like this:
+
+.. image:: static/images/data_display_objects.png
+
+Schema
+^^^^^^
 
 .. jsonschema:: ../../src/core/schema/components/data_display.json
 
@@ -341,6 +352,9 @@ Message box
 
 A styled text box for presenting information to the user such as warning, errors, or instructions.
 
+Schema
+^^^^^^
+
 .. jsonschema:: ../../src/core/schema/components/message_box.json
 
 
@@ -348,6 +362,9 @@ Toggle
 ------
 
 A switch element.
+
+Schema
+^^^^^^
 
 .. jsonschema:: ../../src/core/schema/components/toggle.json
 
@@ -358,6 +375,9 @@ A selectable list.
 
 .. note:: If two check boxes have the same value selecting either will cause both to be checked.
 
+Schema
+^^^^^^
+
 .. jsonschema:: ../../src/core/schema/components/checkbox.json
 
 
@@ -365,6 +385,9 @@ Image
 -----
 
 Displays an image at the URL.
+
+Schema
+^^^^^^
 
 .. jsonschema:: ../../src/core/schema/components/image.json
 
@@ -375,6 +398,9 @@ Repeat
 Allow for a set of repeated fields for dynamic construction of forms.
 
 .. note:: Validators on a repeat component are applied to a list(?) of all repeats field's values .
+
+Schema
+^^^^^^
 
 .. jsonschema:: ../../src/core/schema/components/repeat.json
 
