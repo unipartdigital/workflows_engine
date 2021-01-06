@@ -238,8 +238,6 @@ Schema
 .. jsonschema:: ../../src/core/schema/tasks/clear_domain_params.json
 
 
-
-
 .. _event_task:
 
 Event
@@ -317,7 +315,8 @@ Actions
 Data display
 ------------
 
-Display data, this can take in a list of strings or objects containing label and value keys.
+Display data, this can take in a list of strings or objects containing label and value keys. If a list of
+objects provided then the label and values will be displayed together (#TODO: Insert Image of both).
 
 .. jsonschema:: ../../src/core/schema/components/data_display.json
 
@@ -330,8 +329,8 @@ an object based on its `value`. To build an output json object use `output_ref` 
 `output` is the structure of the output object with any default values and `output_ref` is the
 `jsonpath` to insert the `value` from the input field. If you wish to select a known object use
 `input_key` and `input_ref`, where `input_key` is a `jsonpath` pointing to a list of objects and
-`input_ref` is the attribute on the object to match the `value` against. There is nothing stopping
-from using both input and output pairs, in this case the field will first try to select using `input_key`
+`input_ref` is the attribute on the object to match the `value` against. There is nothing preventing
+the use of both input and output pairs, in this case the field will first try to select using `input_key`
 and `input_ref` then, if nothing is found, will fallback to building an object using `output` and `output_ref`.
 
 .. jsonschema:: ../../src/core/schema/components/input.json
@@ -357,7 +356,7 @@ Checkbox
 
 A selectable list.
 
-.. note:: If two check boxes have the same value selecting on will select the other.
+.. note:: If two check boxes have the same value selecting either will cause both to be checked.
 
 .. jsonschema:: ../../src/core/schema/components/checkbox.json
 
@@ -365,7 +364,7 @@ A selectable list.
 Image
 -----
 
-Image to display using its URL.
+Displays an image at the URL.
 
 .. jsonschema:: ../../src/core/schema/components/image.json
 
