@@ -293,14 +293,14 @@ Button
 
 .. jsonschema:: ../../src/core/schema/components/button.json
 
-Triggers action on click. The default buttons are `submit`, `next`, `back`. A next button can set a value in the context allow for branching of flows based on button presses.
+Triggers action on click. The default buttons are `submit`, `next`, `back`. A next button can set a value in the context, allowing for branching of flows based on button presses.
 
 Actions
 ^^^^^^^
 
-* `submit` moves to the next task saving the contents of the form
+* `submit` moves to the next task while saving the contents of the form
 * `next` moves to the next task while ignoring form values
-* `back` moves to the prev screen
+* `back` moves to the previous screen
 
 .. .. code-block::
 ..     {
@@ -317,7 +317,7 @@ Actions
 Data display
 ------------
 
-Display data in using a list of strings or objects containing label and value keys.
+Display data, this can take in a list of strings or objects containing label and value keys.
 
 .. jsonschema:: ../../src/core/schema/components/data_display.json
 
@@ -325,14 +325,14 @@ Display data in using a list of strings or objects containing label and value ke
 Input
 -----
 
-Used to collect text/number information from the user. The input component can also create or select
+Used to collect text/number information from the user. The input component can also create or update
 an object based on its `value`. To build an output json object use `output_ref` and `output` where
-`output` is the structure of the output object with any default values and `output_ref` is the a
+`output` is the structure of the output object with any default values and `output_ref` is the
 `jsonpath` to insert the `value` from the input field. If you wish to select a known object use
-`input_key` and `input_ref` where `input_key` is a `jsonpath` which points to a list of objects and
+`input_key` and `input_ref`, where `input_key` is a `jsonpath` pointing to a list of objects and
 `input_ref` is the attribute on the object to match the `value` against. There is nothing stopping
-from using both input and output pairs in this case field will first try to select using `input_key`
-and `input_ref` then if nothing is found, fallback to building an object using `output` and `output_ref`.
+from using both input and output pairs, in this case the field will first try to select using `input_key`
+and `input_ref` then, if nothing is found, will fallback to building an object using `output` and `output_ref`.
 
 .. jsonschema:: ../../src/core/schema/components/input.json
 
@@ -365,7 +365,7 @@ A selectable list.
 Image
 -----
 
-Image to display using the URL.
+Image to display using its URL.
 
 .. jsonschema:: ../../src/core/schema/components/image.json
 
@@ -375,7 +375,7 @@ Repeat
 
 Allow for a set of repeated fields for dynamic construction of forms.
 
-.. note:: Validators on a repeat component are applied a list(?) of all repeats field's values .
+.. note:: Validators on a repeat component are applied to a list(?) of all repeats field's values .
 
 .. jsonschema:: ../../src/core/schema/components/repeat.json
 
