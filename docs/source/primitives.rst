@@ -63,12 +63,15 @@ A flow can be as simple as a list of tasks to be performed, a :ref:`while_loop_t
 .. todo:: Having ``destination_path = False`` for loops should raise an error as this undefined behavior.
 
 
+.. warning:: Within a loop context in maintained in between iterations for the duration of the loops execution. If you wish to have values cleared down between iterations add an update task to the start to initialize your values
+
 .. _while_loop_task:
 
 While loop
 ----------
 
 Repeat the flow tasks until a condition fails. The condition is a set of validators, when any of these validators fail the loop will exit at the end of its current iteration, the loop is in effect broken and the result is inserted into the context above. In order to leave the loop partway through an iteration an :ref:`event <event_task>` with an action of type break can be used
+
 
 .. _for_loop_task:
 
