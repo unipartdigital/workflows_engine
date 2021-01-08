@@ -402,6 +402,10 @@ Allow for a set of repeated fields for dynamic construction of forms.
 
 .. note:: Validators on a repeat component are applied to a list(?) of all repeats field's values .
 
+.. warning:: Not Implemented in udes client ATM
+
+
+
 Schema
 ^^^^^^
 
