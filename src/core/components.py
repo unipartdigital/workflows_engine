@@ -342,6 +342,60 @@ class Toggle(Component):
         }
 
 
+class Selection(Component):
+    __slots__ = [
+        "style",
+        "validators",
+        "is_required",
+        "destination_path",
+        "options_key",
+        "options_values",
+    ]
+
+    label = Translatable()
+
+    def get_options(self, options_key, options_values):
+        """Only key or values should be specified, this function validates this condition"""
+        validate = self.validate_options(options_key, options_values)
+        if validate:
+            return options_key, options_values
+
+    def validate_options(self, options_key, options_values):
+        if options_key is not None and options_values is not None:
+            raise InvalidArguments("'options_key' and 'options_values' attribute cannot be used together")
+
+        if options_key is None and options_values is None:
+            raise InvalidArguments("Either 'options_key' or 'options_values' attribute must be used")
+
+        if options_values and type(options_values) is not list and type(options_values[0]) is not dict:
+            raise InvalidArguments("If 'options_values' is supplied, it must be a list of dictionaries")
+
+        return True
+
+    def __init__(
+        self, label, style="default", is_required=False, validators=None, value=None, destination_path=None, options_key=None, options_values=None, **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.style = style
+        self.label = label
+        self.is_required = is_required
+        self.validators = validators or []
+        self.options_key, self.options_values = self.get_options(options_key, options_values)
+        self.destination_path = destination_path
+
+    def get_base_component_dict(self):
+        return {
+            "type": "select",
+            "style": self.style,
+            "label": self.label,
+            "is_required": self.is_required,
+            "validator": [validator.identifier for validator in self.validators],
+            "options_values": self.options_values,
+            "options_key": self.options_key,
+            "destination_path": self.destination_path,
+        }
+
+
 class Image(Component):
     __slots__ = [
         "url",
@@ -391,9 +445,7 @@ class Repeat(Component):
     @staticmethod
     def _validate_args(quantity, quantity_path):
         if quantity is not None and quantity_path is not None:
-            raise InvalidArguments(
-                "'quantity' and 'quantity_path' attribute cannot be used together"
-            )
+            raise InvalidArguments("'quantity' and 'quantity_path' attribute cannot be used together")
 
         if quantity is None and quantity_path is None:
             raise InvalidArguments("Either 'quantity' or 'quantity_path' attribute must be used")

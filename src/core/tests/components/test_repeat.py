@@ -3,7 +3,7 @@ from workflows_engine.core.components import Input, Repeat
 from workflows_engine.exceptions import InvalidArguments
 from workflows_engine import validators
 
-from ..schema_validator import get_validator_for as schema_validator
+from ..schema_validator import get_validator_for
 
 
 @pytest.fixture
@@ -26,7 +26,7 @@ def test_repeat(field, component_validator):
         quantity=3,
         destination_path="$.result",
     )
-    validator = schema_validator("components/repeat")
+    validator = get_validator_for("components/repeat")
     validator.validate(repeat.get_base_component_dict())
 
 
