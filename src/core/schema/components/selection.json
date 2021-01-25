@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io/jsonschema/workflows/components/selection.json",
+  "title": "select",
+  "description": "Workflows selection component",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["select"] },
+    "style": { "$ref": "../common.json#/definitions/styles" },
+    "label": { "type": "string" },
+    "options_values": {"anyOf": [
+      {"type": "array",
+      "items": [{ "$ref": "../common.json#/definitions/select_option" }]
+      },
+      { "type": "null" }
+    ]},
+    "validator": { "type": "array", "items": [{ "type": "string" }] },
+    "is_required": { "type": "boolean" },
+    "options_key": {"anyOf": [
+      { "$ref": "../common.json#/definitions/jsonpath" },
+      {"type:": "null"}
+    ]},
+    "destination_path": { "$ref": "../common.json#/definitions/jsonpath" }
+  },
+  "additionalProperties": false
+}

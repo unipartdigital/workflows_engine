@@ -7,11 +7,19 @@
   "definitions": {
     "styles": {
       "type": "string",
-      "enum": ["primary", "secondary", "disabled", "default"]
+      "enum": [
+        "primary",
+        "secondary",
+        "disabled",
+        "default"
+      ]
     },
     "sizes": {
       "type": "string",
-      "enum": ["compact", "normal"]
+      "enum": [
+        "compact",
+        "normal"
+      ]
     },
     "jsonpath": {
       "type": "string"
@@ -19,18 +27,70 @@
     "message": {
       "type": "object",
       "properties": {
-        "type": { "type": "string", "enum": ["error", "success"] },
-        "template": { "type": ["string", "null"] }
+        "type": {
+          "type": "string",
+          "enum": [
+            "error",
+            "success"
+          ]
+        },
+        "template": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       },
-      "required": ["type", "template"]
+      "required": [
+        "type",
+        "template"
+      ]
     },
     "task_target": {
       "type": "object",
       "properties": {
-        "flow": { "type": "string" },
-        "task": { "type": "string" }
+        "flow": {
+          "type": "string"
+        },
+        "task": {
+          "type": "string"
+        }
       },
-      "required": ["flow", "task"]
+      "required": [
+        "flow",
+        "task"
+      ]
+    },
+    "component_lookup": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "destination_path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "select_option": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "string",
+            "integer"
+          ]
+        }
+      },
+      "required": [
+        "label"
+      ]
     }
   }
 }
