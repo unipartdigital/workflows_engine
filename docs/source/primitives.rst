@@ -63,7 +63,7 @@ A flow can be as simple as a list of tasks to be performed, a :ref:`while_loop_t
 .. todo:: Having ``destination_path = False`` for loops should raise an error as this undefined behavior.
 
 
-.. warning:: Within a loop context in maintained in between iterations for the duration of the loops execution. If you wish to have values cleared down between iterations add an update task to the start to initialize your values
+.. warning:: Within a loop, the context is maintained in between iterations for the duration of the loops execution. If you wish to have values cleared down between iterations add an update task to the start of the loop to initialize your values.
 
 .. _while_loop_task:
 
@@ -319,13 +319,13 @@ Data display
 ------------
 
 Display data, this can take in a list (`type = list`) of strings or objects containing label and value keys (`type = display`). If a list of
-objects provided then the label and values will be displayed together (#TODO: Insert Image of both).
+objects is provided then the label and values will be displayed together (#TODO: Insert Image of both).
 
-If the component is of type list then will look like this:
+If the component is of type list then it will look like this:
 
 .. image:: static/images/data_display_strings.png
 
-If the component is of type display then will look like this:
+If the component is of type display then it will look like this:
 
 .. image:: static/images/data_display_objects.png
 
