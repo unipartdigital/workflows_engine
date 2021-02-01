@@ -371,6 +371,19 @@ Schema
 
 .. jsonschema:: ../../src/core/schema/components/toggle.json
 
+Selection
+------
+
+A selection component. This provides a dropdown of options. If the is_required flag is set to true then
+the something must be selected. The values for the dropdown can be provided from the context via options_key
+or directly as options_values, only one of which can be provided otherwise an error will be
+raised.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/selection.json
+
 Checkbox
 --------
 
