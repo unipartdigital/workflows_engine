@@ -18,7 +18,7 @@
     "is_required": { "type": "boolean" },
     "options_key": {"anyOf": [
       { "$ref": "../common.json#/definitions/jsonpath" },
-      {"type:": "null"}
+      { "type:": "null" }
     ]},
     "destination_path": { "$ref": "../common.json#/definitions/jsonpath" }
   },
