@@ -165,6 +165,30 @@ class Input(Component):
             self.populate.get_validators()
 
 
+class DateTime(Input):
+    __slots__ = [
+        "datetime_type",
+    ]
+
+    def get_datetime_type(self, datetime_type):
+        validate = self.validate_datetime(datetime_type)
+        if validate:
+            return datetime_type
+
+    def validate_datetime(self, datetime_type):
+        if datetime_type not in ["datetime", "time", "date"]:
+            raise InvalidArguments(
+                "'datetime_type' must be one of expected datetimes types: 'datetime', 'time' or 'date'."
+            )
+        return True
+
+    def __init__(
+        self, datetime_type="datetime", **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.component_type = self.get_datetime_type(datetime_type)
+
+
 class Button(Component):
     __slots__ = [
         "action",
