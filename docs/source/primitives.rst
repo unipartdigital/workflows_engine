@@ -384,6 +384,21 @@ Schema
 
 .. jsonschema:: ../../src/core/schema/components/selection.json
 
+DateTime
+------
+
+A DateTime component, providing datetime selection functionality. Three types accepted in datetime_type,
+'datetime', 'date' and 'time' which represent their namesake datetime types respectively. In the case of
+'datetime' or 'date' a min/max date validator (isAfter, isBefore respectively) can be provided which will 
+block out dates which cannot be selected at the clientside component level (that is to say it will hook 
+into props on the UI component, in addition to the normal validation mechanism, allowing for better UX 
+by preventing selection of inappropriate dates).
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/datetime.json
+
 Checkbox
 --------
 
