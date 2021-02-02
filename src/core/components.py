@@ -246,15 +246,16 @@ class Button(Component):
 
 class DisplayData(Component):
     """
-    Allowed "display_type" are currently "list" and "details"
-    - "list": will list all the values so "data" will have to produces a list of strings
-    - "details": requires a list of "{'label': '...', 'value': '...'}" so "data" will have
+    Produces a display component which can list data in two different formats depending on the display_type,
+    this can be "list" or "details" and requires the following formats provided as data:
+        - "list": will list all the values provided, "data" should point to a list of strings
+        - "details": requires a list of "{'label': '...', 'value': '...'}", "data" should
                  point to such an object in the context
     """
 
     __slots__ = [
-        "display_type",
         "data",
+        "display_type"
     ]
 
     title = Translatable()
@@ -262,17 +263,20 @@ class DisplayData(Component):
 
     def __init__(self, display_type, title, data, subtitle=None, **kwargs):
         super().__init__(**kwargs)
-        self.display_type = display_type
         self.title = title
         self.data = data
         self.subtitle = subtitle
+        self.display_type = display_type
 
     def _get_default_identifier(self):
         return "_".join([self.display_type, self.title.lower().replace(" ", "_")])
 
+    def _get_type(self):
+        return self.display_type
+
     def get_base_component_dict(self):
         component = {
-            "type": self.display_type,
+            "type": self._get_type(),
             "title": self.title,
             "data": self.data,
         }
@@ -280,6 +284,34 @@ class DisplayData(Component):
             component.update(subtitle=self.subtitle)
 
         return component
+
+
+class OptionList(DisplayData):
+    """
+    This component is a selectable analogue to the DisplayData component.
+    Elements are displayed as in the "details" case of  DisplayData,
+    and upon selection a defined value is added to the context.
+    This requires data to be a list of 
+        {
+            'details': [
+                    {'label': 'label1', 'value': 'value1'},
+                    {'label': 'label2', 'value': 'value2'}
+                ],
+            'submitted_value': '...',
+            'submitted_key': '...',
+        }
+        where,
+        'details': a list whose elements are rendered as a label and
+            value,
+        'submitted_value': the value submitted upon selection of
+        the option,
+        'submitted_key': a value to submit is taken from the context
+        attribute corresponding to this key.
+        Note, 'submitted_value' and 'submitted_key' are mutually exclusive.
+    """
+
+    def _get_type(self):
+        return "optionlist"
 
 
 class Checkbox(Component):
