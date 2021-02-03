@@ -139,11 +139,12 @@ class Input(Component):
             {
                 "type": self.component_type,
                 "label": self.label,
-                "target": self.target,
                 "validator": [v.identifier for v in self.validators],
             }
         )
 
+        if self.target:
+            component["target"]: self.target
         if self.obscure:
             component["obscure"] = self.obscure
         if self.input_key:
