@@ -314,18 +314,23 @@ Actions
 ..     }
 
 
+.. _data_display:
 
-Data display
+Display Data
 ------------
 
-Display data, this can take in a list (`type = list`) of strings or objects containing label and value keys (`type = display`). If a list of
-objects is provided then the label and values will be displayed together (#TODO: Insert Image of both).
+A data listing component. This renders data defined in the context according to the following patterns
+dependent on the "display_type" of the component being set to "list" or "details":
+    - list: "data" should point to a list of strings, this will simply list all values provided
+    - details: "data" should point an object in the context consisting of a list of 
+               "{'label': '...', 'value': '...'}", this will list the values with stylised labels
 
-If the component is of type list then it will look like this:
+
+If the component is of type "list" then it will look like this:
 
 .. image:: static/images/data_display_strings.png
 
-If the component is of type display then it will look like this:
+If the component is of type "display" then it will look like this:
 
 .. image:: static/images/data_display_objects.png
 
@@ -359,6 +364,34 @@ Schema
 ^^^^^^
 
 .. jsonschema:: ../../src/core/schema/components/message_box.json
+
+
+OptionList
+----------
+
+A data listing selection component. This renders data defined in the context according to the patterns defined
+for the "details" variant of the :ref:`DataDisplay <data_display>` component, however the list of data
+are themselves selectable. This requires a value in the context for "data" with the structure as below:
+
+    {
+        'details': [
+                {'label': 'label1', 'value': 'value1'},
+                {'label': 'label2', 'value': 'value2'}
+            ],
+        'submitted_value': '...',
+        'submitted_key': '...',
+    }
+
+where,
+'details': a list whose elements are rendered as a label and value,
+'submitted_value': the value submitted upon selection of the option,
+'submitted_key': a value to submit is taken from the context attribute corresponding to this key.
+Note, 'submitted_value' and 'submitted_key' are mutually exclusive.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/option_list.json
 
 
 Toggle
@@ -402,7 +435,7 @@ Schema
 Checkbox
 --------
 
-A selectable list.
+A set of checkboxes allowing for value selection.
 
 .. note:: If two check boxes have the same value selecting either will cause both to be checked.
 
