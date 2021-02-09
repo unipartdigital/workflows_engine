@@ -198,6 +198,7 @@ class Button(Component):
         "load_values",
         "destination_path",
         "show_confirmation",
+        "disabling_validators",
     ]
 
     text = Translatable()
@@ -211,6 +212,7 @@ class Button(Component):
         load_values=None,
         destination_path=None,
         show_confirmation=False,
+        disabling_validators=None,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -221,9 +223,13 @@ class Button(Component):
         self.destination_path = destination_path
         self.show_confirmation = show_confirmation
         self.load_values = load_values
+        self.disabling_validators = disabling_validators or []
 
     def _get_default_identifier(self):
         return "_".join([self.action, "button"])
+
+    def get_disabling_validators(self):
+        return [validator.identifier for validator in self.disabling_validators]
 
     def get_base_component_dict(self):
         button = {
@@ -241,7 +247,16 @@ class Button(Component):
         if self.load_values is not None:
             button["load_values"] = self.load_values
 
+        disabling_validators = self.get_disabling_validators()
+        if disabling_validators:
+            button["disabled"] = disabling_validators
+
         return button
+
+    def get_validators(self):
+        yield from super().get_validators()
+        if self.disabling_validators:
+            yield from self.disabling_validators
 
 
 class DisplayData(Component):
