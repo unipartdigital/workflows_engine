@@ -12,6 +12,9 @@
     { "$ref": "components/input.json#" },
     { "$ref": "components/message_box.json#" },
     { "$ref": "components/repeat.json#" },
-    { "$ref": "components/toggle.json#" }
+    { "$ref": "components/toggle.json#" },
+    { "$ref": "components/datetime.json#" },
+    { "$ref": "components/selection.json#" },
+    { "$ref": "components/option_list.json#" }
   ]
 }

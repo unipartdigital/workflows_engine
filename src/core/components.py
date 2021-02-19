@@ -329,6 +329,31 @@ class OptionList(DisplayData):
         return "optionlist"
 
 
+class Modal(Component):
+    """
+        A data structure to render a modal popup on the frontend, which itself
+        can contain components.
+    """
+    __slots__ = [
+        "title",
+        "components",
+    ]
+
+    def __init__(self, title, components, **kwargs):
+        super().__init__(**kwargs)
+        self.title = title
+        self.components = components
+
+    def get_base_component_dict(self):
+        return {
+            "title": self.title,
+            "components": [[component.get_flow_component_dict() for component in row] for row in self.components]
+        }
+
+    def get_components(self):
+        yield from super().get_components()
+        yield from self.components
+
 class Checkbox(Component):
     """
     - "data": requires a list of "{'id': 1, 'label': '...', 'value': '...'}"

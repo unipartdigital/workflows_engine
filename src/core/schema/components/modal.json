@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://udes.io/jsonschema/workflows/components/modal.json",
+    "title": "modal",
+    "description": "Workflows modal component",
+    "type": "object",
+    "properties": {
+      "title": { "type": "string"},
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {"type": "object"}
+        }
+      }
+    },
+    "additionalProperties": false
+}
