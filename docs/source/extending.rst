@@ -171,10 +171,10 @@ Definition
             "url",
             "payload_paths",
             "payload",
-            "__weakref__", # Required for translate to work.
+            "message",
         ]
 
-        message_template = Translatable()
+
 
         def __init__(
             self,
@@ -182,7 +182,7 @@ Definition
             url,
             payload_paths,
             payload,
-            message_template=None,
+            message=None,
             valid_when=True,
         ):
             self.identifier = identifier
@@ -190,14 +190,16 @@ Definition
             self.url = url
             self.payload_paths = payload_paths
             self.payload = payload
-            self.message_template = message_template or ""
+            self.message = message
             self.valid_when = valid_when
 
         def __iter__(self):
             yield self
 
         def get_message(self):
-            return {"type": "error", "template": self.message_template}
+            if self.message:
+                return self.message.as_dict()
+            return None
 
         def as_dict(self):
             validator = {
