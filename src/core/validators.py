@@ -39,10 +39,9 @@ class Validator:
         "validator_value",
         "validator_key",
         "valid_when",
+        "message",
         "__weakref__",
     ]
-
-    message_template = Translatable()
 
     def __init__(
         self,
@@ -51,7 +50,7 @@ class Validator:
         value_key=None,
         validator_value=None,
         validator_key=None,
-        message_template=None,
+        message=None,
         valid_when=True,
     ):
         self.identifier = identifier
@@ -59,14 +58,16 @@ class Validator:
         self.value_key = value_key
         self.validator_value = validator_value
         self.validator_key = validator_key
-        self.message_template = message_template or ""
+        self.message = message
         self.valid_when = valid_when
 
     def __iter__(self):
         yield self
 
     def get_message(self):
-        return {"type": "error", "template": self.message_template}
+        if self.message:
+            return self.message.as_dict()
+        return None
 
     def as_dict(self):
         """Get dict represention of the validator"""

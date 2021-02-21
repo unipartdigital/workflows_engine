@@ -1,5 +1,3 @@
-from itertools import chain
-
 from .translate import Translatable
 
 __all__ = (
@@ -60,22 +58,21 @@ class Task:
 class Screen(Task):
     __slots__ = [
         "components",
+        "status_message",
         "show_status_message",
     ]
-
-    status_message_template = Translatable()
 
     def __init__(
         self,
         name,
         preconditions=None,
         components=None,
-        status_message_template=None,
+        status_message=None,
         show_status_message=True,
     ):
         super().__init__(name=name, preconditions=preconditions, task_type="screen")
         self.components = components
-        self.status_message_template = status_message_template
+        self.status_message = status_message
         self.show_status_message = show_status_message
 
     def get_flow_components(self):
@@ -93,11 +90,7 @@ class Screen(Task):
                 yield from component.get_validators()
 
     def get_status_message(self):
-        message = {
-            "type": "success",
-            "template": self.status_message_template,
-        }
-        return message
+        return self.status_message.as_dict()
 
     def as_dict(self):
         screen = super().as_dict()
