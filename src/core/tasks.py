@@ -1,5 +1,3 @@
-from .translate import Translatable
-
 __all__ = (
     "Task",
     "Screen",
