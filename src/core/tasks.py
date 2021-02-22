@@ -1,7 +1,3 @@
-from itertools import chain
-
-from .translate import Translatable
-
 __all__ = (
     "Task",
     "Screen",
@@ -60,22 +56,21 @@ class Task:
 class Screen(Task):
     __slots__ = [
         "components",
+        "status_message",
         "show_status_message",
     ]
-
-    status_message_template = Translatable()
 
     def __init__(
         self,
         name,
         preconditions=None,
         components=None,
-        status_message_template=None,
+        status_message=None,
         show_status_message=True,
     ):
         super().__init__(name=name, preconditions=preconditions, task_type="screen")
         self.components = components
-        self.status_message_template = status_message_template
+        self.status_message = status_message
         self.show_status_message = show_status_message
 
     def get_flow_components(self):
@@ -93,18 +88,17 @@ class Screen(Task):
                 yield from component.get_validators()
 
     def get_status_message(self):
-        message = {
-            "type": "success",
-            "template": self.status_message_template,
-        }
-        return message
+        if self.status_message:
+            return self.status_message.as_dict()
+        return None
 
     def as_dict(self):
         screen = super().as_dict()
         screen["components"] = self.get_flow_components()
 
-        if self.show_status_message:
-            screen["status_message"] = self.get_status_message()
+        status_message = self.get_status_message()
+        if status_message:
+            screen["status_message"] = status_message
 
         return screen
 
@@ -139,7 +133,7 @@ class JsonRpc(Task):
         return self.payload
 
     def get_payload_paths(self):
-        return self.payload_paths
+        return [payload.as_dict() for payload in self.payload_paths]
 
     def as_dict(self):
         endpoint = super().as_dict()
@@ -166,7 +160,7 @@ class Update(Task):
         self.tasks = tasks
 
     def get_tasks(self):
-        return self.tasks
+        return [t.as_dict() for t in self.tasks]
 
     def as_dict(self):
         update = super().as_dict()

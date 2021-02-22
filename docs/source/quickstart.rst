@@ -12,13 +12,13 @@ This acts to demonstrate several concepts described elsewhere, such as the valid
 .. testcode::
 
     import json
-    from workflows_engine import Workflow, components, core, validators
+    from workflows_engine import Workflow, components, core, validators, containers
 
     not_zero_length = core.validators.Validator(
         identifier="not_zero_length",
         validator="isLength",
         validator_value=1,
-        message_template="Field can not be empty",
+        message=containers.message.error(template="Field can not be empty")
     )
 
     should_save_message = validators.is_true(

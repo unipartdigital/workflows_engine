@@ -1,6 +1,6 @@
 from ..schema_validator import get_validator_for
 from workflows_engine.core import tasks, components
-from workflows_engine import validators
+from workflows_engine.containers import messages
 
 
 def test_screen():
@@ -10,7 +10,7 @@ def test_screen():
             components.Button(text="Submit", action="submit", style="primary"),
             components.Button(text="Next", action="next", style="secondary"),
         ],
-        status_message_template="The screen completed",
+        status_message=messages.success(template="The screen completed"),
         show_status_message=True,
     )
     validator = get_validator_for("tasks/screen")

@@ -1,7 +1,7 @@
 from itertools import chain
-from .translate import Translatable
+from .translate import Translatable, get_untranslated_value
 from ..exceptions import InvalidArguments
-
+from . import containers
 
 __all__ = (
     "Component",
@@ -92,7 +92,6 @@ class Component:
 class Input(Component):
     __slots__ = [
         "component_type",
-        "target",
         "input_key",
         "input_ref",
         "output_ref",
@@ -107,7 +106,6 @@ class Input(Component):
     def __init__(
         self,
         component_type=None,
-        target=None,
         label=None,
         input_key=None,
         input_ref=None,
@@ -120,7 +118,6 @@ class Input(Component):
     ):
         super().__init__(**kwargs)
         self.component_type = component_type or self.__class__.__name__.lower()
-        self.target = target or ""
         self.label = label or ""
         self.input_key = input_key
         self.input_ref = input_ref
@@ -131,7 +128,7 @@ class Input(Component):
         self.populate = populate
 
     def _get_default_identifier(self):
-        return "_".join([self.component_type, self.target.lower().replace(" ", "_")])
+        return "_".join([self.component_type, get_untranslated_value(self, "label")])
 
     def get_base_component_dict(self):
         component = super().get_base_component_dict()
@@ -143,8 +140,6 @@ class Input(Component):
             }
         )
 
-        if self.target:
-            component["target"]: self.target
         if self.obscure:
             component["obscure"] = self.obscure
         if self.input_key:
@@ -183,9 +178,7 @@ class DateTime(Input):
             )
         return True
 
-    def __init__(
-        self, datetime_type="datetime", **kwargs
-    ):
+    def __init__(self, datetime_type="datetime", **kwargs):
         super().__init__(**kwargs)
         self.component_type = self.get_datetime_type(datetime_type)
 
@@ -270,7 +263,7 @@ class DisplayData(Component):
 
     __slots__ = [
         "data",
-        "display_type"
+        "display_type",
     ]
 
     title = Translatable()
@@ -306,7 +299,7 @@ class OptionList(DisplayData):
     This component is a selectable analogue to the DisplayData component.
     Elements are displayed as in the "details" case of  DisplayData,
     and upon selection a defined value is added to the context.
-    This requires data to be a list of 
+    This requires data to be a list of
         {
             'details': [
                     {'label': 'label1', 'value': 'value1'},
@@ -361,23 +354,17 @@ class Checkbox(Component):
 
 class MessageBox(Component):
     __slots__ = [
-        "type",
+        "message",
         "size",
     ]
 
-    template = Translatable()
-
     def __init__(self, template, message_type, size=None, **kwargs):
         super().__init__(**kwargs)
-        self.template = template
-        self.type = message_type
+        self.message = containers.Message(template, message_type)
         self.size = size
 
     def get_message(self):
-        return {
-            "template": self.template,
-            "type": self.type,
-        }
+        return self.message.as_dict()
 
     def get_base_component_dict(self):
         return {
@@ -445,7 +432,16 @@ class Selection(Component):
         return True
 
     def __init__(
-        self, label, style="default", is_required=False, validators=None, value=None, destination_path=None, options_key=None, options_values=None, **kwargs
+        self,
+        label,
+        style="default",
+        is_required=False,
+        validators=None,
+        value=None,
+        destination_path=None,
+        options_key=None,
+        options_values=None,
+        **kwargs
     ):
         super().__init__(**kwargs)
         self.style = style
