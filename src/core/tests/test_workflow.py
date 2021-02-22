@@ -1,6 +1,7 @@
 import pytest
 from workflows_engine import Workflow
 from workflows_engine import validators
+from workflows_engine.core import containers
 from .schema_validator import get_validator_for
 
 
@@ -15,8 +16,8 @@ def workflow():
                 preconditions=validators.is_equal(value_key="$.value", validator_value="a"),
                 method="GET",
                 payload_paths=[
-                    {"key": "$.arg1", "result_key": "$.arg1_result"},
-                    {"key": "$.arg2", "result_key": "$.arg2_result"},
+                    containers.PayloadPath(source_path="$.arg1", destination_path="$.arg1_result"),
+                    containers.PayloadPath(source_path="$.arg2", destination_path="$.arg2_result"),
                 ],
                 payload={"arg1_result": None, "arg2_result": None},
                 response_path="$.response",

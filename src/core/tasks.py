@@ -133,7 +133,7 @@ class JsonRpc(Task):
         return self.payload
 
     def get_payload_paths(self):
-        return self.payload_paths
+        return [payload.as_dict() for payload in self.payload_paths]
 
     def as_dict(self):
         endpoint = super().as_dict()
