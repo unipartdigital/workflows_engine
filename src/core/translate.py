@@ -2,16 +2,16 @@ from weakref import WeakKeyDictionary
 
 
 class Translatable:
-    """ Helper Class to allow for translate component attributes to be translated to the users
-        language
+    """Helper Class to allow for translate component attributes to be translated to the users
+    language
 
-        By default no translation occurs, to setup translations replace the `_translator` class
-        method with your own translation mechanism.
+    By default no translation occurs, to setup translations replace the `_translator` class
+    method with your own translation mechanism.
 
-        e.g
-        ```python
-        Translatable._translator = staticmethod(magic_translation_function)
-        ```
+    e.g
+    ```python
+    Translatable._translator = staticmethod(magic_translation_function)
+    ```
     """
 
     _translator = staticmethod(lambda x: x)
@@ -31,3 +31,11 @@ class Translatable:
 
     def __set__(self, inst, value):
         self._refs[inst] = value
+
+    def get_raw_value(self, inst):
+        return self._refs.get(inst)
+
+
+def get_untranslated_value(inst, field):
+    translatable = getattr(inst.__class__, field)
+    return translatable.get_raw_value(inst)
