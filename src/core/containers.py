@@ -100,6 +100,13 @@ class ContextUpdateInstruction(Container):
         append=False,
         extend=False,
     ):
+        self.value = value
+        self.template = template
+        self.source_path = source_path
+        self.destination_path = destination_path
+        self.append = append
+        self.extend = extend
+
         src_keys = ["value", "template", "source_path"]
         src_vars_with_val = [x for x in src_keys if getattr(self, x) is not None]
 
@@ -107,19 +114,10 @@ class ContextUpdateInstruction(Container):
             var_names = "' and '".join(src_vars_with_val)
             raise InvalidArguments(f"'{var_names}' attribute cannot be used together")
         elif len(src_vars_with_val) == 0:
-            raise InvalidArguments(
-                f"One of 'value', 'template' or 'source_path' attribute must be used"
-            )
+            raise InvalidArguments(f"One of 'value', 'template' or 'source_path' attribute must be used")
 
         if append is not False and extend is not False:
             raise InvalidArguments("'append' and 'extend' attribute cannot be used together")
-
-        self.value = value
-        self.template = template
-        self.source_path = source_path
-        self.destination_path = destination_path
-        self.append = append
-        self.extend = extend
 
     def as_dict(self):
         res = {"result_key": self.destination_path}
