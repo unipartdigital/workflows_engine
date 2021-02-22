@@ -1,7 +1,7 @@
 from itertools import chain
 from .translate import Translatable
 from ..exceptions import InvalidArguments
-
+from . import containers
 
 __all__ = (
     "Component",
@@ -361,23 +361,17 @@ class Checkbox(Component):
 
 class MessageBox(Component):
     __slots__ = [
-        "type",
+        "message",
         "size",
     ]
 
-    template = Translatable()
-
     def __init__(self, template, message_type, size=None, **kwargs):
         super().__init__(**kwargs)
-        self.template = template
-        self.type = message_type
+        self.message = containers.Message(template, message_type)
         self.size = size
 
     def get_message(self):
-        return {
-            "template": self.template,
-            "type": self.type,
-        }
+        return self.message.as_dict()
 
     def get_base_component_dict(self):
         return {

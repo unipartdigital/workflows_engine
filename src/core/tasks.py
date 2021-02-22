@@ -90,14 +90,17 @@ class Screen(Task):
                 yield from component.get_validators()
 
     def get_status_message(self):
-        return self.status_message.as_dict()
+        if self.status_message:
+            return self.status_message.as_dict()
+        return None
 
     def as_dict(self):
         screen = super().as_dict()
         screen["components"] = self.get_flow_components()
 
-        if self.show_status_message:
-            screen["status_message"] = self.get_status_message()
+        status_message = self.get_status_message()
+        if status_message:
+            screen["status_message"] = status_message
 
         return screen
 
