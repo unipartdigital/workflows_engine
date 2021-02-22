@@ -160,7 +160,7 @@ class Update(Task):
         self.tasks = tasks
 
     def get_tasks(self):
-        return self.tasks
+        return [t.as_dict() for t in self.tasks]
 
     def as_dict(self):
         update = super().as_dict()
