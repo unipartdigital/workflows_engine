@@ -10,14 +10,26 @@ class SameIdentiferDifferentValues(Exception):
     pass
 
 
+def freeze_list(list_to_freeze):
+    return frozenset(
+        dict_to_set(value)
+        if isinstance(value, dict)
+        else freeze_list(value)
+        if isinstance(value, list)
+        else
+        value
+        for value in list_to_freeze
+    )
+
+
 def dict_to_set(d):
     return frozenset(
-        (k, dict_to_set(v))
-        if isinstance(v, dict)
-        else (k, frozenset(v))
-        if isinstance(v, list)
-        else (k, v)
-        for k, v in d.items()
+        (key, dict_to_set(value))
+        if isinstance(value, dict)
+        else (key, freeze_list(value))
+        if isinstance(value, list)
+        else (key, value)
+        for key, value in d.items()
     )
 
 
