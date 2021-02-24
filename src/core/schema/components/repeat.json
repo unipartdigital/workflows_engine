@@ -10,14 +10,19 @@
       "type": "array",
       "items": [
         {
-          "$ref": "../common/component_lookup.json#/definitions/component_lookup"
+          "type": "array",
+          "items": [
+            {
+              "$ref": "../common/component_lookup.json#/definitions/component_lookup"
+            }
+          ]
         }
       ]
     },
-    "validators": { "type": "array", "items": [{ "type": "string" }] },
-    "quantity": { "type": "integer" },
-    "quantity_path": { "$ref": "../common.json#/definitions/jsonpath" }
+    "times_to_repeat": { "type": "integer" },
+    "times_to_repeat_path": { "$ref": "../common.json#/definitions/jsonpath" },
+    "destination_path": { "$ref": "../common.json#/definitions/jsonpath" }
   },
-  "oneOf": [{ "required": ["quantity"] }, { "required": ["quantity_path"] }],
+  "oneOf": [{ "required": ["times_to_repeat"] }, { "required": ["times_to_repeat_path"] }],
   "additionalProperties": false
 }
