@@ -489,50 +489,56 @@ class Repeat(Component):
     A meta component which can be used to repeat the same field.
 
     Args:
-        quantity: Int
+        times_to_repeat: Int
             number of times the field should be repeated
-        quantity_path: Str:
+        times_to_repeat_path: Str:
             a jsonpath to look up how many times the field should be repeated
-        validators: List[Validators]
-            the list of names of the validators to act on the result of the all the repeat fields
-        components: List[Component]
-            a list of components in the group
+        components: List[List[Component]]
+            a list of rows of components in the group
+        destination_path: Str:
+            a jsonpath to put the list of results into (if components have a destination_path)
     """
 
     __slots__ = [
-        "quantity",
-        "quantity_path",
+        "times_to_repeat",
+        "times_to_repeat_path",
         "components",
-        "validators",
+        "destination_path",
     ]
 
-    def __init__(self, components, quantity=None, quantity_path=None, validators=None, **kwargs):
-        self._validate_args(quantity, quantity_path)
+    def __init__(self, components, times_to_repeat=None, times_to_repeat_path=None, destination_path=None, **kwargs):
+        self._validate_args(times_to_repeat, times_to_repeat_path)
         super().__init__(**kwargs)
         self.components = components
-        self.quantity = quantity
-        self.quantity_path = quantity_path
-        self.validators = validators or []
+        self.times_to_repeat = times_to_repeat
+        self.times_to_repeat_path = times_to_repeat_path
+        self.destination_path = destination_path
 
     @staticmethod
-    def _validate_args(quantity, quantity_path):
-        if quantity is not None and quantity_path is not None:
-            raise InvalidArguments("'quantity' and 'quantity_path' attribute cannot be used together")
+    def _validate_args(times_to_repeat, times_to_repeat_path):
+        if times_to_repeat is not None and times_to_repeat_path is not None:
+            raise InvalidArguments("'times_to_repeat' and 'times_to_repeat_path' attribute cannot be used together")
 
-        if quantity is None and quantity_path is None:
-            raise InvalidArguments("Either 'quantity' or 'quantity_path' attribute must be used")
+        if times_to_repeat is None and times_to_repeat_path is None:
+            raise InvalidArguments("Either 'times_to_repeat' or 'times_to_repeat_path' attribute must be used")
 
     def get_base_component_dict(self):
+        # As we expect rows of components, keep the structure but parse out the component dicts
+        components_dicts = [
+            [
+                component.get_flow_component_dict() for component in row
+            ] for row in self.components
+        ]
         component = {
             "type": "repeated_field",
-            "components": [c.get_flow_component_dict() for c in self.components],
-            "validators": [v.identifier for v in self.validators],
+            "components": components_dicts,
+            "destination_path": self.destination_path,
         }
 
-        if self.quantity is not None:
-            component["quantity"] = self.quantity
+        if self.times_to_repeat is not None:
+            component["times_to_repeat"] = self.times_to_repeat
         else:
-            component["quantity_path"] = self.quantity_path
+            component["times_to_repeat_path"] = self.times_to_repeat_path
 
         return component
 
