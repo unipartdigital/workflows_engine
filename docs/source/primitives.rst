@@ -407,8 +407,7 @@ Schema
 Selection
 ------
 
-A selection component. This provides a dropdown of options. If the is_required flag is set to true then
-the something must be selected. The values for the dropdown can be provided from the context via options_key
+A selection component. This provides a dropdown of options. If the is_required flag is set to true then something must be selected. The values for the dropdown can be provided from the context via options_key
 or directly as options_values, only one of which can be provided otherwise an error will be
 raised.
 
@@ -465,6 +464,18 @@ Allow for a set of repeated fields for dynamic construction of forms.
 
 .. warning:: Not Implemented in udes client ATM
 
+
+Modal
+-----
+
+A modal component, produces a pop-up dialogue box which itself can contain other components. This 
+gives a powerfully composable element which is conditionally shown and can be used to take user input
+separately from the main display.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/modal.json
 
 
 Schema
