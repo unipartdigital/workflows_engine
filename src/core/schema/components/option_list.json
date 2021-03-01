@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://udes.io/jsonschema/workflows/components/display_data.json",
+  "$id": "http://udes.io/jsonschema/workflows/components/option_list.json",
   "title": "option_list",
   "description": "Workflows option_list component",
   "type": "object",
