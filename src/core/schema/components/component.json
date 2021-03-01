@@ -2,19 +2,19 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "http://udes.io/jsonschema/workflows/components/component.json",
   "title": "component",
-  "description": "Workflows update task",
+  "description": "Workflows components",
   "type": "object",
   "oneOf": [
-    { "$ref": "components/button.json#" },
-    { "$ref": "components/checkbox.json#" },
-    { "$ref": "components/data_display.json#" },
-    { "$ref": "components/image.json#" },
-    { "$ref": "components/input.json#" },
-    { "$ref": "components/message_box.json#" },
-    { "$ref": "components/repeat.json#" },
-    { "$ref": "components/toggle.json#" },
-    { "$ref": "components/datetime.json#" },
-    { "$ref": "components/selection.json#" },
-    { "$ref": "components/option_list.json#" }
+    { "$ref": "button.json#" },
+    { "$ref": "checkbox.json#" },
+    { "$ref": "display_data.json#" },
+    { "$ref": "image.json#" },
+    { "$ref": "input.json#" },
+    { "$ref": "message_box.json#" },
+    { "$ref": "repeat.json#" },
+    { "$ref": "toggle.json#" },
+    { "$ref": "datetime.json#" },
+    { "$ref": "selection.json#" },
+    { "$ref": "option_list.json#" }
   ]
 }
