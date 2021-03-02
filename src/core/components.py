@@ -89,6 +89,23 @@ class Component:
         yield self
 
 
+class Textbox(Component):
+    __slots__ = [
+        "content",
+    ]
+
+    def __init__(self, content=None, **kwargs):
+        super().__init__(**kwargs)
+        self.content = content
+
+    def get_base_component_dict(self):
+        return {
+            "type": "textbox",
+            "content": self.content
+        }
+
+
+
 class Input(Component):
     __slots__ = [
         "component_type",

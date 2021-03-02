@@ -289,6 +289,16 @@ Schema
 
 .. jsonschema:: ../../src/core/schema/common/component_lookup.json
 
+Text box
+-----------
+
+A textbox for providing general information to a user. Accepts analogues of some html tags as defined in the schema, to allow for basic formatting.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/textbox.json
+
 Button
 ------
 
