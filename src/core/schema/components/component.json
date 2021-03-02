@@ -15,6 +15,7 @@
     { "$ref": "toggle.json#" },
     { "$ref": "datetime.json#" },
     { "$ref": "selection.json#" },
-    { "$ref": "option_list.json#" }
+    { "$ref": "option_list.json#" },
+    { "$ref": "textbox.json#" }
   ]
 }
