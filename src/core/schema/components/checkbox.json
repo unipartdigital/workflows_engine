@@ -6,10 +6,22 @@
   "type": "object",
   "properties": {
     "type": { "type": "string", "enum": ["checkbox"] },
-    "title": { "type": "string" },
-    "data": { "$ref": "../common.json#/definitions/jsonpath" },
-    "target": { "$ref": "../common.json#/definitions/jsonpath" }
+    "label": { "type": "string" },
+    "destination_path": { "$ref": "../common.json#/definitions/jsonpath" },
+    "value":
+    {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "boolean" }
+      ]
+    },
+    "value_path": {
+      "oneOf": [
+        { "$ref": "../common.json#/definitions/jsonpath" },
+        { "type": "null" }
+      ]
+    }
   },
-  "required": ["type", "data", "target"],
+  "required": ["type", "label", "destination_path"],
   "additionalProperties": false
 }

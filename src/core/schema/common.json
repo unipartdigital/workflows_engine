@@ -102,6 +102,26 @@
           "type": "string"
         }
       }
+    },
+    "checkbox_data": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "boolean" }
+          ]
+        },
+        "value_path": {
+           "$ref": "../common.json#/definitions/jsonpath"
+        }
+      },
+      "required": [
+        "label"
+      ]
     }
   }
 }

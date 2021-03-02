@@ -444,14 +444,28 @@ Schema
 Checkbox
 --------
 
-A set of checkboxes allowing for value selection.
+A checkbox allowing for value selection. ``value`` is a raw value, whereas ``value_path`` is a jsonpath used to lookup the value in the context. ``destination_path`` should be used to determine where to store the value, when the checkbox is checked
 
-.. note:: If two check boxes have the same value selecting either will cause both to be checked.
+.. note:: If multiple checkboxes have the same value and destination_path selecting either will cause all to be checked.
 
 Schema
 ^^^^^^
 
 .. jsonschema:: ../../src/core/schema/components/checkbox.json
+
+
+CheckboxList
+--------
+
+A set of checkboxes allowing for value selection. Similar to singular checkboxes, it allows values to be set at a location in context with ``destination_path``, however all values will be set at the same context location.
+Accepts ``data`` as a raw list, or ``data_path`` as a jsonpath used to lookup the data in the context.
+
+.. note:: If multiple checkbox have the same value selecting any will cause all to be checked.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/checkbox_list.json
 
 
 Image
