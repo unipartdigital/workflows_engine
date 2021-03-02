@@ -9,6 +9,7 @@ __all__ = (
     "Button",
     "DisplayData",
     "Checkbox",
+    "CheckboxList",
     "MessageBox",
     "Toggle",
     "Image",
@@ -382,32 +383,132 @@ class Modal(Component):
 
 class Checkbox(Component):
     """
-    - "data": requires a list of "{'id': 1, 'label': '...', 'value': '...'}"
+    label: Label to show next to the checkbox
+    destination_path: The JSON path key in which to store the value/value_path
+    value: The value to be stored at the destination_path
+    value_path: A JSON path lookup (to provide a list of values, put them into the context and then use the lookup),
     """
 
     __slots__ = [
+        "label",
+        "destination_path",
+        "value_path",
+        "value",
+    ]
+
+    def get_value(self, value_path, value):
+        """Only value or value_path should be specified, this function validates this condition"""
+        validate = self.validate_value(value_path, value)
+        if validate:
+            return value_path, value
+
+    def validate_value(self, value_path, value):
+        if value is not None and value_path is not None:
+            raise InvalidArguments("'value' and 'value_path' attribute cannot be used together")
+
+        if value is None and value_path is None:
+            raise InvalidArguments("Either 'value' or 'value_path' attribute must be used")
+
+        if value and type(value) is not str and type(value) is not bool:
+            raise InvalidArguments("If 'value' is supplied, it must be a string or boolean")
+
+        return True
+
+    def __init__(self, label, destination_path=None, value=None, value_path=None, **kwargs):
+        super().__init__(**kwargs)
+        self.label = label
+        self.value_path, self.value = self.get_value(value_path, value)
+        self.destination_path = destination_path
+
+    def get_base_component_dict(self):
+        base_component_dict = {
+            "type": "checkbox",
+            "label": self.label,
+        }
+        if self.destination_path is not None:
+            base_component_dict["destination_path"] = self.destination_path
+        if self.value is not None:
+            base_component_dict["value"] = self.value
+        else:
+            base_component_dict["value_path"] = self.value_path
+        return base_component_dict
+
+    def _checkboxlist_dict(self):
+        """Produces the reduced data from a checkbox that would be used in a checkboxlist"""
+        return {
+            "label": self.label,
+            "value": self.value
+        }
+
+
+class CheckboxList(Component):
+    """
+    title: Title to show for the checkbox list
+    destination_path: JSON path to store the outcome of the checkbox list
+    data: A hardcoded list of checkbox like signatures
+    data_path: A JSON path pointing to a list of checkbox like signatures
+    (without destination path, as this comes from the checkbox list itself):
+        [
+            '{
+                "label": "Label of checkbox 1",
+                "value": "Some value to put at destination_path",
+            }',
+            '{
+                "label": "Label of checkbox 2",
+                "value": "Some value to put at destination_path",
+            }'
+        ]
+        for each checkbox to be displayed
+        Note that if value is the same between data entries, each checkbox with that value will be set
+        as ticked if any matching entry is set. This owes to the values put into the destination path
+        defining the relative state of the checkbox itself.
+    """
+    # TODO: Potentially we could have destination_path for each checkbox, to create a hierarchical structure at the
+    # checkbox list destination_path, but no use case currently reveals itself.
+
+    __slots__ = [
+        "destination_path",
+        "data_path",
         "data",
-        "target",
     ]
 
     title = Translatable()
 
-    def __init__(self, title, data, target, **kwargs):
+    def get_data(self, data_path, data):
+        """Only data or data_path should be specified, this function validates this condition"""
+        validate = self.validate_data(data_path, data)
+        if validate:
+            return data_path, data
+
+    def validate_data(self, data_path, data):
+        if data is not None and data_path is not None:
+            raise InvalidArguments("'data' and 'data_path' attribute cannot be used together")
+
+        if data is None and data_path is None:
+            raise InvalidArguments("Either 'data' or 'data_path' attribute must be used")
+
+        if data and type(data) is not list and type(data[0]) is not dict:
+            raise InvalidArguments("If 'data' is supplied, it must be a list of dictionaries")
+
+        return True
+
+    def __init__(self, title, destination_path, data_path=None, data=None, **kwargs):
         super().__init__(**kwargs)
         self.title = title
-        self.data = data
-        self.target = target
-
-    def _get_default_identifier(self):
-        return "_".join([self.title.lower().replace(" ", "_")])
+        self.destination_path = destination_path
+        self.data_path, self.data = self.get_data(data_path, data)
 
     def get_base_component_dict(self):
-        return {
-            "type": "checkbox",
+        base_component_dict = {
+            "type": "checkbox_list",
             "title": self.title,
-            "data": self.data,
-            "target": self.target,
+            "destination_path": self.destination_path,
         }
+        if self.data_path is not None:
+            base_component_dict["data_path"] = self.data_path
+        else:
+            base_component_dict["data"] = self.data
+        return base_component_dict
 
 
 class MessageBox(Component):
