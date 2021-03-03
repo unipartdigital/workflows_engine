@@ -99,11 +99,7 @@ class Textbox(Component):
         self.content = content
 
     def get_base_component_dict(self):
-        return {
-            "type": "textbox",
-            "content": self.content
-        }
-
+        return {"type": "textbox", "content": self.content}
 
 
 class Input(Component):
@@ -200,9 +196,7 @@ class DateTime(Input):
             )
         return True
 
-    def __init__(
-        self, datetime_type="datetime", **kwargs
-    ):
+    def __init__(self, datetime_type="datetime", **kwargs):
         super().__init__(**kwargs)
         self.component_type = self.get_datetime_type(datetime_type)
 
@@ -285,10 +279,7 @@ class DisplayData(Component):
                  point to such an object in the context
     """
 
-    __slots__ = [
-        "data",
-        "display_type"
-    ]
+    __slots__ = ["data", "display_type"]
 
     title = Translatable()
     subtitle = Translatable()
@@ -323,7 +314,7 @@ class OptionList(DisplayData):
     This component is a selectable analogue to the DisplayData component.
     Elements are displayed as in the "details" case of  DisplayData,
     and upon selection a defined value is added to the context.
-    This requires data to be a list of 
+    This requires data to be a list of
         {
             'details': [
                     {'label': 'label1', 'value': 'value1'},
@@ -348,9 +339,10 @@ class OptionList(DisplayData):
 
 class Modal(Component):
     """
-        A data structure to render a modal popup on the frontend, which itself
-        can contain components.
+    A data structure to render a modal popup on the frontend, which itself
+    can contain components.
     """
+
     __slots__ = [
         "title",
         "components",
@@ -367,8 +359,12 @@ class Modal(Component):
         return {
             "type": "modal",
             "title": self.title,
-            "components": [[component.get_flow_component_dict() for component in row] for row in self.components],
-            "trigger_conditions": [trigger_condition.identifier for trigger_condition in self.trigger_conditions],
+            "components": [
+                [component.get_flow_component_dict() for component in row] for row in self.components
+            ],
+            "trigger_conditions": [
+                trigger_condition.identifier for trigger_condition in self.trigger_conditions
+            ],
         }
 
     def get_components(self):
@@ -496,7 +492,16 @@ class Selection(Component):
         return True
 
     def __init__(
-        self, label, style="default", is_required=False, validators=None, value=None, destination_path=None, options_key=None, options_values=None, **kwargs
+        self,
+        label,
+        style="default",
+        is_required=False,
+        validators=None,
+        value=None,
+        destination_path=None,
+        options_key=None,
+        options_values=None,
+        **kwargs
     ):
         super().__init__(**kwargs)
         self.style = style
@@ -557,7 +562,9 @@ class Repeat(Component):
         "destination_path",
     ]
 
-    def __init__(self, components, times_to_repeat=None, times_to_repeat_path=None, destination_path=None, **kwargs):
+    def __init__(
+        self, components, times_to_repeat=None, times_to_repeat_path=None, destination_path=None, **kwargs
+    ):
         self._validate_args(times_to_repeat, times_to_repeat_path)
         super().__init__(**kwargs)
         self.components = components
@@ -568,17 +575,19 @@ class Repeat(Component):
     @staticmethod
     def _validate_args(times_to_repeat, times_to_repeat_path):
         if times_to_repeat is not None and times_to_repeat_path is not None:
-            raise InvalidArguments("'times_to_repeat' and 'times_to_repeat_path' attribute cannot be used together")
+            raise InvalidArguments(
+                "'times_to_repeat' and 'times_to_repeat_path' attribute cannot be used together"
+            )
 
         if times_to_repeat is None and times_to_repeat_path is None:
-            raise InvalidArguments("Either 'times_to_repeat' or 'times_to_repeat_path' attribute must be used")
+            raise InvalidArguments(
+                "Either 'times_to_repeat' or 'times_to_repeat_path' attribute must be used"
+            )
 
     def get_base_component_dict(self):
         # As we expect rows of components, keep the structure but parse out the component dicts
         components_dicts = [
-            [
-                component.get_flow_component_dict() for component in row
-            ] for row in self.components
+            [component.get_flow_component_dict() for component in row] for row in self.components
         ]
         component = {
             "type": "repeated_field",
