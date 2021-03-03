@@ -1,5 +1,5 @@
 from itertools import chain
-from .translate import Translatable
+from .translate import Translatable, get_untranslated_value
 from ..exceptions import InvalidArguments
 
 
@@ -102,10 +102,10 @@ class Textbox(Component):
     def get_base_component_dict(self):
         return {"type": "textbox", "content": self.content}
 
+
 class Input(Component):
     __slots__ = [
         "component_type",
-        "target",
         "input_key",
         "input_ref",
         "output_ref",
@@ -120,7 +120,6 @@ class Input(Component):
     def __init__(
         self,
         component_type=None,
-        target=None,
         label=None,
         input_key=None,
         input_ref=None,
@@ -133,7 +132,6 @@ class Input(Component):
     ):
         super().__init__(**kwargs)
         self.component_type = component_type or self.__class__.__name__.lower()
-        self.target = target or ""
         self.label = label or ""
         self.input_key = input_key
         self.input_ref = input_ref
@@ -144,7 +142,7 @@ class Input(Component):
         self.populate = populate
 
     def _get_default_identifier(self):
-        return "_".join([self.component_type, self.target.lower().replace(" ", "_")])
+        return "_".join([self.component_type, get_untranslated_value(self, "label")])
 
     def get_base_component_dict(self):
         component = super().get_base_component_dict()
@@ -156,8 +154,6 @@ class Input(Component):
             }
         )
 
-        if self.target:
-            component["target"] = self.target
         if self.obscure:
             component["obscure"] = self.obscure
         if self.input_key:
@@ -193,24 +189,31 @@ class InputWithSuggestions(Input):
 
     def validate_suggestions(self, suggestions_path, suggestions):
         if suggestions is not None and suggestions_path is not None:
-            raise InvalidArguments("'suggestions' and 'suggestions_path' attribute cannot be used together")
+            raise InvalidArguments(
+                "'suggestions' and 'suggestions_path' attribute cannot be used together"
+            )
 
         if suggestions is None and suggestions_path is None:
-            raise InvalidArguments("Either 'suggestions' or 'suggestions_path' attribute must be used")
+            raise InvalidArguments(
+                "Either 'suggestions' or 'suggestions_path' attribute must be used"
+            )
 
-        if suggestions and type(suggestions) is not list and type(suggestions[0]) is not dict:
-            raise InvalidArguments("If 'suggestions' is supplied, it must be a list of dicts")
+        if (
+            suggestions
+            and type(suggestions) is not list
+            and type(suggestions[0]) is not dict
+        ):
+            raise InvalidArguments(
+                "If 'suggestions' is supplied, it must be a list of dicts"
+            )
 
         return True
 
-    def __init__(
-        self,
-        suggestions_path=None,
-        suggestions=None,
-        **kwargs
-    ):
+    def __init__(self, suggestions_path=None, suggestions=None, **kwargs):
         super().__init__(**kwargs)
-        self.suggestions_path, self.suggestions = self.get_suggestions(suggestions_path, suggestions)
+        self.suggestions_path, self.suggestions = self.get_suggestions(
+            suggestions_path, suggestions
+        )
 
     def get_base_component_dict(self):
         component = super().get_base_component_dict()
@@ -252,9 +255,7 @@ class DateTime(Input):
             )
         return True
 
-    def __init__(
-        self, datetime_type="datetime", open_to=None, **kwargs
-    ):
+    def __init__(self, datetime_type="datetime", open_to=None, **kwargs):
         super().__init__(**kwargs)
         self.component_type = self.get_datetime_type(datetime_type)
         self.open_to = self.get_open_to(open_to)
@@ -319,7 +320,9 @@ class Button(Component):
             button["show_confirmation"] = self.show_confirmation
 
         if self.destination_path:
-            button.update({"value": self.value, "destination_path": self.destination_path})
+            button.update(
+                {"value": self.value, "destination_path": self.destination_path}
+            )
         if self.load_values is not None:
             button["load_values"] = self.load_values
 
@@ -425,10 +428,12 @@ class Modal(Component):
             "type": "modal",
             "title": self.title,
             "components": [
-                [component.get_flow_component_dict() for component in row] for row in self.components
+                [component.get_flow_component_dict() for component in row]
+                for row in self.components
             ],
             "trigger_conditions": [
-                trigger_condition.identifier for trigger_condition in self.trigger_conditions
+                trigger_condition.identifier
+                for trigger_condition in self.trigger_conditions
             ],
         }
 
@@ -464,17 +469,25 @@ class Checkbox(Component):
 
     def validate_value(self, value_path, value):
         if value is not None and value_path is not None:
-            raise InvalidArguments("'value' and 'value_path' attribute cannot be used together")
+            raise InvalidArguments(
+                "'value' and 'value_path' attribute cannot be used together"
+            )
 
         if value is None and value_path is None:
-            raise InvalidArguments("Either 'value' or 'value_path' attribute must be used")
+            raise InvalidArguments(
+                "Either 'value' or 'value_path' attribute must be used"
+            )
 
         if value and type(value) is not str and type(value) is not bool:
-            raise InvalidArguments("If 'value' is supplied, it must be a string or boolean")
+            raise InvalidArguments(
+                "If 'value' is supplied, it must be a string or boolean"
+            )
 
         return True
 
-    def __init__(self, label, destination_path=None, value=None, value_path=None, **kwargs):
+    def __init__(
+        self, label, destination_path=None, value=None, value_path=None, **kwargs
+    ):
         super().__init__(**kwargs)
         self.label = label
         self.value_path, self.value = self.get_value(value_path, value)
@@ -495,10 +508,7 @@ class Checkbox(Component):
 
     def _checkboxlist_dict(self):
         """Produces the reduced data from a checkbox that would be used in a checkboxlist"""
-        return {
-            "label": self.label,
-            "value": self.value
-        }
+        return {"label": self.label, "value": self.value}
 
 
 class CheckboxList(Component):
@@ -523,6 +533,7 @@ class CheckboxList(Component):
         as ticked if any matching entry is set. This owes to the values put into the destination path
         defining the relative state of the checkbox itself.
     """
+
     # TODO: Potentially we could have destination_path for each checkbox, to create a hierarchical structure at the
     # checkbox list destination_path, but no use case currently reveals itself.
 
@@ -542,13 +553,19 @@ class CheckboxList(Component):
 
     def validate_data(self, data_path, data):
         if data is not None and data_path is not None:
-            raise InvalidArguments("'data' and 'data_path' attribute cannot be used together")
+            raise InvalidArguments(
+                "'data' and 'data_path' attribute cannot be used together"
+            )
 
         if data is None and data_path is None:
-            raise InvalidArguments("Either 'data' or 'data_path' attribute must be used")
+            raise InvalidArguments(
+                "Either 'data' or 'data_path' attribute must be used"
+            )
 
         if data and type(data) is not list and type(data[0]) is not dict:
-            raise InvalidArguments("If 'data' is supplied, it must be a list of dictionaries")
+            raise InvalidArguments(
+                "If 'data' is supplied, it must be a list of dictionaries"
+            )
 
         return True
 
@@ -646,13 +663,23 @@ class Selection(Component):
 
     def validate_options(self, options_key, options_values):
         if options_key is not None and options_values is not None:
-            raise InvalidArguments("'options_key' and 'options_values' attribute cannot be used together")
+            raise InvalidArguments(
+                "'options_key' and 'options_values' attribute cannot be used together"
+            )
 
         if options_key is None and options_values is None:
-            raise InvalidArguments("Either 'options_key' or 'options_values' attribute must be used")
+            raise InvalidArguments(
+                "Either 'options_key' or 'options_values' attribute must be used"
+            )
 
-        if options_values and type(options_values) is not list and type(options_values[0]) is not dict:
-            raise InvalidArguments("If 'options_values' is supplied, it must be a list of dictionaries")
+        if (
+            options_values
+            and type(options_values) is not list
+            and type(options_values[0]) is not dict
+        ):
+            raise InvalidArguments(
+                "If 'options_values' is supplied, it must be a list of dictionaries"
+            )
 
         return True
 
@@ -673,7 +700,9 @@ class Selection(Component):
         self.label = label
         self.is_required = is_required
         self.validators = validators or []
-        self.options_key, self.options_values = self.get_options(options_key, options_values)
+        self.options_key, self.options_values = self.get_options(
+            options_key, options_values
+        )
         self.destination_path = destination_path
 
     def get_base_component_dict(self):
@@ -728,7 +757,12 @@ class Repeat(Component):
     ]
 
     def __init__(
-        self, components, times_to_repeat=None, times_to_repeat_path=None, destination_path=None, **kwargs
+        self,
+        components,
+        times_to_repeat=None,
+        times_to_repeat_path=None,
+        destination_path=None,
+        **kwargs
     ):
         self._validate_args(times_to_repeat, times_to_repeat_path)
         super().__init__(**kwargs)
@@ -752,7 +786,8 @@ class Repeat(Component):
     def get_base_component_dict(self):
         # As we expect rows of components, keep the structure but parse out the component dicts
         components_dicts = [
-            [component.get_flow_component_dict() for component in row] for row in self.components
+            [component.get_flow_component_dict() for component in row]
+            for row in self.components
         ]
         component = {
             "type": "repeated_field",
