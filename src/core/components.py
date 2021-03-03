@@ -1,5 +1,5 @@
 from itertools import chain
-from .translate import Translatable
+from .translate import Translatable, get_untranslated_value
 from ..exceptions import InvalidArguments
 
 
@@ -105,7 +105,6 @@ class Textbox(Component):
 class Input(Component):
     __slots__ = [
         "component_type",
-        "target",
         "input_key",
         "input_ref",
         "output_ref",
@@ -120,7 +119,6 @@ class Input(Component):
     def __init__(
         self,
         component_type=None,
-        target=None,
         label=None,
         input_key=None,
         input_ref=None,
@@ -133,7 +131,6 @@ class Input(Component):
     ):
         super().__init__(**kwargs)
         self.component_type = component_type or self.__class__.__name__.lower()
-        self.target = target or ""
         self.label = label or ""
         self.input_key = input_key
         self.input_ref = input_ref
@@ -144,7 +141,7 @@ class Input(Component):
         self.populate = populate
 
     def _get_default_identifier(self):
-        return "_".join([self.component_type, self.target.lower().replace(" ", "_")])
+        return "_".join([self.component_type, get_untranslated_value(self, "label")])
 
     def get_base_component_dict(self):
         component = super().get_base_component_dict()
@@ -156,8 +153,6 @@ class Input(Component):
             }
         )
 
-        if self.target:
-            component["target"]: self.target
         if self.obscure:
             component["obscure"] = self.obscure
         if self.input_key:
