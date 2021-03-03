@@ -371,10 +371,14 @@ class Modal(Component):
             "trigger_conditions": [trigger_condition.identifier for trigger_condition in self.trigger_conditions],
         }
 
-
     def get_components(self):
         yield from super().get_components()
         yield from self.components
+
+    def get_validators(self):
+        yield from super().get_validators()
+        yield from self.trigger_conditions
+
 
 class Checkbox(Component):
     """
