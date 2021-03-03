@@ -5,6 +5,7 @@
     "description": "Workflows modal component",
     "type": "object",
     "properties": {
+      "type": { "type": "string", "enum": ["modal"] },
       "title": { "type": "string"},
       "components": {
         "type": "array",
