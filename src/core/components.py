@@ -354,19 +354,23 @@ class Modal(Component):
     __slots__ = [
         "title",
         "components",
+        "trigger_conditions",
     ]
 
-    def __init__(self, title, components, **kwargs):
+    def __init__(self, title, components, trigger_conditions=None, **kwargs):
         super().__init__(**kwargs)
         self.title = title
         self.components = components
+        self.trigger_conditions = trigger_conditions or []
 
     def get_base_component_dict(self):
         return {
             "type": "modal",
             "title": self.title,
-            "components": [[component.get_flow_component_dict() for component in row] for row in self.components]
+            "components": [[component.get_flow_component_dict() for component in row] for row in self.components],
+            "trigger_conditions": [trigger_condition.identifier for trigger_condition in self.trigger_conditions],
         }
+
 
     def get_components(self):
         yield from super().get_components()
