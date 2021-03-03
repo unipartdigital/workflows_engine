@@ -363,6 +363,7 @@ class Modal(Component):
 
     def get_base_component_dict(self):
         return {
+            "type": "modal",
             "title": self.title,
             "components": [[component.get_flow_component_dict() for component in row] for row in self.components]
         }
