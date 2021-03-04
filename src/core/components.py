@@ -91,9 +91,9 @@ class Component:
 
 
 class Textbox(Component):
-    __slots__ = [
-        "content",
-    ]
+    __slots__ = []
+
+    content = Translatable()
 
     def __init__(self, content=None, **kwargs):
         super().__init__(**kwargs)
