@@ -412,10 +412,11 @@ class Modal(Component):
     """
 
     __slots__ = [
-        "title",
         "components",
         "trigger_conditions",
     ]
+
+    title = Translatable()
 
     def __init__(self, title, components, trigger_conditions=None, **kwargs):
         super().__init__(**kwargs)
