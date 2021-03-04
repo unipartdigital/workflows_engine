@@ -202,7 +202,6 @@ class Button(Component):
         "style",
         "value",
         "load_values",
-        "destination_path",
         "show_confirmation",
         "disabling_validators",
     ]
@@ -216,7 +215,6 @@ class Button(Component):
         text,
         value=True,
         load_values=None,
-        destination_path=None,
         show_confirmation=False,
         disabling_validators=None,
         **kwargs
@@ -226,7 +224,6 @@ class Button(Component):
         self.style = style
         self.text = text
         self.value = value
-        self.destination_path = destination_path
         self.show_confirmation = show_confirmation
         self.load_values = load_values
         self.disabling_validators = disabling_validators or []
@@ -249,7 +246,7 @@ class Button(Component):
             button["show_confirmation"] = self.show_confirmation
 
         if self.destination_path:
-            button.update({"value": self.value, "destination_path": self.destination_path})
+            button.update({"value": self.value})
         if self.load_values is not None:
             button["load_values"] = self.load_values
 
@@ -274,7 +271,10 @@ class DisplayData(Component):
                  point to such an object in the context
     """
 
-    __slots__ = ["data", "display_type"]
+    __slots__ = [
+        "data",
+        "display_type",
+    ]
 
     title = Translatable()
     subtitle = Translatable()
@@ -435,17 +435,15 @@ class Toggle(Component):
         "style",
         "preconditions",
         "value",
-        "destination_path",
     ]
 
     label = Translatable()
 
-    def __init__(self, style, label, value=None, destination_path=None, **kwargs):
+    def __init__(self, style, label, value=None, **kwargs):
         super().__init__(**kwargs)
         self.style = style
         self.label = label
         self.value = value
-        self.destination_path = destination_path
 
     def get_base_component_dict(self):
         return {
@@ -453,7 +451,6 @@ class Toggle(Component):
             "style": self.style,
             "label": self.label,
             "value": self.value,
-            "destination_path": self.destination_path,
         }
 
 
@@ -462,7 +459,6 @@ class Selection(Component):
         "style",
         "validators",
         "is_required",
-        "destination_path",
         "options_key",
         "options_values",
     ]
@@ -493,8 +489,6 @@ class Selection(Component):
         style="default",
         is_required=False,
         validators=None,
-        value=None,
-        destination_path=None,
         options_key=None,
         options_values=None,
         **kwargs
@@ -505,7 +499,6 @@ class Selection(Component):
         self.is_required = is_required
         self.validators = validators or []
         self.options_key, self.options_values = self.get_options(options_key, options_values)
-        self.destination_path = destination_path
 
     def get_base_component_dict(self):
         return {
@@ -516,7 +509,6 @@ class Selection(Component):
             "validator": [validator.identifier for validator in self.validators],
             "options_values": self.options_values,
             "options_key": self.options_key,
-            "destination_path": self.destination_path,
         }
 
 
@@ -547,26 +539,20 @@ class Repeat(Component):
             a jsonpath to look up how many times the field should be repeated
         components: List[List[Component]]
             a list of rows of components in the group
-        destination_path: Str:
-            a jsonpath to put the list of results into (if components have a destination_path)
     """
 
     __slots__ = [
         "times_to_repeat",
         "times_to_repeat_path",
         "components",
-        "destination_path",
     ]
 
-    def __init__(
-        self, components, times_to_repeat=None, times_to_repeat_path=None, destination_path=None, **kwargs
-    ):
+    def __init__(self, components, times_to_repeat=None, times_to_repeat_path=None, **kwargs):
         self._validate_args(times_to_repeat, times_to_repeat_path)
         super().__init__(**kwargs)
         self.components = components
         self.times_to_repeat = times_to_repeat
         self.times_to_repeat_path = times_to_repeat_path
-        self.destination_path = destination_path
 
     @staticmethod
     def _validate_args(times_to_repeat, times_to_repeat_path):
@@ -588,7 +574,6 @@ class Repeat(Component):
         component = {
             "type": "repeated_field",
             "components": components_dicts,
-            "destination_path": self.destination_path,
         }
 
         if self.times_to_repeat is not None:
