@@ -16,8 +16,7 @@ def freeze_list(list_to_freeze):
         if isinstance(value, dict)
         else freeze_list(value)
         if isinstance(value, list)
-        else
-        value
+        else value
         for value in list_to_freeze
     )
 
@@ -49,19 +48,17 @@ class Workflow:
         return self.flow_cache is not None
 
     @staticmethod
-    def _get_parts(part_type, iters, dict_getter):
+    def _get_parts(part_type, iters, dict_getter, name_getter=lambda p: p.identifer):
         result = {}
         part_cache = defaultdict(set)
         for part in iters:
-            name = part.identifier
+            name = name_getter(part)
             part_dict = dict_getter(part)
             part_set = dict_to_set(part_dict)
             if name in result:
                 if part_cache[name] != part_set:
                     message = "Two {part_type} with the same identifer({name}) but different values"
-                    raise SameIdentiferDifferentValues(
-                        message.format(part_type=part_type, name=name)
-                    )
+                    raise SameIdentiferDifferentValues(message.format(part_type=part_type, name=name))
             else:
                 result[name] = part_dict
                 part_cache[name] = part_set
@@ -70,9 +67,7 @@ class Workflow:
 
     def get_validators(self):
         """Get validator dicts"""
-        return self._get_parts(
-            "validators", self.base_flow_task.get_validators(), lambda x: x.as_dict()
-        )
+        return self._get_parts("validators", self.base_flow_task.get_validators(), lambda x: x.as_dict())
 
     def get_base_components(self):
         """Get component dicts"""
