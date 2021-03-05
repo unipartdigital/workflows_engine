@@ -43,8 +43,8 @@ class Task:
     def get_base_components(self):
         return []
 
-    def get_result(self):
-        return {}
+    def get_flows(self):
+        return []
 
     def get_validators(self):
         if self.preconditions:
@@ -360,10 +360,8 @@ class Flow(Task):
             for row in task.get_base_components():
                 yield from row
 
-    def as_dict(self):
-        flow = super().as_dict()
-        flow.update({"tasks": self.get_tasks(), "config": self.get_config()})
-        return flow
+    def get_flow_dict(self):
+        return {"tasks": self.get_tasks(), "config": self.get_config()}
 
     def add_task(self, task_type, name, **kwargs):
         task = TASK_TYPE_MAPPING[task_type](name=name, **kwargs)
@@ -372,6 +370,10 @@ class Flow(Task):
 
     def clear_tasks(self):
         self.tasks = []
+
+    def get_flows(self):
+        yield self
+        yield from (f for t in self.tasks for f in t.get_flows())
 
 
 class Event(Task):

@@ -48,7 +48,7 @@ class Workflow:
         return self.flow_cache is not None
 
     @staticmethod
-    def _get_parts(part_type, iters, dict_getter, name_getter=lambda p: p.identifer):
+    def _get_parts(part_type, iters, dict_getter=lambda x: x.as_dict(), name_getter=lambda p: p.identifier):
         result = {}
         part_cache = defaultdict(set)
         for part in iters:
@@ -67,14 +67,23 @@ class Workflow:
 
     def get_validators(self):
         """Get validator dicts"""
-        return self._get_parts("validators", self.base_flow_task.get_validators(), lambda x: x.as_dict())
+        return self._get_parts("validators", self.base_flow_task.get_validators())
 
     def get_base_components(self):
         """Get component dicts"""
         return self._get_parts(
             "components",
             self.base_flow_task.get_base_components(),
-            lambda x: x.get_base_component_dict(),
+            dict_getter=lambda x: x.get_base_component_dict(),
+        )
+
+    def get_flows(self):
+        """Get flows dicts"""
+        return self._get_parts(
+            "flows",
+            self.base_flow_task.get_flows(),
+            dict_getter=lambda x: x.get_flow_dict(),
+            name_getter=lambda p: p.name,
         )
 
     def _get_flow_no_context(self):
@@ -82,7 +91,8 @@ class Workflow:
             self.flow_cache = {
                 "validators": self.get_validators(),
                 "components": self.get_base_components(),
-                "flow": self.base_flow_task.as_dict(),
+                "flows": self.get_flows(),
+                "starting_flow": self.base_flow_task.name,
             }
         return self.flow_cache
 

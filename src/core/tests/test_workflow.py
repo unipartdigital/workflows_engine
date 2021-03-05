@@ -22,6 +22,22 @@ def workflow():
                 response_path="$.response",
             )
 
+            subflow = self.add_task(task_type="flow", name="SubFlow")
+
+            subflow.add_task(
+                task_type="jsonrpc",
+                name="task",
+                url="/endpoint/task/url",
+                preconditions=validators.is_equal(value_key="$.value", validator_value="a"),
+                method="GET",
+                payload_paths=[
+                    {"key": "$.arg1", "result_key": "$.arg1_result"},
+                    {"key": "$.arg2", "result_key": "$.arg2_result"},
+                ],
+                payload={"arg1_result": None, "arg2_result": None},
+                response_path="$.response",
+            )
+
     return WorkflowTest
 
 
