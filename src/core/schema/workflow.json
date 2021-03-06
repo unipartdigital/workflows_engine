@@ -23,15 +23,22 @@
       "description": "contains the initial values of the context",
       "type": "object"
     },
-    "flow": {
-      "description": "contains the base flow of the workflow",
-      "$ref": "tasks/task.json#"
+    "flows": {
+      "description": "contains the flows of the workflow",
+      "type": "object",
+      "patternProperties": {
+        "[A-Za-z0-9_]*": { "$ref": "base_flow.json#" }
+      }
+    },
+    "starting_flow": {
+      "description": "the starting flow for the workflow",
+      "type": "string"
     },
     "hash": {
       "description": "the hash of the workflow without the context",
       "type": "string"
     }
   },
-  "required": ["validators", "context", "components", "flow"],
+  "required": ["validators", "context", "components", "flows", "starting_flow"],
   "additionalProperties": false
 }
