@@ -162,7 +162,7 @@ class Input(Component):
         )
 
         if self.target:
-            component["target"]: self.target
+            component["target"] = self.target
         if self.obscure:
             component["obscure"] = self.obscure
         if self.input_key:
@@ -187,6 +187,7 @@ class Input(Component):
 class DateTime(Input):
     __slots__ = [
         "datetime_type",
+        "open_to",
     ]
 
     def get_datetime_type(self, datetime_type):
@@ -201,12 +202,30 @@ class DateTime(Input):
             )
         return True
 
+    def get_open_to(self, open_to):
+        validate = self.validate_open_to(open_to)
+        if validate:
+            return open_to
+
+    def validate_open_to(self, open_to):
+        if open_to not in [None, "date", "year", "month", "hours", "minutes"]:
+            raise InvalidArguments(
+                "'open_to' must be one of expected values: 'date', 'year', 'month', 'hours' or 'minutes'."
+            )
+        return True
+
     def __init__(
-        self, datetime_type="datetime", **kwargs
+        self, datetime_type="datetime", open_to=None, **kwargs
     ):
         super().__init__(**kwargs)
         self.component_type = self.get_datetime_type(datetime_type)
+        self.open_to = self.get_open_to(open_to)
 
+    def get_base_component_dict(self):
+        component = super().get_base_component_dict()
+        if self.open_to:
+            component["open_to"] = self.open_to
+        return component
 
 class Button(Component):
     __slots__ = [
