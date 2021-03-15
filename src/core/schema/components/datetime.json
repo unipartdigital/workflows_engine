@@ -8,7 +8,8 @@
       "type": { "type": "string", "enum": ["date", "datetime", "time"] },
       "label": { "type": "string" },
       "validator": { "type": "array", "items": [{ "type": "string" }] },
-      "populate": { "$ref": "./populate.json#/definitions/populate" }
+      "populate": { "$ref": "./populate.json#/definitions/populate" },
+      "open_to": { "type": "string", "enum": ["date", "year", "month", "hours", "minutes"] }
     },
     "required": ["type", "label"],
     "additionalProperties": false
