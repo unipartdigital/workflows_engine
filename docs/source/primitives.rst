@@ -434,7 +434,11 @@ A DateTime component, providing datetime selection functionality. Three types ac
 'datetime' or 'date' a min/max date validator (isAfter, isBefore respectively) can be provided which will 
 block out dates which cannot be selected at the clientside component level (that is to say it will hook 
 into props on the UI component, in addition to the normal validation mechanism, allowing for better UX 
-by preventing selection of inappropriate dates).
+by preventing selection of inappropriate dates). In any of the three cases, another version of min/max
+date is available isBeforeSeconds/isAfterSeconds that constraints how much before or after the selected
+date/time can be. An "open to" can be provided to open the picker directly
+into a different step, for instance to go directly to pick the hours instead of having to select the date
+first. Possible values for open to are: "date", "year", "month", "hours" and "minutes".
 
 Schema
 ^^^^^^
