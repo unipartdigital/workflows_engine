@@ -1,6 +1,7 @@
 from itertools import chain
 
-from .translate import Translatable
+from ..exceptions import InvalidArguments
+from .translate import Translatable, get_untranslated_value
 
 __all__ = (
     "Task",
@@ -55,6 +56,33 @@ class Task:
             return [p.identifier for p in self.preconditions]
         else:
             return None
+
+    def _attributes_not_to_clone(self):
+        return {"task_type"}
+
+    def _clone_values(self):
+        values = {}
+        attrs_not_copy = self._attributes_not_to_clone()
+
+        for cls in reversed(self.__class__.mro()):
+            cls_attrs = set(dir(cls))
+            if "__slots__" in cls_attrs:
+                for attr_name in cls.__slots__:
+                    if not attr_name.startswith("_") and attr_name not in attrs_not_copy:
+                        values[attr_name] = getattr(self, attr_name)
+                cls_attrs -= set(cls.__slots__)
+
+            for attr_name in cls_attrs - attrs_not_copy:
+                if not attr_name.startswith("_"):
+                    attr = getattr(self.__class__, attr_name)
+                    if isinstance(attr, Translatable):
+                        values[attr_name] = get_untranslated_value(self, attr_name)
+        return values
+
+    def copy(self, name, **kwargs):
+        values = self._clone_values()
+        values.update(kwargs, name=name)
+        return self.__class__(**values)
 
 
 class Screen(Task):
@@ -312,6 +340,10 @@ class Flow(Task):
         self.conditions = conditions or []
         self.sub_type = sub_type
         self.iterable_path = iterable_path
+
+    def _attributes_not_to_clone(self):
+        # make it so "take type value is passed when cloning flows"
+        return set()
 
     def get_validators(self):
         yield from super().get_validators()
