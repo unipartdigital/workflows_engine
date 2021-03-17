@@ -1,4 +1,4 @@
-from itertools import chain
+import warnings
 
 from ..exceptions import InvalidArguments
 from .translate import Translatable, get_untranslated_value
@@ -397,6 +397,21 @@ class Flow(Task):
 
     def add_task(self, task_type, name, **kwargs):
         task = TASK_TYPE_MAPPING[task_type](name=name, **kwargs)
+        self.tasks.append(task)
+        return task
+
+    def add_task_directly(self, task, **modifications):
+        """Add a task by providing the task itself modifications to the original
+        can also be passed provided that one of them is a new 'name'
+        """
+        if task and not isinstance(task, Task):
+            raise InvalidArguments("task must be a subclass of Task")
+
+        if modifications:
+            if "name" not in modifications:
+                raise InvalidArguments("If any modifications are provided a 'name' one of them")
+            task = task.copy(**modifications)
+
         self.tasks.append(task)
         return task
 
