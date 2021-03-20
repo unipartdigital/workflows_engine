@@ -13,5 +13,4 @@ RUN pip3 install . --user
 WORKDIR /workflows/docs
 RUN make doctest && \
     make html && \
-    ls ./build/html/* && \
     cp -r ./build/html/* /usr/local/apache2/htdocs/
