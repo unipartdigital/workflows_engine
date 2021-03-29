@@ -106,7 +106,6 @@ class Textbox(Component):
         }
 
 
-
 class Input(Component):
     __slots__ = [
         "component_type",
@@ -184,6 +183,49 @@ class Input(Component):
             self.populate.get_validators()
 
 
+class InputWithSuggestions(Input):
+    __slots__ = [
+        "suggestions_path",
+        "suggestions",
+    ]
+
+    def get_suggestions(self, suggestions_path, suggestions):
+        """Only suggestions or suggestions_path should be specified, this function validates this condition"""
+        validate = self.validate_suggestions(suggestions_path, suggestions)
+        if validate:
+            return suggestions_path, suggestions
+
+    def validate_suggestions(self, suggestions_path, suggestions):
+        if suggestions is not None and suggestions_path is not None:
+            raise InvalidArguments("'suggestions' and 'suggestions_path' attribute cannot be used together")
+
+        if suggestions is None and suggestions_path is None:
+            raise InvalidArguments("Either 'suggestions' or 'suggestions_path' attribute must be used")
+
+        if suggestions and type(suggestions) is not list and type(suggestions[0]) is not dict:
+            raise InvalidArguments("If 'suggestions' is supplied, it must be a list of dicts")
+
+        return True
+
+    def __init__(
+        self,
+        suggestions_path=None,
+        suggestions=None,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.suggestions_path, self.suggestions = self.get_suggestions(suggestions_path, suggestions)
+
+    def get_base_component_dict(self):
+        component = super().get_base_component_dict()
+        component["type"] = "input_with_suggestions"
+        if self.suggestions is not None:
+            component["suggestions"] = self.suggestions
+        else:
+            component["suggestions_path"] = self.suggestions_path
+        return component
+
+
 class DateTime(Input):
     __slots__ = [
         "datetime_type",
@@ -226,6 +268,7 @@ class DateTime(Input):
         if self.open_to:
             component["open_to"] = self.open_to
         return component
+
 
 class Button(Component):
     __slots__ = [
