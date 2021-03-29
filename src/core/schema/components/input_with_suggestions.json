@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io/jsonschema/workflows/components/input_with_suggestions.json",
+  "title": "input_with_suggestions",
+  "description": "Workflows input with suggestions component",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["input_with_suggestions"] },
+    "name": { "type": "string" },
+    "label": { "type": "string" },
+    "input_key": { "$ref": "../common.json#/definitions/jsonpath" },
+    "input_ref": { "$ref": "../common.json#/definitions/jsonpath" },
+    "output_ref": { "$ref": "../common.json#/definitions/jsonpath" },
+    "output": { "type": "object" },
+    "obscure": { "type": "boolean" },
+    "validator": { "type": "array", "items": [{ "type": "string" }] },
+    "populate": { "$ref": "./populate.json#/definitions/populate" },
+    "suggestions": {
+      "oneOf": [
+        {
+          "type": "array",
+          "items": [{ "$ref": "../common.json#/definitions/suggestions_data" }]
+        },
+        { "type": "null" }
+      ]
+    },
+    "suggestions_path": {
+      "oneOf": [
+        { "$ref": "../common.json#/definitions/jsonpath" },
+        { "type": "null" }
+      ]
+    }
+  },
+  "required": ["type", "label"],
+  "additionalProperties": false
+}
