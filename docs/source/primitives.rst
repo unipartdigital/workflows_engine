@@ -364,6 +364,17 @@ and `input_ref` then, if nothing is found, will fallback to building an object u
 
 .. jsonschema:: ../../src/core/schema/components/input.json
 
+Input with Suggestions
+----------------------
+
+Based on `Input` but takes one of two additional arguments; `suggestions` and `suggestions_path`.
+`suggestions_path` is a `jsonpath` to a list of objects.
+`suggestions` is a hardcoded list of objects.
+
+The objects currently only expect to have one key: `name` with a value of the name which we wish to suggest.
+This may be changed in future to accept a display name and inputted value, but currently is not supported.
+
+.. jsonschema:: ../../src/core/schema/components/input_with_suggestions.json
 
 Message box
 -----------
