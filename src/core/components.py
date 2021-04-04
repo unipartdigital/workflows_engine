@@ -1,4 +1,3 @@
-from itertools import chain
 from .translate import Translatable, get_untranslated_value
 from ..exceptions import InvalidArguments
 
