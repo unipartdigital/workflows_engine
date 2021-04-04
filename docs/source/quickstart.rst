@@ -107,10 +107,9 @@ The workflow produced will be:
             }
         },
         "components": {
-            "input_": {
+            "input_Input message here": {
                 "type": "input",
                 "label": "Input message here",
-                "target": "",
                 "validator": [
                     "not_zero_length"
                 ]
@@ -134,97 +133,88 @@ The workflow produced will be:
                 "action": "next",
                 "style": "primary",
                 "text": "Reset",
-                "value": false,
-                "destination_path": "$.save"
+                "value": false
             },
             "next_button_next_primary_save_message_save_true_buttons": {
                 "type": "button",
                 "action": "next",
                 "style": "primary",
                 "text": "Save Message",
-                "value": true,
-                "destination_path": "$.save"
+                "value": true
             }
         },
-        "flow": {
-            "type": "flow",
-            "name": "QuickWorkflow",
-            "tasks": [
-                {
-                    "type": "screen",
-                    "name": "InputMessage",
-                    "components": [
-                        [
-                            {
-                                "name": "input_",
-                                "destination_path": "$.message"
-                            }
-                        ],
-                        [
-                            {
-                                "name": "submit_button"
-                            }
+        "flows": {
+            "QuickWorkflow": {
+                "tasks": [
+                    {
+                        "type": "screen",
+                        "name": "InputMessage",
+                        "components": [
+                            [
+                                {
+                                    "name": "input_Input message here",
+                                    "destination_path": "$.message"
+                                }
+                            ],
+                            [
+                                {
+                                    "name": "submit_button"
+                                }
+                            ]
                         ]
-                    ],
-                    "status_message": {
-                        "type": "success",
-                        "template": null
-                    }
-                },
-                {
-                    "type": "screen",
-                    "name": "DisplayMessage",
-                    "components": [
-                        [
-                            {
-                                "name": "HelloWorldMessage"
-                            }
-                        ],
-                        [
-                            {
-                                "name": "next_button_next_primary_reset_save_false_buttons",
-                                "destination_path": "$.save"
-                            }
-                        ],
-                        [
-                            {
-                                "name": "next_button_next_primary_save_message_save_true_buttons",
-                                "destination_path": "$.save"
-                            }
+                    },
+                    {
+                        "type": "screen",
+                        "name": "DisplayMessage",
+                        "components": [
+                            [
+                                {
+                                    "name": "HelloWorldMessage"
+                                }
+                            ],
+                            [
+                                {
+                                    "name": "next_button_next_primary_reset_save_false_buttons",
+                                    "destination_path": "$.save"
+                                }
+                            ],
+                            [
+                                {
+                                    "name": "next_button_next_primary_save_message_save_true_buttons",
+                                    "destination_path": "$.save"
+                                }
+                            ]
                         ]
-                    ],
-                    "status_message": {
-                        "type": "success",
-                        "template": null
-                    }
-                },
-                {
-                    "type": "jsonrpc",
-                    "name": "SaveMessage",
-                    "preconditions": [
-                        "should_save_message"
-                    ],
-                    "url": "/api/save",
-                    "method": null,
-                    "payload_paths": [
-                        {
-                            "key": "$.message",
-                            "result_key": "$.message"
+                    },
+                    {
+                        "type": "jsonrpc",
+                        "name": "SaveMessage",
+                        "preconditions": [
+                            "should_save_message"
+                        ],
+                        "url": "/api/save",
+                        "method": null,
+                        "payload_paths": [
+                            {
+                                "key": "$.message",
+                                "result_key": "$.message"
+                            }
+                        ],
+                        "payload": {
+                            "message_to_save": null,
+                            "token": "RequestToken!"
                         }
-                    ],
-                    "payload": {
-                        "message_to_save": null,
-                        "token": "RequestToken!"
+                    },
+                    {
+                        "type": "redirect",
+                        "name": "Restart",
+                        "url": "/api/quickstart"
                     }
-                },
-                {
-                    "type": "redirect",
-                    "name": "Restart",
-                    "url": "/api/quickstart"
-                }
-            ],
-            "config": {}
+                ],
+                "config": {}
+            }
         },
-        "hash": "9cf31161ba636e33af9d2160a7d7e0fb0efa6a62dadde9b479b054c84f2513df763b98830c09dc43caceccbf5154e203e6ac3bb169902fcbc919001d64b6b4d3",
+        "starting_flow": "QuickWorkflow",
+        "hash": "ee6c8685802a96d12ea474d97ad26c252fb3739be2e8a0c2fcfd2a9f8beb9eff10a7ae22cd7cc8d61d1f14c2f624629b6c6284b25853f76fccf28a01469789d8",
         "context": {}
     }

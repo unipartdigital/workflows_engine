@@ -20,14 +20,14 @@ class Message(Container):
 
 
 class TaskTarget(Container):
-    __slots__ = ["flow", "task"]
+    __slots__ = ["flow_path", "task"]
 
-    def __init__(self, flow_name, task_name):
-        self.flow = flow_name
+    def __init__(self, flow_path, task_name):
+        self.flow_path = flow_path
         self.task = task_name
 
     def as_dict(self):
-        return {"flow": self.flow, "task": self.task}
+        return {"flow_path": self.flow_path, "task": self.task}
 
 
 class Populate(Container):

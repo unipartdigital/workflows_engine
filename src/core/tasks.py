@@ -1,6 +1,7 @@
-from itertools import chain
+import warnings
 
-from .translate import Translatable
+from ..exceptions import InvalidArguments
+from .translate import Translatable, get_untranslated_value
 
 __all__ = (
     "Task",
@@ -43,8 +44,8 @@ class Task:
     def get_base_components(self):
         return []
 
-    def get_result(self):
-        return {}
+    def get_flows(self):
+        return []
 
     def get_validators(self):
         if self.preconditions:
@@ -55,6 +56,33 @@ class Task:
             return [p.identifier for p in self.preconditions]
         else:
             return None
+
+    def _attributes_not_to_clone(self):
+        return {"task_type"}
+
+    def _clone_values(self):
+        values = {}
+        attrs_not_copy = self._attributes_not_to_clone()
+
+        for cls in reversed(self.__class__.mro()):
+            cls_attrs = set(dir(cls))
+            if "__slots__" in cls_attrs:
+                for attr_name in cls.__slots__:
+                    if not attr_name.startswith("_") and attr_name not in attrs_not_copy:
+                        values[attr_name] = getattr(self, attr_name)
+                cls_attrs -= set(cls.__slots__)
+
+            for attr_name in cls_attrs - attrs_not_copy:
+                if not attr_name.startswith("_"):
+                    attr = getattr(self.__class__, attr_name)
+                    if isinstance(attr, Translatable):
+                        values[attr_name] = get_untranslated_value(self, attr_name)
+        return values
+
+    def copy(self, name, **kwargs):
+        values = self._clone_values()
+        values.update(kwargs, name=name)
+        return self.__class__(**values)
 
 
 class Screen(Task):
@@ -313,6 +341,10 @@ class Flow(Task):
         self.sub_type = sub_type
         self.iterable_path = iterable_path
 
+    def _attributes_not_to_clone(self):
+        # make it so "take type value is passed when cloning flows"
+        return set()
+
     def get_validators(self):
         yield from super().get_validators()
         yield from self.conditions
@@ -360,18 +392,35 @@ class Flow(Task):
             for row in task.get_base_components():
                 yield from row
 
-    def as_dict(self):
-        flow = super().as_dict()
-        flow.update({"tasks": self.get_tasks(), "config": self.get_config()})
-        return flow
+    def get_flow_dict(self):
+        return {"tasks": self.get_tasks(), "config": self.get_config()}
 
     def add_task(self, task_type, name, **kwargs):
         task = TASK_TYPE_MAPPING[task_type](name=name, **kwargs)
         self.tasks.append(task)
         return task
 
+    def add_task_directly(self, task, **modifications):
+        """Add a task by providing the task itself modifications to the original
+        can also be passed provided that one of them is a new 'name'
+        """
+        if task and not isinstance(task, Task):
+            raise InvalidArguments("task must be a subclass of Task")
+
+        if modifications:
+            if "name" not in modifications:
+                raise InvalidArguments("If any modifications are provided a 'name' one of them")
+            task = task.copy(**modifications)
+
+        self.tasks.append(task)
+        return task
+
     def clear_tasks(self):
         self.tasks = []
+
+    def get_flows(self):
+        yield self
+        yield from (f for t in self.tasks for f in t.get_flows())
 
 
 class Event(Task):

@@ -49,7 +49,7 @@
     "task_target": {
       "type": "object",
       "properties": {
-        "flow": {
+        "flow_path": {
           "type": "string"
         },
         "task": {
@@ -57,7 +57,7 @@
         }
       },
       "required": [
-        "flow",
+        "flow_path",
         "task"
       ]
     },

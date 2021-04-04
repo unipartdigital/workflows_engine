@@ -8,12 +8,22 @@ def test_condition():
         name="condition",
         preconditions=validators.is_equal(value_key="$.value", validator_value="a"),
         conditions=validators.is_equal(value_key="$.another_value", validator_value="b"),
-        on_success=containers.TaskTarget(flow_name="Base", task_name="SuccessTask",),
-        success_message=containers.Message(
-            template="You we're successful", message_type="success",
+        on_success=containers.TaskTarget(
+            flow_path="Base",
+            task_name="SuccessTask",
         ),
-        on_failure=containers.TaskTarget(flow_name="Base", task_name="FailureTask",),
-        failure_message=containers.Message(template="Failure", message_type="error",),
+        success_message=containers.Message(
+            template="You we're successful",
+            message_type="success",
+        ),
+        on_failure=containers.TaskTarget(
+            flow_path="Base",
+            task_name="FailureTask",
+        ),
+        failure_message=containers.Message(
+            template="Failure",
+            message_type="error",
+        ),
     )
     validator = get_validator_for("tasks/condition")
     validator.validate(task.as_dict())

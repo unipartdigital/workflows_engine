@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io/jsonschema/workflows/base_flow.json",
+  "title": "base flow",
+  "description": "Workflows base flow",
+  "definitions": {
+    "flow_config": {
+      "type": "object",
+      "properties": {
+        "result": { "type": "object" },
+        "result_keys": { "type": "array", "items": [{ "type": "object" }] },
+        "destination_path": { "$ref": "common.json#/definitions/jsonpath" }
+      }
+    },
+    "while_config": {
+      "type": "object",
+      "properties": {
+        "result": { "type": "object" },
+        "result_keys": { "type": "array", "items": [{ "type": "object" }] },
+        "destination_path": { "$ref": "common.json#/definitions/jsonpath" },
+        "conditions": { "type": "array", "items": [{ "type": "string" }] }
+      },
+      "required": ["conditions"]
+    },
+    "for_config": {
+      "type": "object",
+      "properties": {
+        "result": { "type": "object" },
+        "result_keys": { "type": "array", "items": [{ "type": "object" }] },
+        "destination_path": { "$ref": "common.json#/definitions/jsonpath" },
+        "iterable_path": { "$ref": "common.json#/definitions/jsonpath" }
+      },
+      "required": ["iterable_path"]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "tasks": { "type": "array", "items": [{ "$ref": "tasks/task.json#" }] },
+    "config": {
+      "oneOf": [
+        { "$ref": "#/definitions/flow_config" },
+        { "$ref": "#/definitions/while_config" },
+        { "$ref": "#/definitions/for_config" }
+      ]
+    }
+  },
+  "required": ["tasks", "config"],
+  "additionalProperties": false
+}
