@@ -696,7 +696,6 @@ class Selection(Component):
         self.options_key, self.options_values = self.get_options(
             options_key, options_values
         )
-        self.destination_path = destination_path
 
     def get_base_component_dict(self):
         return {
