@@ -350,18 +350,20 @@ class DisplayData(Component):
 
     __slots__ = [
         "data",
-        "display_type"
+        "display_type",
+        "max_height"
     ]
 
     title = Translatable()
     subtitle = Translatable()
 
-    def __init__(self, display_type, title, data, subtitle=None, **kwargs):
+    def __init__(self, display_type, title, data, subtitle=None, max_height=None, **kwargs):
         super().__init__(**kwargs)
         self.title = title
         self.data = data
         self.subtitle = subtitle
         self.display_type = display_type
+        self.max_height = max_height
 
     def _get_default_identifier(self):
         return "_".join([self.display_type, self.title.lower().replace(" ", "_")])
@@ -377,6 +379,8 @@ class DisplayData(Component):
         }
         if self.subtitle:
             component.update(subtitle=self.subtitle)
+        if self.max_height and self.display_type in ["list", "details"]:
+            component.update(max_height=self.max_height)
 
         return component
 
