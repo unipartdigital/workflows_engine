@@ -669,7 +669,7 @@ class Selection(Component):
         return True
 
     def __init__(
-        self, label, style="default", is_required=False, validators=None, value=None, destination_path=None, options_key=None, options_values=None, **kwargs
+        self, label, style="default", is_required=False, validators=None, value=None, destination_path=None, options_key=None, options_values=None, default_value=None, **kwargs
     ):
         super().__init__(**kwargs)
         self.style = style
