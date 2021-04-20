@@ -9,7 +9,11 @@
       "label": { "type": "string" },
       "validator": { "type": "array", "items": [{ "type": "string" }] },
       "populate": { "$ref": "./populate.json#/definitions/populate" },
-      "open_to": { "type": "string", "enum": ["date", "year", "month", "hours", "minutes"] }
+      "open_to": { "type": "string", "enum": ["date", "year", "month", "hours", "minutes"] },
+      "default_value": {"anyOf": [
+        { "type": "string" },
+        { "type:": "null" }
+      ]}
     },
     "required": ["type", "label"],
     "additionalProperties": false

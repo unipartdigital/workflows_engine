@@ -14,7 +14,11 @@
     "output": { "type": "object" },
     "obscure": { "type": "boolean" },
     "validators": { "type": "array", "items": [{ "type": "string" }] },
-    "populate": { "$ref": "./populate.json#/definitions/populate" }
+    "populate": { "$ref": "./populate.json#/definitions/populate" },
+    "default_value": {"anyOf": [
+      { "type": "string" },
+      { "type:": "null" }
+    ]}
   },
   "required": ["type", "name", "label"],
   "additionalProperties": false
