@@ -117,6 +117,7 @@ class Input(Component):
         "obscure",
         "validators",
         "populate",
+        "default_value"
     ]
 
     label = Translatable()
@@ -133,6 +134,7 @@ class Input(Component):
         obscure=False,
         validators=None,
         populate=None,
+        default_value=None,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -146,6 +148,7 @@ class Input(Component):
         self.obscure = obscure
         self.validators = validators or []
         self.populate = populate
+        self.default_value = default_value
 
     def _get_default_identifier(self):
         return "_".join([self.component_type, self.target.lower().replace(" ", "_")])
@@ -174,6 +177,8 @@ class Input(Component):
             component["output"] = self.output
         if self.populate:
             component["populate"] = self.populate.as_dict()
+        if self.default_value:
+            component['default_value'] = self.default_value
         return component
 
     def get_validators(self):
@@ -640,6 +645,7 @@ class Selection(Component):
         "destination_path",
         "options_key",
         "options_values",
+        "default_value",
     ]
 
     label = Translatable()
@@ -663,7 +669,7 @@ class Selection(Component):
         return True
 
     def __init__(
-        self, label, style="default", is_required=False, validators=None, value=None, destination_path=None, options_key=None, options_values=None, **kwargs
+        self, label, style="default", is_required=False, validators=None, value=None, destination_path=None, options_key=None, options_values=None, default_value=None, **kwargs
     ):
         super().__init__(**kwargs)
         self.style = style
@@ -672,6 +678,7 @@ class Selection(Component):
         self.validators = validators or []
         self.options_key, self.options_values = self.get_options(options_key, options_values)
         self.destination_path = destination_path
+        self.default_value = default_value
 
     def get_base_component_dict(self):
         return {
@@ -683,6 +690,7 @@ class Selection(Component):
             "options_values": self.options_values,
             "options_key": self.options_key,
             "destination_path": self.destination_path,
+            "default_value": self.default_value,
         }
 
 

@@ -29,7 +29,11 @@
         { "$ref": "../common.json#/definitions/jsonpath" },
         { "type": "null" }
       ]
-    }
+    },
+    "default_value": {"anyOf": [
+      { "type": "string" },
+      { "type:": "null" }
+    ]}
   },
   "required": ["type", "label"],
   "additionalProperties": false

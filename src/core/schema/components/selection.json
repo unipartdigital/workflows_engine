@@ -20,7 +20,11 @@
       { "$ref": "../common.json#/definitions/jsonpath" },
       { "type:": "null" }
     ]},
-    "destination_path": { "$ref": "../common.json#/definitions/jsonpath" }
+    "destination_path": { "$ref": "../common.json#/definitions/jsonpath" },
+    "default_value": {"anyOf": [
+      { "type": "string" },
+      { "type:": "null" }
+    ]}
   },
   "additionalProperties": false
 }
