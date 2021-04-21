@@ -693,6 +693,10 @@ class Selection(Component):
             "default_value": self.default_value,
         }
 
+    def get_validators(self):
+        yield from super().get_validators()
+        yield from self.validators
+
 
 class Image(Component):
     __slots__ = [
