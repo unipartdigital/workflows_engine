@@ -60,6 +60,8 @@ class Task:
 class Screen(Task):
     __slots__ = [
         "components",
+        "secondary_components",
+        "tertiary_components",
         "show_status_message",
     ]
 
@@ -70,19 +72,37 @@ class Screen(Task):
         name,
         preconditions=None,
         components=None,
+        secondary_components=None,
+        tertiary_components=None,
         status_message_template=None,
         show_status_message=True,
     ):
         super().__init__(name=name, preconditions=preconditions, task_type="screen")
         self.components = components
+        self.secondary_components = secondary_components or []
+        self.tertiary_components = tertiary_components or []
         self.status_message_template = status_message_template
         self.show_status_message = show_status_message
 
     def get_flow_components(self):
         return [[c.get_flow_component_dict() for c in row] for row in self.components]
 
+    def get_flow_secondary_components(self):
+        if self.secondary_components:
+            return [[c.get_flow_component_dict() for c in row] for row in self.secondary_components]
+        else:
+            return []
+
+    def get_flow_tertiary_components(self):
+        if self.tertiary_components:
+            return [[c.get_flow_component_dict() for c in row] for row in self.tertiary_components]
+        else:
+            return []
+
     def get_base_components(self):
-        for row in self.components:
+        for row in list(
+            chain(self.components, self.secondary_components, self.tertiary_components)
+        ):
             for component in row:
                 yield from component.get_components()
 
@@ -103,6 +123,8 @@ class Screen(Task):
     def as_dict(self):
         screen = super().as_dict()
         screen["components"] = self.get_flow_components()
+        screen["secondary_components"] = self.get_flow_secondary_components()
+        screen["tertiary_components"] = self.get_flow_tertiary_components()
 
         if self.show_status_message:
             status_message_dict = self.get_status_message()
