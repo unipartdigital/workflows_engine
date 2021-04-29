@@ -62,6 +62,8 @@ class Screen(Task):
         "components",
         "secondary_components",
         "tertiary_components",
+        "panel_config",
+        "container_mode",
         "show_status_message",
     ]
 
@@ -74,6 +76,8 @@ class Screen(Task):
         components=None,
         secondary_components=None,
         tertiary_components=None,
+        panel_config=None,
+        container_mode=None,
         status_message_template=None,
         show_status_message=True,
     ):
@@ -81,6 +85,8 @@ class Screen(Task):
         self.components = components
         self.secondary_components = secondary_components or []
         self.tertiary_components = tertiary_components or []
+        self.panel_config = panel_config or {}
+        self.container_mode = container_mode
         self.status_message_template = status_message_template
         self.show_status_message = show_status_message
 
@@ -125,6 +131,8 @@ class Screen(Task):
         screen["components"] = self.get_flow_components()
         screen["secondary_components"] = self.get_flow_secondary_components()
         screen["tertiary_components"] = self.get_flow_tertiary_components()
+        screen["panel_config"] = self.panel_config
+        screen["container_mode"] = self.container_mode
 
         if self.show_status_message:
             status_message_dict = self.get_status_message()
