@@ -7,6 +7,7 @@ __all__ = (
     "Component",
     "Input",
     "Button",
+    "Metrics",
     "DisplayData",
     "Checkbox",
     "CheckboxList",
@@ -104,6 +105,23 @@ class Textbox(Component):
             "type": "textbox",
             "content": self.content
         }
+
+
+class Metrics(Component):
+    """ A simple component to display a metrics icon that when clicked shows
+    the timing information of all the http and jsonrpc requests made by the client.
+    Label is the text beside the icon"""
+
+    __slots__ = [
+        "label",
+    ]
+
+    def __init__(self, label="Metrics", **kwargs):
+        super().__init__(**kwargs)
+        self.label = label
+
+    def get_base_component_dict(self):
+        return {"type": "metrics", "label": self.label}
 
 
 class Input(Component):
