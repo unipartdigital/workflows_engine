@@ -94,16 +94,19 @@ class Component:
 class Textbox(Component):
     __slots__ = [
         "content",
+        "align",
     ]
 
-    def __init__(self, content=None, **kwargs):
+    def __init__(self, content=None, align=None, **kwargs):
         super().__init__(**kwargs)
         self.content = content
+        self.align = align
 
     def get_base_component_dict(self):
         return {
             "type": "textbox",
-            "content": self.content
+            "content": self.content,
+            "align": self.align
         }
 
 
