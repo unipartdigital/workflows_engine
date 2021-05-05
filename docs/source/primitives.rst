@@ -299,6 +299,18 @@ Schema
 
 .. jsonschema:: ../../src/core/schema/components/textbox.json
 
+
+Metrics
+-----------
+
+Display an icon, that when clicked will show the user a dialogue containing timing metrics for the JSONRPC and HTTP calls made by the client.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/metrics.json
+
+
 Button
 ------
 
