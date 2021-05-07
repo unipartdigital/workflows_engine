@@ -7,13 +7,9 @@
     "properties": {
       "type": { "type": "string", "enum": ["textbox"] },
       "content": {
-        "type": "array",
-        "items": [
-            {
-                "$ref": "../common.json#/definitions/content"
-            }
-        ]
-      }
+        "type": "string"
+      },
+      "align": { "type": "string"}
     },
     "additionalProperties": false
   }
