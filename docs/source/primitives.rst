@@ -292,7 +292,7 @@ Schema
 Text box
 -----------
 
-A textbox for providing general information to a user. Accepts analogues of some html tags as defined in the schema, to allow for basic formatting.
+A textbox for providing general information to a user. Accepts a Mark Down formatted string and an allignment paramter.
 
 Schema
 ^^^^^^
@@ -343,10 +343,8 @@ Display Data
 
 A data listing component. This renders data defined in the context according to the following patterns
 dependent on the "display_type" of the component being set to "list" or "details":
-    - list: "data" should point to a list of strings, this will simply list all values provided
-    - details: "data" should point an object in the context consisting of a list of 
-               "{'label': '...', 'value': '...'}", this will list the values with stylised labels
-
+    - list: "data" should point to a list of strings (can be MarkDown formatted), this will simply list all values provided
+    - details: "**label:** value" A single string with optional Markdown formatting
 
 If the component is of type "list" then it will look like this:
 
@@ -408,15 +406,14 @@ are themselves selectable. This requires a value in the context for "data" with 
 
     {
         'details': [
-                {'label': 'label1', 'value': 'value1'},
-                {'label': 'label2', 'value': 'value2'}
+                '**label:** value'
             ],
         'submitted_value': '...',
         'submitted_key': '...',
     }
 
 where,
-'details': a list whose elements are rendered as a label and value,
+'details': a list of Mark Down formatted strings
 'submitted_value': the value submitted upon selection of the option,
 'submitted_key': a value to submit is taken from the context attribute corresponding to this key.
 Note, 'submitted_value' and 'submitted_key' are mutually exclusive.
