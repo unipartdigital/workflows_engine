@@ -292,7 +292,7 @@ Schema
 Text box
 -----------
 
-A textbox for providing general information to a user. Accepts a Mark Down formatted string and an allignment parameter.
+A textbox for providing general information to a user. Accepts a Mark Down formatted string and an alignment parameter.
 
 Schema
 ^^^^^^
