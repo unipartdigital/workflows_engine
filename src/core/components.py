@@ -1,4 +1,3 @@
-from itertools import chain
 from .translate import Translatable
 from ..exceptions import InvalidArguments
 
@@ -15,7 +14,33 @@ __all__ = (
     "Toggle",
     "Image",
     "Repeat",
+    "Container",
+    "ContainerRow",
+    "Spacer",
+    "InstructionBox",
 )
+
+
+def validate_style(style, extra_styles=None):
+    supported_styles = ("default", "info", "success", "error", "warning")
+
+    if extra_styles is not None:
+        supported_styles += extra_styles
+
+    if style not in supported_styles:
+        raise InvalidArguments(
+            f"Invalid style '{style}' specified. Style must be one of the following: "
+            f"{', '.join(supported_styles)}"
+        )
+    return style
+
+
+def validate_size(size):
+    min_size = 1
+    max_size = 12
+    if not min_size <= size <= max_size:
+        raise InvalidArguments(f"Size attributes must be between {min_size} and {max_size}")
+    return size
 
 
 class Component:
@@ -805,3 +830,142 @@ class Repeat(Component):
     def get_components(self):
         yield from super().get_components()
         yield from self.components
+
+
+class Container(Component):
+    """A container with components and optional styling."""
+
+    __slots__ = [
+        "components",
+        "width",
+        "style",
+    ]
+
+    def __init__(self, components, width=12, style="default", **kwargs):
+        super().__init__(**kwargs)
+        self.components = self.validate_components(components)
+        self.width = validate_size(width)
+        self.style = validate_style(style, ("transparent",))
+
+    def validate_components(self, components):
+        """Ensure no Container or ContainerRow components are added to Containers"""
+        invalid_component_types = (Container, ContainerRow)
+        if any(isinstance(component, invalid_component_types) for component in components):
+            raise InvalidArguments(
+                "Container components cannot include Container Rows or other Containers."
+            )
+        return components
+
+    def get_base_component_dict(self):
+        return {
+            "type": "container",
+            "width": self.width,
+            "style": self.style,
+            "components": [
+                [component.get_flow_component_dict() for component in row]
+                for row in self.components
+            ],
+        }
+
+    def get_components(self):
+        yield from super().get_components()
+        yield from self.components
+
+
+class ContainerRow(Component):
+    """A row of containers, where the height of all containers in the row is set."""
+
+    __slots__ = [
+        "components",
+        "height",
+    ]
+
+    def __init__(self, components, height=12, **kwargs):
+        super().__init__(**kwargs)
+        self.components = self.validate_components(components)
+        self.height = validate_size(height)
+
+    def validate_components(self, components):
+        """Ensure only Container components are added to ContainerRows"""
+        if any(not isinstance(component, Container) for component in components):
+            raise InvalidArguments("Only Container components can be added to Container Rows.")
+        return components
+
+    def get_base_component_dict(self):
+        return {
+            "type": "container_row",
+            "height": self.height,
+            "components": [
+                [component.get_flow_component_dict() for component in row]
+                for row in self.components
+            ],
+        }
+
+    def get_components(self):
+        """Include components of child components if applicable (e.g. child container components)"""
+        yield from super().get_components()
+        yield from self.components
+        yield from [component.get_components() for component in self.components]
+
+    def get_validators(self):
+        """Include validators of child components if applicable (e.g. child container validators)"""
+        yield from super().get_validators()
+        for container in self.components:
+            for container_component in container.components:
+                yield from container_component.get_validators()
+
+
+class Spacer(Component):
+    """A component used for spacing."""
+
+    __slots__ = ["amount"]
+
+    def __init__(self, amount=1, **kwargs):
+        super().__init__(**kwargs)
+        self.amount = self.validate_amount(amount)
+
+    def validate_amount(self, amount):
+        if amount < 1:
+            raise InvalidArguments("Amount cannot be below 1.")
+        return amount
+
+    def get_base_component_dict(self):
+        return {
+            "type": "spacer",
+            "amount": self.amount,
+        }
+
+
+class InstructionBox(Component):
+    """A box containing a message along with optional directional arrow."""
+
+    __slots__ = [
+        "message",
+        "direction",
+        "style",
+    ]
+
+    def __init__(self, message, direction="none", style="default", **kwargs):
+        super().__init__(**kwargs)
+        self.message = message
+        self.direction = self.validate_direction(direction)
+        self.style = validate_style(style)
+
+    def validate_direction(self, direction):
+        supported_directions = ("none", "left", "right", "up", "down")
+
+        if direction not in supported_directions:
+            raise InvalidArguments(
+                f"Invalid direction '{direction}' specified."
+                " If set, direction must be one of the following: "
+                f"{', '.join(supported_directions)}"
+            )
+        return direction
+
+    def get_base_component_dict(self):
+        return {
+            "type": "instruction_box",
+            "message": self.message,
+            "direction": self.direction,
+            "style": self.style,
+        }
