@@ -448,20 +448,29 @@ class Modal(Component):
         "title",
         "components",
         "trigger_conditions",
+        "trigger"
     ]
 
-    def __init__(self, title, components, trigger_conditions=None, **kwargs):
+    def __init__(self, title, components, trigger_conditions=None, trigger="onSubmit", **kwargs):
         super().__init__(**kwargs)
         self.title = title
         self.components = components
         self.trigger_conditions = trigger_conditions or []
+        self.trigger = self.validate_trigger(trigger)
 
+    def validate_trigger(self, trigger):
+        trigger_values = ["onLoad", "onBlur", "onSubmit"]
+        if trigger in trigger_values:
+            return trigger
+        else:
+            raise InvalidArguments(f"Trigger must be one of the following: {', '.join(trigger_values)}")
     def get_base_component_dict(self):
         return {
             "type": "modal",
             "title": self.title,
             "components": [[component.get_flow_component_dict() for component in row] for row in self.components],
             "trigger_conditions": [trigger_condition.identifier for trigger_condition in self.trigger_conditions],
+            "trigger": self.trigger,
         }
 
     def get_components(self):
