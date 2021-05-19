@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io/jsonschema/workflows/tasks/wait.json",
+  "title": "wait",
+  "description": "Workflows wait task",
+  "type": "object",
+  "definitions": {
+    "payload_keys": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "key": { "$ref": "../common.json#/definitions/jsonpath" },
+            "result_key": { "$ref": "../common.json#/definitions/jsonpath" }
+          },
+          "required": ["key", "result_key"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "result": {},
+            "result_key": { "$ref": "../common.json#/definitions/jsonpath" }
+          },
+          "required": ["result", "result_key"]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "name": { "type": "string" },
+    "type": { "type": "string", "enum": ["wait"] },
+    "preconditions": { "type": "array", "items": [{ "type": "string" }] },
+    "url": { "type": "string" },
+    "method": { "type": "string", "enum": ["POST", "GET"] },
+    "timeout": { "type": "string"},
+    "conditions": { "type": "array", "items": [{ "type": "string" }] },
+    "payload_paths": {
+      "type": "array",
+      "items": [{ "$ref": "#/definitions/payload_keys" }]
+    },
+    "payload": { "type": "object" },
+    "response_path": { "$ref": "../common.json#/definitions/jsonpath" }
+  },
+  "required": ["name", "type", "url", "method"],
+  "additionalProperties": false
+}

@@ -7,3 +7,4 @@ from . import test_jsonrpc
 from . import test_redirect
 from . import test_screen
 from . import test_update
+from . import test_wait
