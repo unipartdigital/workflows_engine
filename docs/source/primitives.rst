@@ -153,6 +153,20 @@ Schema
 .. jsonschema:: ../../src/core/schema/tasks/jsonrpc.json
 
 
+.. _wait_task:
+
+WAIT
+****
+
+Similar to a procedure call. ``payload_paths`` and ``payload`` are analogous to ``result_keys`` and ``result`` in the :ref:`flow task <flow_task>` in that the payload sent to endpoint defined by ``url`` is constructed by copying the ``payload`` object and ``payload_paths`` are used to update the payload sent. The expectation is that the endpoint will respond with json stored in the ``response_path``.
+Extra parameters given are conditions (list of validators) and timeout (expressed in microseconds). The given url will keep being polled until the validator(s) in the conditions resolve.
+
+Schema
+------
+
+.. jsonschema:: ../../src/core/schema/tasks/wait.json
+
+
 .. _update_task:
 
 Update

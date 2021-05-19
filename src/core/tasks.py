@@ -12,6 +12,7 @@ __all__ = (
     "ClearDomainParams",
     "Condition",
     "Flow",
+    "Wait",
 )
 
 
@@ -129,8 +130,9 @@ class JsonRpc(Task):
         payload_paths=None,
         payload=None,
         response_path=None,
+        task_type="jsonrpc"
     ):
-        super().__init__(name=name, preconditions=preconditions, task_type="jsonrpc")
+        super().__init__(name=name, preconditions=preconditions, task_type=task_type)
         self.url = url
         self.method = method
         self.payload_paths = payload_paths or []
@@ -156,6 +158,54 @@ class JsonRpc(Task):
         if self.response_path:
             endpoint["response_path"] = self.response_path
         return endpoint
+
+
+class Wait(JsonRpc):
+    __slots__ = [
+    "timeout",
+    "conditions",
+    ]
+
+    def __init__(
+        self,
+        name,
+        preconditions=None,
+        url=None,
+        method=None,
+        payload_paths=None,
+        payload=None,
+        response_path=None,
+        timeout=None,
+        conditions=None,
+    ):
+        super().__init__(
+            name=name, 
+            preconditions=preconditions, 
+            url=url, 
+            method=method, 
+            payload_paths=payload_paths, 
+            payload=payload,
+            response_path=response_path,
+            task_type="wait")
+        
+        self.timeout = timeout
+        self.conditions = conditions
+
+    def get_conditions(self):
+        return [c.identifier for c in self.conditions]
+
+    def as_dict(self):
+        endpoint = super().as_dict()
+        endpoint.update({
+            "timeout": self.timeout,
+            "conditions": self.get_conditions(),
+        }
+        )
+        return endpoint
+
+    def get_validators(self):
+        yield from super().get_validators()
+        yield from self.conditions
 
 
 class Update(Task):
@@ -417,4 +467,5 @@ TASK_TYPE_MAPPING = {
     "for_loop": partial_setup(Flow, sub_type="for_loop"),
     "clear_domain_params": ClearDomainParams,
     "event": Event,
+    "wait": Wait,
 }
