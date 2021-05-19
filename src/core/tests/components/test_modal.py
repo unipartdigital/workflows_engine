@@ -9,6 +9,7 @@ def test_modal():
     modal = Modal(
         title="Modal Title",
         components=[Button(text="Button", action="submit", style="primary")],
+        trigger="onSubmit",
     )
     validator = get_validator_for("components/modal")
     validator.validate(modal.get_base_component_dict())
