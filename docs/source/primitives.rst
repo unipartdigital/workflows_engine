@@ -527,6 +527,50 @@ Allow for a set of repeated fields for dynamic construction of forms.
 .. warning:: Not Implemented in udes client ATM
 
 
+Container
+-----
+
+A container with components and optional styling.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/container.json
+
+
+ContainerRow
+-----
+
+A row of containers, where the height of all containers in the row is set.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/container_row.json
+
+
+InstructionBox
+-----
+
+A box containing a message along with optional directional arrow.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/instruction_box.json
+
+
+Spacer
+-----
+
+A component used for spacing.
+
+Schema
+^^^^^^
+
+.. jsonschema:: ../../src/core/schema/components/spacer.json
+
+
 Modal
 -----
 

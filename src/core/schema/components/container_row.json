@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io/jsonschema/workflows/components/container.json",
+  "title": "container_row",
+  "description": "Workflows container row component",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["container_row"] },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "type": "object" }
+      }
+    },
+    "height": {
+      "type": "integer",
+      "enum": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    }
+  },
+  "required": ["components"],
+  "additionalProperties": false
+}
