@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://udes.io/jsonschema/workflows/components/instruction_box.json",
+  "title": "instruction_box",
+  "description": "Workflows instruction box component",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["instruction_box"] },
+    "message": { "type": "string" },
+    "direction": { "type": "string", "enum": ["left", "right", "up", "down"] },
+    "style": {
+      "type": "string",
+      "enum": ["default", "info", "success", "warning", "error"]
+    }
+  },
+  "required": ["amount"],
+  "additionalProperties": false
+}
