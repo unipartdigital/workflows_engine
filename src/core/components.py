@@ -905,14 +905,19 @@ class ContainerRow(Component):
         """Include components of child components if applicable (e.g. child container components)"""
         yield from super().get_components()
         yield from self.components
-        yield from [component.get_components() for component in self.components]
+
+        for component in self.components:
+            yield from component.get_components()
 
     def get_validators(self):
         """Include validators of child components if applicable (e.g. child container validators)"""
         yield from super().get_validators()
         for container in self.components:
-            for container_component in container.components:
-                yield from container_component.get_validators()
+            for container_component_list in container.components:
+                if not isinstance(container_component_list, list):
+                    container_component_list = [container_component_list]
+                for container_component in container_component_list:
+                    yield from container_component.get_validators()
 
 
 class Spacer(Component):
