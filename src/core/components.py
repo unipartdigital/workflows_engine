@@ -849,10 +849,10 @@ class Container(Component):
 
     def validate_components(self, components):
         """Ensure no Container or ContainerRow components are added to Containers"""
-        invalid_component_types = (Container, ContainerRow)
+        invalid_component_types = (Container, ContainerRow, Modal)
         if any(isinstance(component, invalid_component_types) for component in components):
             raise InvalidArguments(
-                "Container components cannot include Container Rows or other Containers."
+                "Container components cannot include Modals, Container Rows or other Containers."
             )
         return components
 
