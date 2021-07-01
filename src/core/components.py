@@ -756,16 +756,22 @@ class Selection(Component):
 class Image(Component):
     __slots__ = [
         "url",
+        "max_Height",
+        "max_Width",
     ]
 
-    def __init__(self, url, **kwargs):
+    def __init__(self, url, max_Height=None, max_Width=None, **kwargs):
         super().__init__(**kwargs)
         self.url = url
+        self.max_Height = max_Height
+        self.max_Width = max_Width
 
     def get_base_component_dict(self):
         return {
             "type": "image",
             "url": self.url,
+            "max_Height": self.max_Height,
+            "max_Width": self.max_Width,
         }
 
 
