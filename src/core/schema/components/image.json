@@ -6,7 +6,9 @@
   "type": "object",
   "properties": {
     "type": { "type": "string", "enum": ["image"] },
-    "url": { "type": "string" }
+    "url": { "type": "string" },
+    "max_Height": { "type": "string" },
+    "max_Width": { "type": "string" }
   },
   "required": ["type", "url"],
   "additionalProperties": false
