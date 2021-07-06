@@ -505,6 +505,9 @@ class Modal(Component):
     def get_validators(self):
         yield from super().get_validators()
         yield from self.trigger_conditions
+        for row in self.components:
+            for component in row:
+                yield from component.get_validators()
 
 
 class Checkbox(Component):
