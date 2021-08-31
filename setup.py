@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 from os import path
-from src import __version__ as version
+from workflows_engine import __version__ as version
 
 here = path.abspath(path.dirname(__file__))
 
@@ -35,8 +35,8 @@ setup(
         "Programming Language :: Python :: 3 :: Only",
     ],
     keywords="udes",
-    package_dir={"workflows_engine": "src"},
-    packages=get_packages("workflows_engine", "src"),
+    package_dir={"workflows_engine": "workflows_engine"},
+    packages=get_packages("workflows_engine", "workflows_engine"),
     python_requires=">=3.5, <4",
     install_requires=["simplejson"],
     # List additional groups of dependencies here (e.g. development
