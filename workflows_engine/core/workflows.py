@@ -118,9 +118,14 @@ class Workflow:
         """Add task to main flow of the workflow"""
         return self.base_flow_task.add_task(*args, **kwargs)
 
+
     def build_flow(self, *args, **kwargs):
         self.clear_flow()
-        self.flow(*args, **kwargs)
+        if isinstance(self.flow, list):
+            for task in self.flow:
+                self.base_flow_task.tasks.append(task)
+        else:
+            self.flow(*args, **kwargs)
 
     def flow(self, *args, **kwargs):
         """Returns base flow task.

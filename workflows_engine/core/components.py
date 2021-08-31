@@ -122,7 +122,7 @@ class Textbox(Component):
         "align",
     ]
 
-    def __init__(self, content=None, align=None, **kwargs):
+    def __init__(self, content, align=None, **kwargs):
         super().__init__(**kwargs)
         self.content = content
         self.align = align
@@ -170,6 +170,7 @@ class Input(Component):
 
     def __init__(
         self,
+        destination_path,
         component_type=None,
         target=None,
         label=None,
@@ -183,7 +184,7 @@ class Input(Component):
         default_value=None,
         **kwargs
     ):
-        super().__init__(**kwargs)
+        super().__init__(destination_path=destination_path, **kwargs)
         self.component_type = component_type or self.__class__.__name__.lower()
         self.target = target or ""
         self.label = label or ""

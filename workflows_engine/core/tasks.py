@@ -24,8 +24,8 @@ class Task:
         "__weakref__",
     ]
 
-    def __init__(self, name, task_type, preconditions=None):
-        self.name = name
+    def __init__(self, task_type, name=None, preconditions=None):
+        self.name = name or self.__class__.__name__
         self.preconditions = preconditions
         self.task_type = task_type
 
@@ -68,9 +68,9 @@ class Screen(Task):
 
     def __init__(
         self,
-        name,
+        components,
+        name=None,
         preconditions=None,
-        components=None,
         status_message_template=None,
         show_status_message=True,
     ):
