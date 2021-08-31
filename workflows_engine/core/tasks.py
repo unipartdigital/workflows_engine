@@ -24,8 +24,8 @@ class Task:
         "__weakref__",
     ]
 
-    def __init__(self, name, task_type, preconditions=None):
-        self.name = name
+    def __init__(self, task_type, name=None, preconditions=None):
+        self.name = name or self.__class__.__name__
         self.preconditions = preconditions
         self.task_type = task_type
 
@@ -68,9 +68,9 @@ class Screen(Task):
 
     def __init__(
         self,
-        name,
-        preconditions=None,
         components=None,
+        name=None,
+        preconditions=None,
         status_message_template=None,
         show_status_message=True,
     ):
@@ -213,7 +213,7 @@ class Update(Task):
         "tasks",
     ]
 
-    def __init__(self, name, preconditions=None, tasks=None):
+    def __init__(self, tasks=None, name=None, preconditions=None):
         super().__init__(name=name, preconditions=preconditions, task_type="update")
         self.tasks = tasks
 
@@ -344,9 +344,9 @@ class Flow(Task):
 
     def __init__(
         self,
+        tasks=None,
         name=None,
         preconditions=None,
-        tasks=None,
         result_keys=None,
         result=None,
         destination_path=None,

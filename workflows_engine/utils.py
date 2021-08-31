@@ -13,12 +13,16 @@ def make_identifier(attrs, suffixes=None, black_list=("flow_attrs",)):
     return remove_punctuation("_".join(parts + (suffixes or [])), allowed="_")
 
 
-def func_factory(defaults, base_component, make_identifier):
+def func_factory(defaults, base_component, make_identifier, arg_list=None):
     """ Produces a function which produces a  based on the default values """
 
-    def func(**kwargs):
+    def func(*args, **kwargs):
         attrs = defaults.copy()
         attrs.update(kwargs)
+        if arg_list:
+            for index, arg in enumerate(arg_list):
+                if index < len(args):
+                     attrs.update({arg: args[index]})
         if kwargs and not kwargs.get("identifier"):
             attrs.update({"identifier": make_identifier(attrs)})
         return base_component(**attrs)

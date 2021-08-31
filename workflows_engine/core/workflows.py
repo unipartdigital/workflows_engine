@@ -120,7 +120,10 @@ class Workflow:
 
     def build_flow(self, *args, **kwargs):
         self.clear_flow()
-        self.flow(*args, **kwargs)
+        if hasattr(self.flow, '__iter__'):
+            self.base_flow_task.tasks.extend(self.flow)
+        else:
+            self.flow(*args, **kwargs)
 
     def flow(self, *args, **kwargs):
         """Returns base flow task.

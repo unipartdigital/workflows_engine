@@ -1,6 +1,6 @@
 from .translate import Translatable
 from ..exceptions import InvalidArguments
-
+import builtins
 
 __all__ = (
     "Component",
@@ -56,12 +56,13 @@ class Component:
     def __init__(
         self,
         identifier=None,
+        id=None,
         destination_path=None,
         flow_attrs=None,
         update_context=None,
         preconditions=None,
     ):
-        self._identifier = identifier
+        self._identifier = identifier or id or str(builtins.id(self))
         self.destination_path = destination_path
         self.flow_attrs = flow_attrs or {}
         self.update_context = update_context or []
@@ -71,7 +72,7 @@ class Component:
         yield self
 
     def _get_default_identifier(self):
-        return self.__class__.__name__.lower()
+        return f'{self.__class__.__name__.lower()}_{id(self)}'
 
     @property
     def identifier(self):
@@ -155,6 +156,7 @@ class Metrics(Component):
 class Input(Component):
     __slots__ = [
         "component_type",
+        "destination_path",
         "target",
         "input_key",
         "input_ref",
@@ -170,9 +172,10 @@ class Input(Component):
 
     def __init__(
         self,
+        destination_path=None,
+        label=None,
         component_type=None,
         target=None,
-        label=None,
         input_key=None,
         input_ref=None,
         output_ref=None,
@@ -183,7 +186,7 @@ class Input(Component):
         default_value=None,
         **kwargs
     ):
-        super().__init__(**kwargs)
+        super().__init__(destination_path=destination_path, **kwargs)
         self.component_type = component_type or self.__class__.__name__.lower()
         self.target = target or ""
         self.label = label or ""
