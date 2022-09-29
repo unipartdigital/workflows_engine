@@ -277,6 +277,48 @@ class InputWithSuggestions(Input):
         return component
 
 
+class InputWithJson(InputWithSuggestions):
+    __slots__ = [
+        "url",
+        "method",
+        "payload_paths",
+        "payload",
+        "response_path",
+    ]
+
+    def get_payload(self):
+        return self.payload
+
+    def get_payload_paths(self):
+        return self.payload_paths
+
+    def __init__(
+            self,
+            url=None,
+            method=None,
+            payload_paths=None,
+            payload=None,
+            response_path=None,
+            **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.url = url
+        self.method = method
+        self.payload_paths = payload_paths or []
+        self.payload = payload or {}
+        self.response_path = response_path
+
+    def get_base_component_dict(self):
+        component = super().get_base_component_dict()
+        component["type"] = "input_with_json"
+        component["url"] = self.url
+        component["method"] = self.method
+        component["payload_paths"] = self.payload_paths
+        component["payload"] = self.payload
+        component["response_path"] = self.response_path
+        return component
+
+
 class DateTime(Input):
     __slots__ = [
         "datetime_type",
