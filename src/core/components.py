@@ -51,6 +51,7 @@ class Component:
         "update_context",
         "preconditions",
         "__weakref__",
+        "json_validators",
     ]
 
     def __init__(
@@ -60,12 +61,14 @@ class Component:
         flow_attrs=None,
         update_context=None,
         preconditions=None,
+        json_validators=None,
     ):
         self._identifier = identifier
         self.destination_path = destination_path
         self.flow_attrs = flow_attrs or {}
         self.update_context = update_context or []
         self.preconditions = preconditions or []
+        self.json_validators = json_validators or {}
 
     def __iter__(self):
         yield self
@@ -111,6 +114,9 @@ class Component:
 
     def get_validators(self):
         yield from self.preconditions
+
+    def get_json_validators(self):
+        yield from self.json_validators
 
     def get_components(self):
         yield self
@@ -284,6 +290,7 @@ class InputWithJson(InputWithSuggestions):
         "payload_paths",
         "payload",
         "response_path",
+        "json_validators",
     ]
 
     def get_payload(self):
@@ -292,6 +299,9 @@ class InputWithJson(InputWithSuggestions):
     def get_payload_paths(self):
         return self.payload_paths
 
+    def get_json_validators(self):
+        return self.json_validators
+
     def __init__(
             self,
             url=None,
@@ -299,6 +309,7 @@ class InputWithJson(InputWithSuggestions):
             payload_paths=None,
             payload=None,
             response_path=None,
+            json_validators=None,
             **kwargs
     ):
         super().__init__(**kwargs)
@@ -307,6 +318,7 @@ class InputWithJson(InputWithSuggestions):
         self.payload_paths = payload_paths or []
         self.payload = payload or {}
         self.response_path = response_path
+        self.json_validators = json_validators or []
 
     def get_base_component_dict(self):
         component = super().get_base_component_dict()
@@ -316,6 +328,11 @@ class InputWithJson(InputWithSuggestions):
         component["payload_paths"] = self.payload_paths
         component["payload"] = self.payload
         component["response_path"] = self.response_path
+        component.update(
+            {
+                "json_validators": [v.identifier for v in self.json_validators],
+            }
+        )
         return component
 
 
