@@ -283,6 +283,16 @@ Check the truth-y-ness of a condition, this is used in a variety of ways through
 
 When defining a validator there must be a function to be evaluated in the client, this is represented by the string in the ``type`` attribute. For field validation ``value_key`` is ignored. For others ``validator_value`` is a raw comparison value passed to the validator, whereas ``validator_key`` is a jsonpath used to lookup the comparison value in the context. The ``valid_when`` flag allows you to switch the truth-y-ness of the comparison, i.e. whether it's valid when true or when false.
 
+JSON Validators
+##########
+
+Check the truth-y-ness of a condition, this is used in Input components to trigger or not a JSON RPC call on blur of input field.
+JSON Validators are a list of one or more than one validators and are calculated in same way as Validators.
+The way it is handled on client, should have a message template,
+practically it means that if validator returns False on client it will send an error message which will not trigger the endpoint call.
+Inside the endpoints shouldn't raise errors, but skip them as these endpoint are used to update context or other fields.
+
+
 Schema
 ******
 

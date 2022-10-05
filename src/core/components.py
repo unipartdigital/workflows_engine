@@ -51,6 +51,7 @@ class Component:
         "update_context",
         "preconditions",
         "__weakref__",
+        "json_validators",
     ]
 
     def __init__(
@@ -60,12 +61,14 @@ class Component:
         flow_attrs=None,
         update_context=None,
         preconditions=None,
+        json_validators=None,
     ):
         self._identifier = identifier
         self.destination_path = destination_path
         self.flow_attrs = flow_attrs or {}
         self.update_context = update_context or []
         self.preconditions = preconditions or []
+        self.json_validators = json_validators or {}
 
     def __iter__(self):
         yield self
@@ -111,6 +114,9 @@ class Component:
 
     def get_validators(self):
         yield from self.preconditions
+
+    def get_json_validators(self):
+        yield from self.json_validators
 
     def get_components(self):
         yield self
@@ -163,7 +169,13 @@ class Input(Component):
         "obscure",
         "validators",
         "populate",
-        "default_value"
+        "default_value",
+        "url",
+        "method",
+        "payload_paths",
+        "payload",
+        "response_path",
+        "json_validators",
     ]
 
     label = Translatable()
@@ -181,6 +193,12 @@ class Input(Component):
         validators=None,
         populate=None,
         default_value=None,
+        url=None,
+        method=None,
+        payload_paths=None,
+        payload=None,
+        response_path=None,
+        json_validators=None,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -195,6 +213,12 @@ class Input(Component):
         self.validators = validators or []
         self.populate = populate
         self.default_value = default_value
+        self.url = url
+        self.method = method
+        self.payload_paths = payload_paths or []
+        self.payload = payload or {}
+        self.response_path = response_path
+        self.json_validators = json_validators or []
 
     def _get_default_identifier(self):
         return "_".join([self.component_type, self.target.lower().replace(" ", "_")])
@@ -225,6 +249,22 @@ class Input(Component):
             component["populate"] = self.populate.as_dict()
         if self.default_value:
             component['default_value'] = self.default_value
+        if self.url:
+            component["url"] = self.url
+        if self.method:
+            component["method"] = self.method
+        if self.payload_paths:
+            component["payload_paths"] = self.payload_paths
+        if self.payload:
+            component["payload"] = self.payload
+        if self.response_path:
+            component["response_path"] = self.response_path
+        if self.json_validators:
+            component.update(
+                {
+                    "json_validators": [v.identifier for v in self.json_validators],
+                }
+            )
         return component
 
     def get_validators(self):
@@ -232,6 +272,15 @@ class Input(Component):
         yield from self.validators
         if self.populate:
             self.populate.get_validators()
+
+    def get_payload(self):
+        return self.payload
+
+    def get_payload_paths(self):
+        return self.payload_paths
+
+    def get_json_validators(self):
+        return self.json_validators
 
 
 class InputWithSuggestions(Input):

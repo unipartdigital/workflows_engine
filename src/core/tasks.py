@@ -410,6 +410,12 @@ class Flow(Task):
             for row in task.get_base_components():
                 yield from row
 
+    def get_json_validators(self):
+        for task in self.tasks:
+            for component in task.get_base_components():
+                for json_validator in component.json_validators:
+                    yield from json_validator
+
     def as_dict(self):
         flow = super().as_dict()
         flow.update({"tasks": self.get_tasks(), "config": self.get_config()})
