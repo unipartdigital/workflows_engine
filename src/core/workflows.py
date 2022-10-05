@@ -74,6 +74,12 @@ class Workflow:
             "validators", self.base_flow_task.get_validators(), lambda x: x.as_dict()
         )
 
+    def get_json_validators(self):
+        """Get json validators dicts"""
+        return self._get_parts(
+            "json_validators", self.base_flow_task.get_json_validators(), lambda x: x.as_dict()
+        )
+
     def get_base_components(self):
         """Get component dicts"""
         return self._get_parts(
@@ -88,6 +94,7 @@ class Workflow:
                 "validators": self.get_validators(),
                 "components": self.get_base_components(),
                 "flow": self.base_flow_task.as_dict(),
+                "json_validators": self.get_json_validators(),
             }
         return self.flow_cache
 
