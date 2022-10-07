@@ -412,9 +412,12 @@ class Flow(Task):
 
     def get_json_validators(self):
         for task in self.tasks:
-            for component in task.get_base_components():
-                for json_validator in component.json_validators:
-                    yield from json_validator
+            for components in task.get_base_components():
+                if not isinstance(components, list):
+                    components = [components]
+                for component in components:
+                    for json_validator in component.json_validators:
+                        yield from json_validator
 
     def as_dict(self):
         flow = super().as_dict()
