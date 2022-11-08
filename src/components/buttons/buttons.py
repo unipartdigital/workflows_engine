@@ -9,6 +9,7 @@ __all__ = (
     "next",
     "back",
     "reset",
+    "goTo",
 )
 
 
@@ -18,3 +19,4 @@ submit = func_factory(defaults.submit, components.Button, _make_identifier)
 next = func_factory(defaults.next, components.Button, _make_identifier)
 back = func_factory(defaults.back, components.Button, _make_identifier)
 reset = func_factory(defaults.reset, components.Button, _make_identifier)
+goTo = func_factory(defaults.goTo, components.Button, _make_identifier)

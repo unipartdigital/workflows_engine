@@ -379,6 +379,8 @@ class Button(Component):
         "destination_path",
         "show_confirmation",
         "disabling_validators",
+        "flow",
+        "task",
     ]
 
     text = Translatable()
@@ -393,6 +395,8 @@ class Button(Component):
         destination_path=None,
         show_confirmation=False,
         disabling_validators=None,
+        flow=None,
+        task=None,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -402,6 +406,8 @@ class Button(Component):
         self.value = value
         self.destination_path = destination_path
         self.show_confirmation = show_confirmation
+        self.flow = flow
+        self.task = task
         self.load_values = load_values
         self.disabling_validators = disabling_validators or []
 
@@ -426,6 +432,12 @@ class Button(Component):
             button.update({"value": self.value, "destination_path": self.destination_path})
         if self.load_values is not None:
             button["load_values"] = self.load_values
+
+        if self.flow is not None:
+            button["flow"] = self.flow
+
+        if self.task is not None:
+            button["task"] = self.task
 
         disabling_validators = self.get_disabling_validators()
         if disabling_validators:

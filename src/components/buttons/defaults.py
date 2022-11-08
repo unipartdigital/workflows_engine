@@ -9,3 +9,4 @@ submit = dict(identifier="submit_button", action="submit", style="primary", text
 next = dict(identifier="next_button", action="next", style="primary", text="Next",)
 back = dict(identifier="back_button", action="back", style="default", text="Back",)
 reset = dict(identifier="restart_button", action="reset", style="primary", text="Continue",)
+goTo = dict(identifier="goTo_button", action="goTo", style="primary", text="Go To",)
