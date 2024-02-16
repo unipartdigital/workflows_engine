@@ -10,6 +10,7 @@ __all__ = (
     "back",
     "reset",
     "close",
+    "open_resource",
 )
 
 
@@ -20,3 +21,5 @@ next = func_factory(defaults.next, components.Button, _make_identifier)
 back = func_factory(defaults.back, components.Button, _make_identifier)
 reset = func_factory(defaults.reset, components.Button, _make_identifier)
 close = func_factory(defaults.close, components.Button, _make_identifier)
+# Button action to open the url in destination_path attribute into a new page
+open_resource = func_factory(defaults.open_resource, components.Button, _make_identifier)
