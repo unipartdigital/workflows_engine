@@ -340,7 +340,10 @@ Button
 
 .. jsonschema:: ../../src/core/schema/components/button.json
 
-Triggers action on click. The default buttons are `submit`, `next`, `back`. A next button can set a value in the context, allowing for branching of flows based on button presses.
+Triggers action on click. The default buttons are `submit`, `next`, `back`, `close`, `open_resource` .
+A next button can set a value in the context, allowing for branching of flows based on button presses.
+A close button closes the window opened, generally used for modal popups.
+An open_resource button opens a new tab without changing the current screen.
 
 Actions
 ^^^^^^^
@@ -348,6 +351,8 @@ Actions
 * `submit` moves to the next task while saving the contents of the form
 * `next` moves to the next task while ignoring form values
 * `back` moves to the previous screen
+* `close` closes the popup screen
+* `open_resource` opens a new tab with the url set at destination_path.
 
 .. .. code-block::
 ..     {
