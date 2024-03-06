@@ -14,6 +14,7 @@ __all__ = (
     "Toggle",
     "Image",
     "Repeat",
+    "Table",
     "Container",
     "ContainerRow",
     "Spacer",
@@ -888,6 +889,122 @@ class Repeat(Component):
     def get_components(self):
         yield from super().get_components()
         yield from self.components
+
+
+class Table(Component):
+    """
+    A meta component which can be used to put other components into a table.
+
+    The idea with this component is to have data in context
+    which controls the data which is held in the table.
+    For instance, given a table where we want to display the following:
+
+    | Header 1  | Header 2  | Header 3  |
+    |-----------|-----------|-----------|
+    | Value 1   | Value 2   | Value 3   |
+    | Value 100 | Value 200 | Value 300 |
+
+    we would have a data structure in context like so:
+        {"table_data": [
+            {
+                "h1": "Value 1",
+                "h2": "Value 2",
+                "h3": "Value 3",
+            },
+            {
+                "h1": "Value 100",
+                "h2": "Value 200",
+                "h3": "Value 300",
+            },
+        ],
+        "table_headers": ["Header 1", "Header 2", "Header 3"],
+        }
+
+    The components passed to table_components determine the component used for each column in the table.
+    The ordering is important as it will determine which column the component is used for.
+    Additional keys may exist in each list item in the table_data_path, but missing keys will not be supported.
+
+        table_component = core_components.Table(
+            identifier="test_table_component",
+            table_data_path="$.table_data",
+            table_headers_path="$.table_headers",
+            table_components=[textbox_component1, textbox_component2, input_component],
+        )
+
+    The components will look up their defaults, or value_paths as if table_data_path is the root of their lookup.
+    The components setters (i.e destination_path) will treat table_data_path as the root of their lookup.
+
+    This means, with the above example - if we wish to update "h3" values inline in the "table_data" key on submit,
+    then the component should be defined as such:
+
+        input_component = core_components.Input(
+            identifier="test_component",
+            label="Some Label",
+            destination_path="$.h3",
+            default_value="$.h3",
+        )
+
+    If we wished to preserve the original context keys values (say, if we needed to diff the original vs the new)
+    then the destination_path should be set to a new key, in which case, it will be added to the object inside table_data.
+
+    NOTE: Static table data is not supported, but we see no real need for this.
+          If we wish to display some static data, then we can add it to context and display that.
+          Supoprting it would complicate the component too much.
+
+    NOTE: Multiple components per cell is not supported.
+    NOTE: Multiple components per column is not supported.
+
+    Components are sent as a list of lists solely to be consistent
+    with other places handling components in rows.
+
+    Args:
+        table_components: List[Component]
+            a list of components
+        table_data_path: Str:
+            a jsonpath to look up table data.
+        table_headers_path: Str:
+            a jsonpath to look up table headers.
+    """
+
+    __slots__ = [
+        "table_components",
+        "table_data_path",
+        "table_headers_path",
+    ]
+
+    def __init__(
+            self,
+            table_components,
+            table_data_path,
+            table_headers_path,
+            **kwargs,
+            ):
+        super().__init__(**kwargs)
+        self.table_components = table_components
+        self.table_data_path = table_data_path
+        self.table_headers_path = table_headers_path
+
+    def get_base_component_dict(self):
+        components_dicts = [
+            component.get_flow_component_dict() for component in self.table_components
+        ]
+
+        component = {
+            "type": "table",
+            "components": [components_dicts],
+            "table_data_path": self.table_data_path,
+            "table_headers_path": self.table_headers_path,
+        }
+        return component
+
+    def get_components(self):
+        yield from super().get_components()
+        yield from self.table_components
+
+    def get_validators(self):
+        yield from super().get_validators()
+        for component in self.table_components:
+            yield from component.get_validators()
 
 
 class Container(Component):
