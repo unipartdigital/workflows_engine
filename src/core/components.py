@@ -890,6 +890,10 @@ class Repeat(Component):
         yield from super().get_components()
         yield from self.components
 
+    def get_validators(self):
+        yield from super().get_validators()
+        for component in self.components:
+            yield from component.get_validators()
 
 class Table(Component):
     """
