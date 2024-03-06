@@ -284,6 +284,58 @@ class Input(Component):
         return self.json_validators
 
 
+class InputNumber(Input):
+    __slots__ = [
+        "max_number",
+        "min_number",
+        "readonly",
+        "step",
+        "disabled",
+        "max_number_path",
+        "min_number_path",
+        "disabled_path",
+        "second_style",
+    ]
+
+    def get_base_component_dict(self):
+        component = super().get_base_component_dict()
+        component["type"] = "input_number"
+        component["max_number"] = self.max_number
+        component["min_number"] = self.min_number
+        component["readonly"] = self.readonly
+        component["step"] = self.step
+        component["disabled"] = self.disabled
+        component["max_number_path"] = self.max_number_path
+        component["min_number_path"] = self.min_number_path
+        component["disabled_path"] = self.disabled_path
+        component["second_style"] = self.second_style
+        return component
+
+    def __init__(
+        self,
+        max_number=None,
+        min_number=None,
+        readonly=None,
+        step=None,
+        disabled=None,
+        max_number_path=None,
+        min_number_path=None,
+        disabled_path=None,
+        second_style=None,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.max_number = max_number
+        self.min_number = min_number
+        self.readonly = readonly or False
+        self.step = step or 1
+        self.disabled = disabled or False
+        self.max_number_path = max_number_path or ""
+        self.min_number_path = min_number_path or ""
+        self.disabled_path = disabled_path or ""
+        self.second_style = second_style is None and True or second_style
+
+
 class InputWithSuggestions(Input):
     __slots__ = [
         "suggestions_path",
