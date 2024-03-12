@@ -8,17 +8,29 @@
     "type": { "type": "string", "enum": ["input_number"] },
     "name": { "type": "string" },
     "label": { "type": "string" },
+    "destination_path": { "$ref": "../common.json#/definitions/jsonpath" },
     "input_key": { "$ref": "../common.json#/definitions/jsonpath" },
     "input_ref": { "$ref": "../common.json#/definitions/jsonpath" },
     "output_ref": { "$ref": "../common.json#/definitions/jsonpath" },
-    "output": { "type": "object" },
-    "obscure": { "type": "boolean" },
     "validators": { "type": "array", "items": [{ "type": "string" }] },
-    "populate": { "$ref": "./populate.json#/definitions/populate" },
-    "default_value": {"anyOf": [
-      { "type": "number" },
-      { "type:": "null" }
-    ]}
+    "url": { "type": "string" },
+    "method": { "type": "string", "enum": ["POST", "GET"] },
+    "payload_paths": {
+      "type": "array",
+      "items": [{ "$ref": "#/definitions/payload_keys" }]
+    },
+    "payload": { "type": "object" },
+    "response_path": { "$ref": "../common.json#/definitions/jsonpath" },
+    "max_number": { "type": "integer"},
+    "max_number_path": { "$ref": "../common.json#/definitions/jsonpath" },
+    "min_number": { "type": "integer"},
+    "min_number_path": { "$ref": "../common.json#/definitions/jsonpath" },
+    "step": { "type": "integer"},
+    "default_value": { "type": "integer"},
+    "disabled": { "type": "boolean"},
+    "disabled_path": { "$ref": "../common.json#/definitions/jsonpath" },
+    "readonly": { "type": "boolean"},
+    "second_style": { "type": "boolean"}
   },
   "required": ["type", "name", "label"],
   "additionalProperties": false
