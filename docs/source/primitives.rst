@@ -541,6 +541,12 @@ Allow for a set of repeated fields for dynamic construction of forms.
 
 .. warning:: Not Implemented in udes client ATM
 
+Table
+------
+
+Create a table made up of other components. Every element in a column will have the same component.
+Components that can be setup in a table currently are: Input, Checkbox, Textbox. 
+
 
 Container
 -----
