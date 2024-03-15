@@ -407,14 +407,8 @@ and `input_ref` then, if nothing is found, will fallback to building an object u
 Number Input
 -----
 
-Used to collect number information from the user. The number input component can also create or update
-an object based on its `value`. To build an output json object use `output_ref` and `output` where
-`output` is the structure of the output object with any default values and `output_ref` is the
-`jsonpath` to insert the `value` from the input field. If you wish to select a known object use
-`input_key` and `input_ref`, where `input_key` is a `jsonpath` pointing to a list of objects and
-`input_ref` is the attribute on the object to match the `value` against. There is nothing preventing
-the use of both input and output pairs, in this case the field will first try to select using `input_key`
-and `input_ref` then, if nothing is found, will fallback to building an object using `output` and `output_ref`.
+Based on `Input` and takes more additional arguments; `max_number`, `min_number`, `step` etc.
+For more details please refer to input_number.json.
 
 .. jsonschema:: ../../src/core/schema/components/input_number.json
 
