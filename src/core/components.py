@@ -177,6 +177,7 @@ class Input(Component):
         "payload",
         "response_path",
         "json_validators",
+        "max_length",
     ]
 
     label = Translatable()
@@ -200,6 +201,7 @@ class Input(Component):
         payload=None,
         response_path=None,
         json_validators=None,
+        max_length=None,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -220,6 +222,8 @@ class Input(Component):
         self.payload = payload or {}
         self.response_path = response_path
         self.json_validators = json_validators or []
+        # By default, limit to max 100 characters
+        self.max_length = max_length or 100
 
     def _get_default_identifier(self):
         return "_".join([self.component_type, self.target.lower().replace(" ", "_")])
@@ -260,6 +264,8 @@ class Input(Component):
             component["payload"] = self.payload
         if self.response_path:
             component["response_path"] = self.response_path
+        if self.max_length:
+            component["max_length"] = self.max_length
         if self.json_validators:
             component.update(
                 {
