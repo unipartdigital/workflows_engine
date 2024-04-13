@@ -566,10 +566,26 @@ class OptionList(DisplayData):
         'submitted_key': a value to submit is taken from the context
         attribute corresponding to this key.
         Note, 'submitted_value' and 'submitted_key' are mutually exclusive.
+
+    grid can be set to True to change the display_type to "optionlist_grid"
+    grid_min_item_width can be set to a pixel value to determine the minimum width of each
+        item within the grid. The default is 250.
     """
 
+    def __init__(self, display_type, title, data, subtitle=None, max_height=None, grid=False, grid_min_item_width=250, **kwargs):
+        # Don't pass grid or grid_min_item_width down to DisplayData initialisation.
+        super().__init__(display_type, title, data, subtitle=subtitle, max_height=max_height, **kwargs)
+        self.grid = grid
+        self.grid_min_item_width = grid_min_item_width
+
+    def get_base_component_dict(self):
+        component = super().get_base_component_dict()
+        if self.grid:
+            component["grid_min_item_width"] = self.grid_min_item_width
+        return component
+
     def _get_type(self):
-        return "optionlist"
+        return "optionlist_grid" if self.grid else "optionlist"
 
 
 class Modal(Component):
