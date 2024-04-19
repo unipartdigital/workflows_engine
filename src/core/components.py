@@ -1007,6 +1007,7 @@ class Table(Component):
             table_data_path="$.table_data",
             table_headers_path="$.table_headers",
             table_components=[textbox_component1, textbox_component2, input_component],
+            table_container_width=1000,
         )
 
     The components will look up their defaults, or value_paths as if table_data_path is the root of their lookup.
@@ -1027,7 +1028,7 @@ class Table(Component):
 
     NOTE: Static table data is not supported, but we see no real need for this.
           If we wish to display some static data, then we can add it to context and display that.
-          Supoprting it would complicate the component too much.
+          Supporting it would complicate the component too much.
 
     NOTE: Multiple components per cell is not supported.
     NOTE: Multiple components per column is not supported.
@@ -1042,12 +1043,16 @@ class Table(Component):
             a jsonpath to look up table data.
         table_headers_path: Str:
             a jsonpath to look up table headers.
+        table_container_width : Integer:
+            Number of pixels the table wrapper will be, if specified and table is wider than the container
+            Horizontal scrolling will be automatically shown on front end
     """
 
     __slots__ = [
         "table_components",
         "table_data_path",
         "table_headers_path",
+        "table_container_width",
     ]
 
     def __init__(
@@ -1055,12 +1060,14 @@ class Table(Component):
             table_components,
             table_data_path,
             table_headers_path,
+            table_container_width=None,
             **kwargs,
             ):
         super().__init__(**kwargs)
         self.table_components = table_components
         self.table_data_path = table_data_path
         self.table_headers_path = table_headers_path
+        self.table_container_width = table_container_width
 
     def get_base_component_dict(self):
         components_dicts = [
@@ -1072,6 +1079,7 @@ class Table(Component):
             "components": [components_dicts],
             "table_data_path": self.table_data_path,
             "table_headers_path": self.table_headers_path,
+            "table_container_width": self.table_container_width,
         }
         return component
 
