@@ -1079,8 +1079,9 @@ class Table(Component):
             "components": [components_dicts],
             "table_data_path": self.table_data_path,
             "table_headers_path": self.table_headers_path,
-            "table_container_width": self.table_container_width,
         }
+        if self.table_container_width is not None:
+            component["table_container_width"] = self.table_container_width
         return component
 
     def get_components(self):
