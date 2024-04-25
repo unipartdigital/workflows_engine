@@ -1044,8 +1044,12 @@ class Table(Component):
         table_headers_path: Str:
             a jsonpath to look up table headers.
         table_container_width : Integer:
-            Number of pixels the table wrapper will be, if specified and table is wider than the container
+            Optional. Number of pixels the table wrapper will be, if specified and table is wider than the container
             Horizontal scrolling will be automatically shown on front end
+        table_filter_path: Str:
+            Optional. Jsonpath, which - when supplied, will allow fuzzy filtering a key inside the table data.
+        table_filter_input_label: Str:
+            Optional. If using a table_filter_path, the label given to the table filter input component.
     """
 
     __slots__ = [
@@ -1053,6 +1057,8 @@ class Table(Component):
         "table_data_path",
         "table_headers_path",
         "table_container_width",
+        "table_filter_path",
+        "table_filter_input_label",
     ]
 
     def __init__(
@@ -1061,6 +1067,8 @@ class Table(Component):
             table_data_path,
             table_headers_path,
             table_container_width=None,
+            table_filter_path=None,
+            table_filter_input_label=None,
             **kwargs,
             ):
         super().__init__(**kwargs)
@@ -1068,6 +1076,8 @@ class Table(Component):
         self.table_data_path = table_data_path
         self.table_headers_path = table_headers_path
         self.table_container_width = table_container_width
+        self.table_filter_path = table_filter_path
+        self.table_filter_input_label = table_filter_input_label
 
     def get_base_component_dict(self):
         components_dicts = [
@@ -1082,6 +1092,10 @@ class Table(Component):
         }
         if self.table_container_width is not None:
             component["table_container_width"] = self.table_container_width
+        if self.table_filter_path is not None:
+            component["table_filter_path"] = self.table_filter_path
+        if self.table_filter_input_label is not None:
+            component["table_filter_input_label"] = self.table_filter_input_label
         return component
 
     def get_components(self):
