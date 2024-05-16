@@ -15,6 +15,7 @@
           "items": {"type": "object"}
         }
       },
+      "css_style": { "type": "string" },
       "trigger_conditions": { "type": "array", "items": [{ "type": "string" }] }
     },
     "additionalProperties": false
