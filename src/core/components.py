@@ -53,6 +53,7 @@ class Component:
         "preconditions",
         "__weakref__",
         "json_validators",
+        "css_style",
     ]
 
     def __init__(
@@ -63,6 +64,7 @@ class Component:
         update_context=None,
         preconditions=None,
         json_validators=None,
+        css_style=None,
     ):
         self._identifier = identifier
         self.destination_path = destination_path
@@ -70,6 +72,7 @@ class Component:
         self.update_context = update_context or []
         self.preconditions = preconditions or []
         self.json_validators = json_validators or {}
+        self.css_style = css_style
 
     def __iter__(self):
         yield self
@@ -124,10 +127,7 @@ class Component:
 
 
 class Textbox(Component):
-    __slots__ = [
-        "content",
-        "align",
-    ]
+    __slots__ = ["content", "align"]
 
     def __init__(self, content=None, align=None, **kwargs):
         super().__init__(**kwargs)
@@ -490,6 +490,8 @@ class Button(Component):
         if disabling_validators:
             button["disabled"] = disabling_validators
 
+        if self.css_style:
+            button["css_style"] = self.css_style
         return button
 
     def get_validators(self):
@@ -597,15 +599,25 @@ class Modal(Component):
         "title",
         "components",
         "trigger_conditions",
-        "trigger"
+        "trigger",
+        "css_style",
     ]
 
-    def __init__(self, title, components, trigger_conditions=None, trigger="onSubmit", **kwargs):
+    def __init__(
+        self,
+        title,
+        components,
+        trigger_conditions=None,
+        trigger="onSubmit",
+        css_style=None,
+        **kwargs,
+    ):
         super().__init__(**kwargs)
         self.title = title
         self.components = components
         self.trigger_conditions = trigger_conditions or []
         self.trigger = self.validate_trigger(trigger)
+        self.css_style = css_style
 
     def validate_trigger(self, trigger):
         trigger_values = ["onLoad", "onBlur", "onSubmit"]
@@ -613,14 +625,23 @@ class Modal(Component):
             return trigger
         else:
             raise InvalidArguments(f"Trigger must be one of the following: {', '.join(trigger_values)}")
+
     def get_base_component_dict(self):
-        return {
+        base_component_dict = {
             "type": "modal",
             "title": self.title,
-            "components": [[component.get_flow_component_dict() for component in row] for row in self.components],
-            "trigger_conditions": [trigger_condition.identifier for trigger_condition in self.trigger_conditions],
+            "components": [
+                [component.get_flow_component_dict() for component in row]
+                for row in self.components
+            ],
+            "trigger_conditions": [
+                trigger_condition.identifier for trigger_condition in self.trigger_conditions
+            ],
             "trigger": self.trigger,
         }
+        if self.css_style:
+            base_component_dict["css_style"] = self.css_style
+        return base_component_dict
 
     def get_components(self):
         yield from super().get_components()
@@ -765,31 +786,54 @@ class CheckboxList(Component):
 
 
 class MessageBox(Component):
-    __slots__ = [
-        "type",
-        "size",
-    ]
+    __slots__ = ["type", "size", "box", "title", "background_color", "css_title_style"]
 
     template = Translatable()
 
-    def __init__(self, template, message_type, size=None, **kwargs):
+    def __init__(
+        self,
+        message_type,
+        background_color,
+        template="",
+        box=False,
+        size=None,
+        title=None,
+        css_title_style=None,
+        **kwargs,
+    ):
         super().__init__(**kwargs)
         self.template = template
         self.type = message_type
+        self.box = box
         self.size = size
+        self.title = title
+        self.background_color = background_color
+        self.css_title_style = css_title_style
 
     def get_message(self):
         return {
             "template": self.template,
             "type": self.type,
+            "box": self.box,
+            "title": self.title,
+            "background_color": self.background_color,
         }
 
     def get_base_component_dict(self):
-        return {
+        base_component_dict = {
             "type": "message_box",
             "message": self.get_message(),
             "size": self.size,
+            "box": self.box,
+            "title": self.title,
+            "background_color": self.background_color,
         }
+        if self.css_style:
+            base_component_dict["css_style"] = self.css_style
+
+        if self.css_title_style:
+            base_component_dict["css_title_style"] = self.css_title_style
+        return base_component_dict
 
 
 class Toggle(Component):
@@ -881,25 +925,27 @@ class Selection(Component):
 
 
 class Image(Component):
-    __slots__ = [
-        "url",
-        "max_Height",
-        "max_Width",
-    ]
+    __slots__ = ["url", "style", "max_Height", "max_Width", "title"]
 
-    def __init__(self, url, max_Height=None, max_Width=None, **kwargs):
+    def __init__(self, url, style="default", title=None, max_Height=None, max_Width=None, **kwargs):
         super().__init__(**kwargs)
         self.url = url
         self.max_Height = max_Height
         self.max_Width = max_Width
+        self.style = style
+        self.title = title
 
     def get_base_component_dict(self):
-        return {
+        base_component_dict = {
             "type": "image",
             "url": self.url,
             "max_Height": self.max_Height,
             "max_Width": self.max_Width,
+            "style": self.style,
         }
+        if self.title:
+            base_component_dict["title"] = self.title
+        return base_component_dict
 
 
 class Repeat(Component):
@@ -1111,17 +1157,14 @@ class Table(Component):
 class Container(Component):
     """A container with components and optional styling."""
 
-    __slots__ = [
-        "components",
-        "width",
-        "style",
-    ]
+    __slots__ = ["components", "width", "style", "title"]
 
-    def __init__(self, components, width=12, style="default", **kwargs):
+    def __init__(self, components, width=12, style="default", title=None, **kwargs):
         super().__init__(**kwargs)
         self.components = self.validate_components(components)
         self.width = validate_size(width)
         self.style = validate_style(style, ("transparent",))
+        self.title = title
 
     def validate_components(self, components):
         """Ensure no Container or ContainerRow components are added to Containers"""
@@ -1133,7 +1176,7 @@ class Container(Component):
         return components
 
     def get_base_component_dict(self):
-        return {
+        base_component_dict = {
             "type": "container",
             "width": self.width,
             "style": self.style,
@@ -1142,6 +1185,9 @@ class Container(Component):
                 for row in self.components
             ],
         }
+        if self.title:
+            base_component_dict["title"] = self.title
+        return base_component_dict
 
     def get_components(self):
         yield from super().get_components()

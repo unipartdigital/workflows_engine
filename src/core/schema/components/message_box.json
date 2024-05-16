@@ -8,6 +8,11 @@
     "type": { "type": "string", "enum": ["message_box"] },
     "message": { "$ref": "../common.json#/definitions/message" },
     "style": { "$ref": "../common.json#/definitions/styles" },
+    "title": { "type": "string" },
+    "css_style": { "type": "string" },
+    "css_title_style": { "type": "string" },
+    "box": { "type": "boolean" },
+    "background_color": { "type": "string" },
     "size": { "$ref": "../common.json#/definitions/sizes" }
   },
   "additionalProperties": false

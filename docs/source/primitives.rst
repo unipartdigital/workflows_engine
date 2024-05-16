@@ -305,6 +305,7 @@ Components
 ##########
 
 Components are screen elements to be interacted with and viewed by the user. Components are split into two parts: the base component and the component look up. The base component is extracted into :ref:`components key <basic_structure>` in the workflow, this is then used by the component look up. As such, components with the same name are required to have the same values, otherwise an error is thrown. As with task components, these have preconditions which dictate if they are shown.
+CSS style attribute parsable string to JSON, used to change styling of different components
 
 Schema
 ******
@@ -344,6 +345,7 @@ Triggers action on click. The default buttons are `submit`, `next`, `back`, `clo
 A next button can set a value in the context, allowing for branching of flows based on button presses.
 A close button closes the window opened, generally used for modal popups.
 An open_resource button opens a new tab without changing the current screen.
+CSS style attribute parsable string to JSON, used to change styling of the buttons
 
 Actions
 ^^^^^^^
@@ -428,6 +430,10 @@ Message box
 -----------
 
 A styled text box for presenting information to the user such as warning, errors, or instructions.
+2 different styles of message box, with background color depending on the type or with icon.
+Box = True attribute is rendered as a message box with background color.
+Title and content can have different style which are set from css_style and css_title_style attributes
+Background color by default is specified for every style in defaults.py (/src/components/displays/defaults.py)
 
 Schema
 ^^^^^^
@@ -607,6 +613,7 @@ Modal
 A modal component, produces a pop-up dialogue box which itself can contain other components. This 
 gives a powerfully composable element which is conditionally shown and can be used to take user input
 separately from the main display.
+CSS style attribute parsable string to JSON, used to change styling of the modals, like size, position etc
 
 Schema
 ^^^^^^
