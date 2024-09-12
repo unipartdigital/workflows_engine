@@ -1,5 +1,3 @@
-from itertools import chain
-
 from .translate import Translatable
 
 __all__ = (
@@ -372,31 +370,16 @@ class Flow(Task):
     def get_config(self):
         # Note: destination_path could be false as this means that the result object should be
         # merged directly into the context
+        if self.sub_type != "flow":
+            raise NotImplementedError("flow subtype not understood")
 
-        builders = {
-            "flow": lambda inst: (
-                {
-                    "result": inst.result,
-                    "result_keys": inst.result_keys,
-                    "destination_path": inst.destination_path,
-                }
-                if inst.result and inst.result_keys and inst.destination_path is not None
-                else {}
-            ),
-            "while_loop": lambda inst: {
-                "conditions": [c.identifier for c in inst.conditions],
-                "result": inst.result,
-                "result_keys": inst.result_keys,
-                "destination_path": inst.destination_path,
-            },
-            "for_loop": lambda inst: {
-                "iterable_path": inst.iterable_path,
-                "result": inst.result,
-                "result_keys": inst.result_keys,
-                "destination_path": inst.destination_path,
-            },
-        }
-        return builders[self.sub_type](self)
+        if self.result and self.result_keys and self.destination_path is not None:
+            return {
+                "result": self.result,
+                "result_keys": self.result_keys,
+                "destination_path": self.destination_path,
+            }
+        return {}
 
     @staticmethod
     def add_task_type(name, task_class):
@@ -431,6 +414,43 @@ class Flow(Task):
 
     def clear_tasks(self):
         self.tasks = []
+
+
+class Loop(Flow):
+    def get_config(self):
+        # Note: destination_path could be false as this means that the result object should be
+        # merged directly into the context
+
+        if self.sub_type not in ["while_loop", "iterable_path"]:
+            raise NotImplementedError("flow subtype not understood")
+
+        config = {
+            "result": self.result,
+            "result_keys": self.result_keys,
+            "destination_path": self.destination_path,
+        }
+
+        if self.sub_type == "while_loop":
+            config["conditions"] = ([c.identifier for c in self.conditions],)
+        elif self.sub_type == "for_loop":
+            config["iterable_path"] = (self.iterable_path,)
+
+        return config
+
+    def break_loop(self, name, precondition, payload=None, **kwargs):
+        self.add_task(
+            "event", name=name, precondition=precondition, action="break", payload=payload, **kwargs
+        )
+
+    def continue_to_next_iteration(self, name, precondition, payload=None, **kwargs):
+        self.add_task(
+            "event",
+            name=name,
+            precondition=precondition,
+            action="continue",
+            payload=payload,
+            **kwargs
+        )
 
 
 class Event(Task):
@@ -472,8 +492,8 @@ TASK_TYPE_MAPPING = {
     "condition": Condition,
     "domain_param": DomainParam,
     "flow": Flow,
-    "while_loop": partial_setup(Flow, sub_type="while_loop"),
-    "for_loop": partial_setup(Flow, sub_type="for_loop"),
+    "while_loop": partial_setup(Loop, sub_type="while_loop"),
+    "for_loop": partial_setup(Loop, sub_type="for_loop"),
     "clear_domain_params": ClearDomainParams,
     "event": Event,
     "wait": Wait,
