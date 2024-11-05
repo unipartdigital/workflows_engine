@@ -301,6 +301,11 @@ class InputNumber(Input):
         "min_number_path",
         "disabled_path",
         "second_style",
+        "reset_to_expected",
+        # on_default_value_path
+        # off_default_value_path
+        # reset_triggered_by
+        # disabled_triggered_by
     ]
 
     def get_base_component_dict(self):
@@ -315,6 +320,7 @@ class InputNumber(Input):
         component["min_number_path"] = self.min_number_path
         component["disabled_path"] = self.disabled_path
         component["second_style"] = self.second_style
+        component["reset_to_expected"] = self.reset_to_expected
         return component
 
     def __init__(
@@ -328,6 +334,7 @@ class InputNumber(Input):
         min_number_path=None,
         disabled_path=None,
         second_style=None,
+        reset_to_expected=None,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -340,6 +347,7 @@ class InputNumber(Input):
         self.min_number_path = min_number_path or ""
         self.disabled_path = disabled_path or ""
         self.second_style = second_style is None and True or second_style
+        self.reset_to_expected = reset_to_expected or False
 
 
 class InputWithSuggestions(Input):
@@ -668,6 +676,7 @@ class Checkbox(Component):
         "destination_path",
         "value_path",
         "value",
+        "outbound_trigger_name",
     ]
 
     def get_value(self, value_path, value):
@@ -688,11 +697,12 @@ class Checkbox(Component):
 
         return True
 
-    def __init__(self, label, destination_path=None, value=None, value_path=None, **kwargs):
+    def __init__(self, label, destination_path=None, value=None, value_path=None, outbound_trigger_name=None, **kwargs):
         super().__init__(**kwargs)
         self.label = label
         self.value_path, self.value = self.get_value(value_path, value)
         self.destination_path = destination_path
+        self.outbound_trigger_name = outbound_trigger_name
 
     def get_base_component_dict(self):
         base_component_dict = {
@@ -703,6 +713,8 @@ class Checkbox(Component):
             base_component_dict["destination_path"] = self.destination_path
         if self.value is not None:
             base_component_dict["value"] = self.value
+        if self.outbound_trigger_name is not None:
+            base_component_dict["outbound_trigger_name"] = self.outbound_trigger_name
         else:
             base_component_dict["value_path"] = self.value_path
         return base_component_dict
