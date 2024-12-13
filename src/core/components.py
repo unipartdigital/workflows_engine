@@ -438,6 +438,11 @@ class Button(Component):
         "destination_path",
         "show_confirmation",
         "disabling_validators",
+        "url",
+        "method",
+        "payload_paths",
+        "payload",
+        "response_path",
     ]
 
     text = Translatable()
@@ -452,6 +457,11 @@ class Button(Component):
         destination_path=None,
         show_confirmation=False,
         disabling_validators=None,
+        url=None,
+        method=None,
+        payload_paths=None,
+        payload=None,
+        response_path=None,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -463,6 +473,13 @@ class Button(Component):
         self.show_confirmation = show_confirmation
         self.load_values = load_values
         self.disabling_validators = disabling_validators or []
+        # NOTE: Only used for specific edge cases currently.
+        self.url = url
+        self.method = method
+        self.payload_paths = payload_paths
+        self.payload = payload
+        # NOTE: No handling exists for this currently.
+        self.response_path = response_path
 
     def _get_default_identifier(self):
         return "_".join([self.action, "button"])
@@ -492,6 +509,18 @@ class Button(Component):
 
         if self.css_style:
             button["css_style"] = self.css_style
+
+        if self.url:
+            button["url"] = self.url
+        if self.method:
+            button["method"] = self.method
+        if self.payload_paths:
+            button["payload_paths"] = self.payload_paths
+        if self.payload:
+            button["payload"] = self.payload
+        if self.response_path:
+            button["response_path"] = self.response_path
+
         return button
 
     def get_validators(self):
