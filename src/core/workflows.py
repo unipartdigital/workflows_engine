@@ -36,13 +36,13 @@ def dict_to_set(d):
 class Workflow:
     __slots__ = ["name", "base_flow_task", "hash", "flow_cache", "context"]
 
-    def __init__(self, *args, context=None):
+    def __init__(self, *args, context=None, **kwargs):
         self.context = context if context is not None else {}
         self.name = self.__class__.__name__
         self.base_flow_task = Flow(name=self.name)
         self.flow_cache = None
         self.hash = None
-        self.build_flow(*args)
+        self.build_flow(*args, **kwargs)
 
     @property
     def has_been_built(self):
