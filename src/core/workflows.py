@@ -6,7 +6,7 @@ from .tasks import Flow
 __all__ = ("Workflow",)
 
 
-class SameIdentiferDifferentValues(Exception):
+class SameIdentifierDifferentValues(Exception):
     pass
 
 
@@ -59,7 +59,7 @@ class Workflow:
             if name in result:
                 if part_cache[name] != part_set:
                     message = "Two {part_type} with the same identifer({name}) but different values"
-                    raise SameIdentiferDifferentValues(
+                    raise SameIdentifierDifferentValues(
                         message.format(part_type=part_type, name=name)
                     )
             else:
