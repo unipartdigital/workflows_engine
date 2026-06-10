@@ -1,6 +1,7 @@
 from itertools import chain
 
 from .translate import Translatable
+from .components import Container, ContainerRow, Modal, Repeat, Table
 
 __all__ = (
     "Task",
@@ -83,9 +84,19 @@ class Screen(Task):
         return [[c.get_flow_component_dict() for c in row] for row in self.components]
 
     def get_base_components(self):
+        def _get_component(component_or_row):
+            # If singular component, will only run once.
+            for component in component_or_row:
+                # Regardless of needing to go any deeper, we will want the component itself in the store
+                yield component
+                # Pull inner components from things that can define them
+                if isinstance(component, (ContainerRow, Container, Modal, Repeat)):
+                    yield from _get_component(component.components)
+                # Table define inner components under a separate attribute.
+                elif isinstance(component, Table):
+                    yield from _get_component(component.table_components)
         for row in self.components:
-            for component in row:
-                yield from component.get_components()
+            yield from _get_component(row)
 
     def get_validators(self):
         yield from super().get_validators()
