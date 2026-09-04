@@ -95,6 +95,8 @@ class Screen(Task):
                 # Table define inner components under a separate attribute.
                 elif isinstance(component, Table):
                     yield from _get_component(component.table_components)
+                elif isinstance(component, list):
+                    yield from _get_component(component)
         for row in self.components:
             yield from _get_component(row)
 
