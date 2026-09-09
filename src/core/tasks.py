@@ -84,19 +84,22 @@ class Screen(Task):
         return [[c.get_flow_component_dict() for c in row] for row in self.components]
 
     def get_base_components(self):
-        def _get_component(component_or_row):
-            # If singular component, will only run once.
-            for component in component_or_row:
-                # Regardless of needing to go any deeper, we will want the component itself in the store
-                yield component
-                # Pull inner components from things that can define them
-                if isinstance(component, (ContainerRow, Container, Modal, Repeat)):
-                    yield from _get_component(component.components)
-                # Table define inner components under a separate attribute.
-                elif isinstance(component, Table):
-                    yield from _get_component(component.table_components)
-                elif isinstance(component, list):
-                    yield from _get_component(component)
+        def _get_component(item):
+            if item is None:
+                return
+
+            if isinstance(item, (list, tuple)):
+                for sub_item in item:
+                    yield from _get_component(sub_item)
+                return
+
+            yield item
+
+            for attr in ("components", "buttons", "table_components"):
+                child = getattr(item, attr, None)
+                if child:
+                    yield from _get_component(child)
+
         for row in self.components:
             yield from _get_component(row)
 
