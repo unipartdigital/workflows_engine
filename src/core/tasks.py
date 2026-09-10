@@ -1,7 +1,7 @@
 from itertools import chain
 
 from .translate import Translatable
-from .components import Container, ContainerRow, Modal, Repeat, Table
+from .components import Container, ContainerRow, Modal, Repeat, Table, Button
 
 __all__ = (
     "Task",
@@ -84,21 +84,22 @@ class Screen(Task):
         return [[c.get_flow_component_dict() for c in row] for row in self.components]
 
     def get_base_components(self):
-        def _get_component(item):
-            if item is None:
+        def _get_component(component_or_row):
+            if component_or_row is None:
                 return
 
-            if isinstance(item, (list, tuple)):
-                for sub_item in item:
-                    yield from _get_component(sub_item)
+            if isinstance(component_or_row, (list, tuple)):
+                for item in component_or_row:
+                    yield from _get_component(item)
                 return
 
-            yield item
+            yield component_or_row
 
             for attr in ("components", "buttons", "table_components"):
-                child = getattr(item, attr, None)
+                child = getattr(component_or_row, attr, None)
                 if child:
-                    yield from _get_component(child)
+                    if isinstance(child, (list, tuple)) or hasattr(child, "components") or hasattr(child, "table_components"):
+                        yield from _get_component(child)
 
         for row in self.components:
             yield from _get_component(row)
