@@ -85,22 +85,20 @@ class Screen(Task):
 
     def get_base_components(self):
         def _get_component(component_or_row):
-            if component_or_row is None:
-                return
-
-            if isinstance(component_or_row, (list, tuple)):
-                for item in component_or_row:
-                    yield from _get_component(item)
-                return
-
-            yield component_or_row
-
-            for attr in ("components", "buttons", "table_components"):
-                child = getattr(component_or_row, attr, None)
-                if child:
-                    if isinstance(child, (list, tuple)) or hasattr(child, "components") or hasattr(child, "table_components"):
-                        yield from _get_component(child)
-
+            # If singular component, will only run once.
+            for component in component_or_row:
+                if component_or_row is None:
+                    return
+                if isinstance(component_or_row, (list, tuple)):
+                    yield from _get_component(component)
+                # Regardless of needing to go any deeper, we will want the component itself in the store
+                yield component_or_row         
+                # Pull inner components from things that can define them
+                if hasattr(component_or_row, "components") and component_or_row.components:
+                    yield from _get_component(component_or_row.components)
+                # Table define inner components under a separate attribute.
+                elif hasattr(component_or_row, "table_components") and component_or_row.table_components:
+                    yield from _get_component(component_or_row.table_components)
         for row in self.components:
             yield from _get_component(row)
 
