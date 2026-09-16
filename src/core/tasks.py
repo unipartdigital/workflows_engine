@@ -87,14 +87,20 @@ class Screen(Task):
         def _get_component(component_or_row):
             # If singular component, will only run once.
             for component in component_or_row:
-                # Regardless of needing to go any deeper, we will want the component itself in the store
-                yield component
-                # Pull inner components from things that can define them
-                if isinstance(component, (ContainerRow, Container, Modal, Repeat)):
-                    yield from _get_component(component.components)
-                # Table define inner components under a separate attribute.
-                elif isinstance(component, Table):
-                    yield from _get_component(component.table_components)
+                # Sometimes components contain inner lists of components for layout purposes e.g back/confirm buttons.
+                # Recurse in these cases to get to the leaves of the tree.
+                if isinstance(component, (tuple, list)):
+                    yield from _get_component(component)
+                else:
+                    # If dealing with a component rather than an iterable,
+                    # the component itself should always be added to the store.
+                    yield component
+                    # Pull inner components from things that can define them
+                    if isinstance(component, (ContainerRow, Container, Modal, Repeat)):
+                        yield from _get_component(component.components)
+                    # Table define inner components under a separate attribute.
+                    elif isinstance(component, Table):
+                        yield from _get_component(component.table_components)
         for row in self.components:
             yield from _get_component(row)
 
