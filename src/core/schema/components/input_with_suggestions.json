@@ -15,6 +15,7 @@
     "obscure": { "type": "boolean" },
     "validator": { "type": "array", "items": [{ "type": "string" }] },
     "populate": { "$ref": "./populate.json#/definitions/populate" },
+    "max_length": { "type": "integer" },
     "suggestions": {
       "oneOf": [
         {

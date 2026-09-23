@@ -424,6 +424,7 @@ class DateTime(Input):
 
     def get_base_component_dict(self):
         component = super().get_base_component_dict()
+        component.pop("max_length", None)
         if self.open_to:
             component["open_to"] = self.open_to
         return component

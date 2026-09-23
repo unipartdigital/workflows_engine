@@ -12,6 +12,13 @@
         "[A-Za-z0-9_]*": { "$ref": "validator.json#" }
       }
     },
+    "json_validators": {
+      "description": "contains the details of json validators",
+      "type": "object",
+      "patternProperties": {
+        "[A-Za-z0-9_]*": { "$ref": "validator.json#" }
+      }
+    },
     "components": {
       "description": "contains the details of components",
       "type": "object",

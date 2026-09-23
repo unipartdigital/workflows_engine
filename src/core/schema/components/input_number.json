@@ -21,6 +21,7 @@
     },
     "payload": { "type": "object" },
     "response_path": { "$ref": "../common.json#/definitions/jsonpath" },
+    "max_length": { "type": "integer"},
     "max_number": { "type": "integer"},
     "max_number_path": { "$ref": "../common.json#/definitions/jsonpath" },
     "min_number": { "type": "integer"},
