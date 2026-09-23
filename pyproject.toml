@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=77", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "workflows_engine"
+dynamic = ["version"]
+authors = [{ name = "UDES" }]
+keywords = ["udes"]
+readme = "README.md"
+license = "GPL-3.0-or-later"
+requires-python = ">=3.5, <4"
+dependencies = ["simplejson"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+[project.optional-dependencies]
+dev = ["check-manifest"]
+test = ["coverage", "pytest"]
+doc = ["sphinx", "recommonmark", "pytest"]
+
+[tool.setuptools]
+package-dir = { "workflows_engine" = "src" }
+packages = [
+    "workflows_engine",
+    "workflows_engine.core",
+    "workflows_engine.core.tests",
+    "workflows_engine.core.tests.components",
+    "workflows_engine.core.tests.tasks",
+    "workflows_engine.components",
+    "workflows_engine.components.buttons",
+    "workflows_engine.components.displays",
+    "workflows_engine.validators",
+]
+
+[tool.setuptools_scm]
+write_to = "src/_version.py"
+fallback_version = "0.0.dev0"
