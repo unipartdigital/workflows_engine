@@ -1223,6 +1223,12 @@ class Container(Component):
         yield from super().get_components()
         yield from self.components
 
+    def get_validators(self):
+        yield from super().get_validators()
+        for row in self.components:
+            for component in row:
+                yield from component.get_validators()
+
 
 class ContainerRow(Component):
     """A row of containers, where the height of all containers in the row is set."""
