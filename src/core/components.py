@@ -278,7 +278,7 @@ class Input(Component):
         yield from super().get_validators()
         yield from self.validators
         if self.populate:
-            self.populate.get_validators()
+            yield from self.populate.get_validators()
 
     def get_payload(self):
         return self.payload
