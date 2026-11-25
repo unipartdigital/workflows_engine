@@ -391,13 +391,15 @@ class Flow(Task):
         # merged directly into the context
 
         builders = {
+            # The client only collects result_keys at the end of a sub flow, so only they decide
+            # whether there is anything to configure
             "flow": lambda inst: (
                 {
                     "result": inst.result,
                     "result_keys": inst.result_keys,
                     "destination_path": inst.destination_path,
                 }
-                if inst.result and inst.result_keys and inst.destination_path is not None
+                if inst.result_keys
                 else {}
             ),
             "while_loop": lambda inst: {

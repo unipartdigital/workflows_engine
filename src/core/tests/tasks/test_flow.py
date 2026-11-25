@@ -42,3 +42,38 @@ def test_flow_to_dict(flow):
     )
     validator = get_validator_for("tasks/flow")
     validator.validate(flow.as_dict())
+
+
+RESULT_KEYS = [{"key": "$.product", "result_key": "$.product"}]
+
+
+def test_sub_flow_config_keeps_result_keys_without_result(flow):
+    sub_flow = flow.add_task(
+        task_type="flow", name="sub_flow", result_keys=RESULT_KEYS, destination_path=False
+    )
+
+    assert sub_flow.as_dict()["config"] == {
+        "result": {},
+        "result_keys": RESULT_KEYS,
+        "destination_path": False,
+    }
+
+
+def test_sub_flow_config_keeps_result_keys_without_destination_path(flow):
+    sub_flow = flow.add_task(
+        task_type="flow", name="sub_flow", result={"product": None}, result_keys=RESULT_KEYS
+    )
+
+    assert sub_flow.as_dict()["config"] == {
+        "result": {"product": None},
+        "result_keys": RESULT_KEYS,
+        "destination_path": None,
+    }
+
+
+def test_sub_flow_config_is_empty_without_result_keys(flow):
+    sub_flow = flow.add_task(
+        task_type="flow", name="sub_flow", destination_path="$.sub_flow_results"
+    )
+
+    assert sub_flow.as_dict()["config"] == {}
