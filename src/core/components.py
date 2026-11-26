@@ -278,7 +278,7 @@ class Input(Component):
         yield from super().get_validators()
         yield from self.validators
         if self.populate:
-            self.populate.get_validators()
+            yield from self.populate.get_validators()
 
     def get_payload(self):
         return self.payload
@@ -1222,6 +1222,12 @@ class Container(Component):
     def get_components(self):
         yield from super().get_components()
         yield from self.components
+
+    def get_validators(self):
+        yield from super().get_validators()
+        for row in self.components:
+            for component in row:
+                yield from component.get_validators()
 
 
 class ContainerRow(Component):

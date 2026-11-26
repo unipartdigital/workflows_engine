@@ -134,4 +134,4 @@ class Workflow:
 
         Method to override to make the flow.
         """
-        return NotImplementedError()
+        raise NotImplementedError()
